@@ -24,7 +24,7 @@ dependencies {
 }
 
 flyway {
-	url = 'jdbc:postgresql://localhost:5432/cash_receipt.db'
+	url = 'jdbc:postgresql://localhost:5432/cash_receipt'
 	user = 'postgres'
 	password = 'admin'
 }

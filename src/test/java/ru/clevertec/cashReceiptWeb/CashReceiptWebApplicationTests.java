@@ -1,4 +1,4 @@
-package ru.clevertec.CashReceiptWeb;
+package ru.clevertec.cashReceiptWeb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
