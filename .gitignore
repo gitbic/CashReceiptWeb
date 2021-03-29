@@ -1,0 +1,12 @@
+*.xml
+*.iml
+.idea/
+out/
+target/
+resources/check.txt
+resources/check.pdf
+
+# From https://github.com/github/gitignore/blob/master/Gradle.gitignore
+.gradle
+/build/
+build/
