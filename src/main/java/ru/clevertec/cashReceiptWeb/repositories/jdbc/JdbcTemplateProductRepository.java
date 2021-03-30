@@ -1,6 +1,8 @@
-package ru.clevertec.cashReceiptWeb.repositories.jdpc;
+package ru.clevertec.cashReceiptWeb.repositories.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.beans.Product;
 import ru.clevertec.cashReceiptWeb.repositories.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.repositories.mappers.ProductMapper;
@@ -8,13 +10,13 @@ import ru.clevertec.cashReceiptWeb.repositories.mappers.ProductMapper;
 import javax.sql.DataSource;
 import java.util.List;
 
-public class JdbcTemplateProductRepositoryImpl implements ProductsRepository {
-    private DataSource dataSource;
+@Repository
+public class JdbcTemplateProductRepository implements ProductsRepository {
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
