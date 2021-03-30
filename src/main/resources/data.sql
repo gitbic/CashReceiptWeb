@@ -1,11 +1,9 @@
-CREATE TABLE products
-(
-    id          int          NOT NULL,
-    name        varchar(100) NOT NULL,
-    price       int          NOT NULL,
-    is_discount boolean      NOT NULL,
-    PRIMARY KEY (id)
-);
+INSERT INTO discount_cards
+VALUES ('1234', 0.25),
+       ('2431', 1.3),
+       ('4132', 1.87),
+       ('3421', 2.12),
+       ('1423', 0.89);
 
 INSERT INTO products
 VALUES (28, 'Apple', 1.12, true),
