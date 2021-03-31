@@ -16,12 +16,12 @@ public class ProductService {
         this.productsRepository = productsRepository;
     }
 
-    public List<Product> getAllProducts() {
-        return productsRepository.listProducts();
+    public List<Product> getAll() {
+        return productsRepository.getProductList();
     }
 
     public void add(Product product) {
-        productsRepository.createProduct(product);
+        productsRepository.addProduct(product);
     }
 
     public void deleteById(int id) {
@@ -29,6 +29,10 @@ public class ProductService {
     }
 
     public Product getById(int id) {
-        return productsRepository.getProduct(id);
+        return productsRepository.getProductById(id);
+    }
+
+    public void update(Product product) {
+        productsRepository.updateProduct(product);
     }
 }
