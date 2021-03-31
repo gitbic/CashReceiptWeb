@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ProductsRepository {
-    void setDataSource(DataSource dataSource);
 
     void createProduct(Product product);
 
