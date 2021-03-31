@@ -10,12 +10,16 @@ import ru.clevertec.cashReceiptWeb.repositories.mappers.ProductMapper;
 import javax.sql.DataSource;
 import java.util.List;
 
+//@RequiredAr lombok plugin
 @Repository
 public class JdbcTemplateProductRepository implements ProductsRepository {
-    @Autowired
+
     private JdbcTemplate jdbcTemplate;
 
-    @Override
+    public JdbcTemplateProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+// not
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
