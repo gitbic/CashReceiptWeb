@@ -16,7 +16,7 @@ public class DiscountCardService {
         this.discountCardRepository = discountCardRepository;
     }
 
-    public List<DiscountCard> getAll() {
+    public List<DiscountCard> getAllCards() {
         return discountCardRepository.getCardList();
     }
 
