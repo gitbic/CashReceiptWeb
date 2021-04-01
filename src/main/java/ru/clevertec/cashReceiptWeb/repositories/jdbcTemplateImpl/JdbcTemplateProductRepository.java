@@ -14,38 +14,37 @@ public class JdbcTemplateProductRepository implements ProductsRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String sqlInsertQuery = "INSERT INTO products (id, name, price, is_discount) VALUES (?,?,?,?)";
-    private final String sqlSelectByIdQuery = "SELECT * FROM products WHERE id = ?";
-    private final String sqlDeleteQuery = "DELETE FROM products WHERE id = ?";
-    private final String sqlUpdateQuery = "UPDATE products SET name = ?, price = ?, is_discount = ? WHERE id = ?";
-    private final String sqlSelectAllQuery = "SELECT * FROM products";
-
     public JdbcTemplateProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void addProduct(Product product) {
-        jdbcTemplate.update(sqlInsertQuery, product.getId(), product.getName(), product.getPrice(), product.isDiscount());
+        String sqlQuery = "INSERT INTO products (id, name, price, is_discount) VALUES (?,?,?,?)";
+        jdbcTemplate.update(sqlQuery, product.getId(), product.getName(), product.getPrice(), product.isDiscount());
     }
 
     @Override
     public Product getProductById(int id) {
-        return jdbcTemplate.queryForObject(sqlSelectByIdQuery, new ProductMapper(), id);
+        String sqlQuery = "SELECT * FROM products WHERE id = ?";
+        return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), id);
     }
 
     @Override
     public void removeProduct(int id) {
-        jdbcTemplate.update(sqlDeleteQuery, id);
+        String sqlQuery = "DELETE FROM products WHERE id = ?";
+        jdbcTemplate.update(sqlQuery, id);
     }
 
     @Override
     public void updateProduct(Product product) {
-        jdbcTemplate.update(sqlUpdateQuery, product.getName(), product.getPrice(), product.isDiscount(), product.getId());
+        String sqlQuery = "UPDATE products SET name = ?, price = ?, is_discount = ? WHERE id = ?";
+        jdbcTemplate.update(sqlQuery, product.getName(), product.getPrice(), product.isDiscount(), product.getId());
     }
 
     @Override
     public List<Product> getProductList() {
-        return jdbcTemplate.query(sqlSelectAllQuery, new ProductMapper());
+        String sqlQuery = "SELECT * FROM products";
+        return jdbcTemplate.query(sqlQuery, new ProductMapper());
     }
 }
