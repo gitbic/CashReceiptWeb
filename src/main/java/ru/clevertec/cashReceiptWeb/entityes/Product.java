@@ -1,4 +1,4 @@
-package ru.clevertec.cashReceiptWeb.beans;
+package ru.clevertec.cashReceiptWeb.entityes;
 
 import lombok.Data;
 

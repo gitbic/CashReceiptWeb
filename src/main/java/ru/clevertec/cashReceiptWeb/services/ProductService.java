@@ -2,7 +2,7 @@ package ru.clevertec.cashReceiptWeb.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.clevertec.cashReceiptWeb.beans.Product;
+import ru.clevertec.cashReceiptWeb.entityes.Product;
 import ru.clevertec.cashReceiptWeb.repositories.ProductsRepository;
 
 import java.util.List;

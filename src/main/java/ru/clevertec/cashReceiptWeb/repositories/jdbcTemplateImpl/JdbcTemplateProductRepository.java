@@ -1,9 +1,8 @@
 package ru.clevertec.cashReceiptWeb.repositories.jdbcTemplateImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.clevertec.cashReceiptWeb.beans.Product;
+import ru.clevertec.cashReceiptWeb.entityes.Product;
 import ru.clevertec.cashReceiptWeb.repositories.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.repositories.mappers.ProductMapper;
 

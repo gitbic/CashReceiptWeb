@@ -1,7 +1,7 @@
 package ru.clevertec.cashReceiptWeb.repositories;
 
 import org.springframework.stereotype.Repository;
-import ru.clevertec.cashReceiptWeb.beans.Product;
+import ru.clevertec.cashReceiptWeb.entityes.Product;
 
 import java.util.List;
 
