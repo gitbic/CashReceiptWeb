@@ -28,7 +28,7 @@ public class CashReceiptWebApplication {
     public void onStartListener(ApplicationReadyEvent event) {
 
         ProductService productService = new ProductService(productsRepository);
-        System.out.println(productService.getById(28));
+        System.out.println(productService.getById(28L));
 
         DiscountCardService discountCardService = new DiscountCardService(discountCardRepository);
         System.out.println(discountCardService.get("2431"));

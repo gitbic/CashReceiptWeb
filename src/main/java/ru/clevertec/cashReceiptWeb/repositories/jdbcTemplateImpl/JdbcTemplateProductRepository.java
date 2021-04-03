@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.entityes.Product;
 import ru.clevertec.cashReceiptWeb.repositories.ProductsRepository;
-import ru.clevertec.cashReceiptWeb.repositories.mappers.ProductMapper;
+import ru.clevertec.cashReceiptWeb.repositories.mapper.ProductMapper;
 
 import java.util.List;
 

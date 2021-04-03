@@ -33,11 +33,12 @@ VALUES (1, 'user1', '123456', '123456'),
        (3, 'user3', '123456', '123456');
 
 INSERT INTO "role"
-VALUES (1, 'USER'),
-       (2, 'ADMIN');
+VALUES (1, 'ADMIN'),
+       (2, 'USER');
 
-INSERT INTO "role_user"
+INSERT INTO "user_role"
 VALUES (1, 1),
-       (1, 2),
-       (2, 3);
+       (2, 1),
+       (2, 2),
+       (3, 2);
 

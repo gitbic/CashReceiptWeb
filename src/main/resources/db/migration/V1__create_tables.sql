@@ -30,9 +30,9 @@ CREATE TABLE role
     PRIMARY KEY (id)
 );
 
-CREATE TABLE role_user
+CREATE TABLE user_role
 (
-    role_id bigint REFERENCES role (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    user_id bigint REFERENCES "user" (id) ON UPDATE CASCADE,
+    user_id bigint REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    role_id bigint REFERENCES role (id) ON UPDATE CASCADE,
     CONSTRAINT pkey PRIMARY KEY (role_id, user_id)
 );

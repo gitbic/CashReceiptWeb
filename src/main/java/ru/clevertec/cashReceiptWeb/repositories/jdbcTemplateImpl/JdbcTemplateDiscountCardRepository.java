@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.entityes.DiscountCard;
 import ru.clevertec.cashReceiptWeb.repositories.DiscountCardRepository;
-import ru.clevertec.cashReceiptWeb.repositories.mappers.DiscountCardMapper;
+import ru.clevertec.cashReceiptWeb.repositories.mapper.DiscountCardMapper;
 
 import java.util.List;
 
