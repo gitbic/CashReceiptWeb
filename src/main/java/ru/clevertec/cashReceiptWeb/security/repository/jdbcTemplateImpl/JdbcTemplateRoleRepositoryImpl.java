@@ -6,6 +6,7 @@ import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
 import ru.clevertec.cashReceiptWeb.security.repository.mapper.RoleMapper;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Repository
@@ -23,22 +24,20 @@ public class JdbcTemplateRoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public Role findByUsername(String name) {
-        return null;
-    }
-
-    @Override
     public void save(Role role) {
-
+        String sqlQuery = "INSERT INTO role (id, role_name) VALUES (?,?)";
+        jdbcTemplate.update(sqlQuery, role.getId(), role.getName());
     }
 
     @Override
     public void delete(Long id) {
-
+        String sqlQuery = "DELETE FROM role WHERE id = ?";
+        jdbcTemplate.update(sqlQuery, id);
     }
 
     @Override
     public Set<Role> findAll() {
-        return null;
+        String sqlQuery = "SELECT * FROM role";
+        return new HashSet<>(jdbcTemplate.query(sqlQuery, new RoleMapper()));
     }
 }

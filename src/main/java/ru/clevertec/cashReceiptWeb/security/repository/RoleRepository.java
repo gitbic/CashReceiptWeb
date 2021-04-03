@@ -9,8 +9,6 @@ import java.util.Set;
 public interface RoleRepository {
     Role findById(Long id);
 
-    Role findByUsername(String name);
-
     void save(Role role);
 
     void delete(Long id);
