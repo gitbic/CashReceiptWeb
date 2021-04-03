@@ -1,12 +1,11 @@
-
-INSERT INTO discount_cards
+INSERT INTO discount_card
 VALUES ('1234', 0.25),
        ('2431', 1.3),
        ('4132', 1.87),
        ('3421', 2.12),
        ('1423', 0.89);
 
-INSERT INTO products
+INSERT INTO product
 VALUES (28, 'Apple', 1.12, true),
        (30, 'Watermelon', 2.05, false),
        (8, 'Orange', 0.99, false),
@@ -28,6 +27,17 @@ VALUES (28, 'Apple', 1.12, true),
        (36, 'Kiwi', 5.52, true),
        (12, 'Pineapple', 1.08, false);
 
+INSERT INTO "user"
+VALUES (1, 'user1', '123456', '123456'),
+       (2, 'user2', '123456', '123456'),
+       (3, 'user3', '123456', '123456');
 
+INSERT INTO "role"
+VALUES (1, 'USER'),
+       (2, 'ADMIN');
 
+INSERT INTO "role_user"
+VALUES (1, 1),
+       (1, 2),
+       (2, 3);
 

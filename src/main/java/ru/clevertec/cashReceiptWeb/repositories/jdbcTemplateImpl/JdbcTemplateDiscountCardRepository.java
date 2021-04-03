@@ -20,32 +20,32 @@ public class JdbcTemplateDiscountCardRepository implements DiscountCardRepositor
 
     @Override
     public void addCard(DiscountCard discountCard) {
-        String sqlQuery = "INSERT INTO discount_cards (card_number, discount) VALUES (?,?)";
+        String sqlQuery = "INSERT INTO discount_card (card_number, discount) VALUES (?,?)";
         jdbcTemplate.update(sqlQuery, discountCard.getCardNumber(), discountCard.getDiscount());
-        log.info("Discount card, number {}, has been added to db table {}", discountCard.getCardNumber(), "discount_cards");
+        log.info("Discount card, number {}, has been added to db table {}", discountCard.getCardNumber(), "discount_card");
     }
 
     @Override
     public DiscountCard getCard(String cardNumber) {
-        String sqlQuery = "SELECT * FROM discount_cards WHERE card_number = ?";
+        String sqlQuery = "SELECT * FROM discount_card WHERE card_number = ?";
         return jdbcTemplate.queryForObject(sqlQuery, new DiscountCardMapper(), cardNumber);
     }
 
     @Override
     public void removeCard(String cardNumber) {
-        String sqlQuery = "DELETE FROM discount_cards WHERE card_number = ?";
+        String sqlQuery = "DELETE FROM discount_card WHERE card_number = ?";
         jdbcTemplate.update(sqlQuery, cardNumber);
     }
 
     @Override
     public void updateCard(DiscountCard discountCard) {
-        String sqlQuery = "UPDATE discount_cards SET discount = ? WHERE card_number = ?";
+        String sqlQuery = "UPDATE discount_card SET discount = ? WHERE card_number = ?";
         jdbcTemplate.update(sqlQuery, discountCard.getDiscount(), discountCard.getCardNumber());
     }
 
     @Override
     public List<DiscountCard> getCardList() {
-        String sqlQuery = "SELECT * FROM discount_cards";
+        String sqlQuery = "SELECT * FROM discount_card";
         return jdbcTemplate.query(sqlQuery, new DiscountCardMapper());
     }
 }

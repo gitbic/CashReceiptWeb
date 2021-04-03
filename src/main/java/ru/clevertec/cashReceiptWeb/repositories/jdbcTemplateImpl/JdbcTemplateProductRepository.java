@@ -19,31 +19,31 @@ public class JdbcTemplateProductRepository implements ProductsRepository {
 
     @Override
     public void addProduct(Product product) {
-        String sqlQuery = "INSERT INTO products (id, name, price, is_discount) VALUES (?,?,?,?)";
+        String sqlQuery = "INSERT INTO product (id, name, price, is_discount) VALUES (?,?,?,?)";
         jdbcTemplate.update(sqlQuery, product.getId(), product.getName(), product.getPrice(), product.isDiscount());
     }
 
     @Override
-    public Product getProductById(int id) {
-        String sqlQuery = "SELECT * FROM products WHERE id = ?";
+    public Product getProductById(Long id) {
+        String sqlQuery = "SELECT * FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), id);
     }
 
     @Override
-    public void removeProduct(int id) {
-        String sqlQuery = "DELETE FROM products WHERE id = ?";
+    public void removeProduct(Long id) {
+        String sqlQuery = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sqlQuery, id);
     }
 
     @Override
     public void updateProduct(Product product) {
-        String sqlQuery = "UPDATE products SET name = ?, price = ?, is_discount = ? WHERE id = ?";
+        String sqlQuery = "UPDATE product SET name = ?, price = ?, is_discount = ? WHERE id = ?";
         jdbcTemplate.update(sqlQuery, product.getName(), product.getPrice(), product.isDiscount(), product.getId());
     }
 
     @Override
     public List<Product> getProductList() {
-        String sqlQuery = "SELECT * FROM products";
+        String sqlQuery = "SELECT * FROM product";
         return jdbcTemplate.query(sqlQuery, new ProductMapper());
     }
 }

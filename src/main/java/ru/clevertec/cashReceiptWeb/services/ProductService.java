@@ -24,11 +24,11 @@ public class ProductService {
         productsRepository.addProduct(product);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         productsRepository.removeProduct(id);
     }
 
-    public Product getById(int id) {
+    public Product getById(Long id) {
         return productsRepository.getProductById(id);
     }
 

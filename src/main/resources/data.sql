@@ -5,7 +5,7 @@ VALUES ('1234', 0.25),
        ('3421', 2.12),
        ('1423', 0.89);
 
-INSERT INTO products
+INSERT INTO product
 VALUES (28, 'Apple', 1.12, true),
        (30, 'Watermelon', 2.05, false),
        (8, 'Orange', 0.99, false),
