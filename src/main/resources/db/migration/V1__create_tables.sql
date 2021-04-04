@@ -16,15 +16,15 @@ CREATE TABLE discount_card
 
 CREATE TABLE "user"
 (
-    id               bigint       NOT NULL,
-    username         varchar(100) NOT NULL,
-    password         varchar(100) NOT NULL,
+    id       bigserial    NOT NULL,
+    username varchar(100) NOT NULL,
+    password varchar(100) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE role
 (
-    id        bigint       NOT NULL,
+    id        bigserial    NOT NULL,
     role_name varchar(100) NOT NULL,
     PRIMARY KEY (id)
 );

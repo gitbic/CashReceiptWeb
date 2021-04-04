@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.RoleService;
@@ -50,8 +52,16 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String registrationPage() {
+    public String registrationPage(Model model) {
+        User user = new User();
+        model.addAttribute(user);
         return "registration";
+    }
+
+    @PostMapping("/addUser")
+    public String addProduct(@ModelAttribute(value = "user") User user) {
+        userService.save(user);
+        return "redirect:/login";
     }
 
     @GetMapping("/403")

@@ -32,12 +32,12 @@ public class JdbcTemplateUserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User user) {
-        String sqlInsertProductQuery = "INSERT INTO \"user\" (id, username, password) VALUES (?,?,?)";
+        String sqlInsertProductQuery = "INSERT INTO \"user\" (username, password) VALUES (?,?)";
         String sqlInsertRoleQuery = "INSERT INTO user_role(user_id, role_id) VALUES (?, ?)";
 
-        jdbcTemplate.update(sqlInsertProductQuery, user.getId(), user.getUsername(), user.getPassword());
-        jdbcTemplate.update(sqlInsertRoleQuery, user.getId(), UserRole.ROLE_USER.getRoleId());
-
+        jdbcTemplate.update(sqlInsertProductQuery, user.getUsername(), user.getPassword());
+        Long id = findByUsername(user.getUsername()).getId();
+        jdbcTemplate.update(sqlInsertRoleQuery, id, UserRole.ROLE_USER.getRoleId());
     }
 
     @Override
