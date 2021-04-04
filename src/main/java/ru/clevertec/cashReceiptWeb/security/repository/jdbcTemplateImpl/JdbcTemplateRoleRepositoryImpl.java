@@ -40,4 +40,10 @@ public class JdbcTemplateRoleRepositoryImpl implements RoleRepository {
         String sqlQuery = "SELECT * FROM role";
         return new HashSet<>(jdbcTemplate.query(sqlQuery, new RoleMapper()));
     }
+
+    @Override
+    public Set<Role> findByUserId(Long userId) {
+        String sqlQuery = "SELECT r.id, r.role_name FROM role r, user_role ur WHERE r.id = ur.role_id and ur.user_id = ?";
+        return new HashSet<>(jdbcTemplate.query(sqlQuery, new RoleMapper(), userId));
+    }
 }

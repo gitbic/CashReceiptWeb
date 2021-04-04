@@ -19,7 +19,6 @@ CREATE TABLE "user"
     id               bigint       NOT NULL,
     username         varchar(100) NOT NULL,
     password         varchar(100) NOT NULL,
-    password_confirm varchar(100) NOT NULL,
     PRIMARY KEY (id)
 );
 

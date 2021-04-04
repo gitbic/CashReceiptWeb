@@ -1,4 +1,4 @@
-package ru.clevertec.cashReceiptWeb.security.service;
+package bak;
 
 public interface SecurityService {
     String findLoggedInUsername();

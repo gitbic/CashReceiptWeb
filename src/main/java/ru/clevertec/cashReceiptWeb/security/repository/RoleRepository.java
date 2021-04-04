@@ -14,4 +14,6 @@ public interface RoleRepository {
     void delete(Long id);
 
     Set<Role> findAll();
+
+    Set<Role> findByUserId(Long userId);
 }

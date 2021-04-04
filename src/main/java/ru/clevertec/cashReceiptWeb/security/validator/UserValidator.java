@@ -29,7 +29,7 @@ public class UserValidator implements Validator {
         int usernameLength = user.getUsername().length();
         int passwordLength = user.getPassword().length();
 
-        if (usernameLength < 6 || usernameLength > 32) {
+        if (usernameLength < 3 || usernameLength > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
 
@@ -37,12 +37,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
-        if (passwordLength < 8 || passwordLength > 32) {
+        if (passwordLength < 3 || passwordLength > 32) {
             errors.rejectValue("password", "Size.userForm.password");
-        }
-
-        if (!user.getPasswordConfirm().equals(user.getPassword())) {
-            errors.rejectValue("password", "Diff.userForm.passwordConfirm");
         }
 
     }
