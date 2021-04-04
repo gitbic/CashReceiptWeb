@@ -1,10 +1,11 @@
-package ru.clevertec.cashReceiptWeb.services;
+package ru.clevertec.cashReceiptWeb.service;
 
-import ru.clevertec.cashReceiptWeb.entityes.Product;
+
+import ru.clevertec.cashReceiptWeb.entity.Product;
 
 import java.util.List;
 
-interface ProductService {
+public interface ProductService {
     List<Product> findAll();
 
     void add(Product product);

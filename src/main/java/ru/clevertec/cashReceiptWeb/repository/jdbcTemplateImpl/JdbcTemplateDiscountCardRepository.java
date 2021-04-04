@@ -1,11 +1,11 @@
-package ru.clevertec.cashReceiptWeb.repositories.jdbcTemplateImpl;
+package ru.clevertec.cashReceiptWeb.repository.jdbcTemplateImpl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.clevertec.cashReceiptWeb.entityes.DiscountCard;
-import ru.clevertec.cashReceiptWeb.repositories.DiscountCardRepository;
-import ru.clevertec.cashReceiptWeb.repositories.mapper.DiscountCardMapper;
+import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
+import ru.clevertec.cashReceiptWeb.repository.DiscountCardRepository;
+import ru.clevertec.cashReceiptWeb.repository.mapper.DiscountCardMapper;
 
 import java.util.List;
 

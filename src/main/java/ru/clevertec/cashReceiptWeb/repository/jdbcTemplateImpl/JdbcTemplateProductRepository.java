@@ -1,10 +1,10 @@
-package ru.clevertec.cashReceiptWeb.repositories.jdbcTemplateImpl;
+package ru.clevertec.cashReceiptWeb.repository.jdbcTemplateImpl;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.clevertec.cashReceiptWeb.entityes.Product;
-import ru.clevertec.cashReceiptWeb.repositories.ProductsRepository;
-import ru.clevertec.cashReceiptWeb.repositories.mapper.ProductMapper;
+import ru.clevertec.cashReceiptWeb.entity.Product;
+import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
+import ru.clevertec.cashReceiptWeb.repository.mapper.ProductMapper;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class JdbcTemplateProductRepository implements ProductsRepository {
 
     @Override
     public void add(Product product) {
-        String sqlQuery = "INSERT INTO product (id, name, price, is_discount) VALUES (?,?,?,?)";
-        jdbcTemplate.update(sqlQuery, product.getId(), product.getName(), product.getPrice(), product.isDiscount());
+        String sqlQuery = "INSERT INTO product (name, price, is_discount) VALUES (?,?,?)";
+        jdbcTemplate.update(sqlQuery, product.getName(), product.getPrice(), product.isDiscount());
     }
 
     @Override

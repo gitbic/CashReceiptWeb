@@ -1,6 +1,6 @@
 CREATE TABLE product
 (
-    id          bigint           NOT NULL,
+    id          bigserial        NOT NULL,
     name        varchar(100)     NOT NULL,
     price       double precision NOT NULL,
     is_discount boolean          NOT NULL,

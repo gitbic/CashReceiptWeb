@@ -12,6 +12,11 @@
     Welcome : <span th:utext="${#request.userPrincipal.name}"></span>
 </h3>
 
+<h3>
+    <a th:href="@{/admin/productManager}">Manage products</a>
+    <br>
+    <a th:href="@{/admin/userManager}">Manage users</a>
+</h3>
 </body>
 
 </html>

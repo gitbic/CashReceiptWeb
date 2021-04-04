@@ -1,4 +1,4 @@
-package ru.clevertec.cashReceiptWeb.controllers;
+package ru.clevertec.cashReceiptWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
