@@ -1,4 +1,4 @@
-package ru.clevertec.cashReceiptWeb.security.controller;
+package ru.clevertec.cashReceiptWeb.controllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -32,9 +32,6 @@ public class UserController {
 
     @GetMapping("/admin")
     public String adminPage(Model model, Principal principal) {
-
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        model.addAttribute("userInfo", loginedUser.toString());
         return "adminPage";
     }
 
@@ -51,24 +48,13 @@ public class UserController {
 
     @GetMapping("/userInfo")
     public String userInfo(Model model, Principal principal) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        model.addAttribute("userInfo", loginedUser.toString());
         return "userInfoPage";
     }
 
     @GetMapping("/403")
     public String accessDenied(Model model, Principal principal) {
 
-        if (principal != null) {
-            User loginedUser = (User) ((Authentication) principal).getPrincipal();
 
-            model.addAttribute("userInfo", loginedUser.toString());
-
-            String message = "Hi " + principal.getName() //
-                    + "<br> You do not have permission to access this page!";
-            model.addAttribute("message", message);
-
-        }
 
         return "403Page";
     }
