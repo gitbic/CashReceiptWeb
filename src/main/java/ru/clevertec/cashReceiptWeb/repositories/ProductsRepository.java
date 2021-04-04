@@ -8,13 +8,15 @@ import java.util.List;
 @Repository
 public interface ProductsRepository {
 
-    void addProduct(Product product);
+    Product findById(Long id);
 
-    Product getProductById(Long id);
+    Product findByName(String name);
 
-    void removeProduct(Long id);
+    void add(Product product);
 
-    void updateProduct(Product product);
+    void update(Product product);
 
-    List<Product> getProductList();
+    void delete(Long id);
+
+    List<Product> findAll();
 }

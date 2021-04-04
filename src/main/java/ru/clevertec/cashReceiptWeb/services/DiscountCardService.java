@@ -1,38 +1,17 @@
 package ru.clevertec.cashReceiptWeb.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.entityes.DiscountCard;
-import ru.clevertec.cashReceiptWeb.repositories.DiscountCardRepository;
 
 import java.util.List;
 
-@Service
-public class DiscountCardService {
-    private final DiscountCardRepository discountCardRepository;
+interface DiscountCardService {
+    List<DiscountCard> findAll();
 
-    @Autowired
-    public DiscountCardService(DiscountCardRepository discountCardRepository) {
-        this.discountCardRepository = discountCardRepository;
-    }
+    void add(DiscountCard discountCard);
 
-    public List<DiscountCard> getAllCards() {
-        return discountCardRepository.getCardList();
-    }
+    void delete(String cardNumber);
 
-    public void add(DiscountCard discountCard) {
-        discountCardRepository.addCard(discountCard);
-    }
+    DiscountCard get(String cardNumber);
 
-    public void delete(String cardNumber) {
-        discountCardRepository.removeCard(cardNumber);
-    }
-
-    public DiscountCard get(String cardNumber) {
-        return discountCardRepository.getCard(cardNumber);
-    }
-
-    public void update(DiscountCard discountCard) {
-        discountCardRepository.updateCard(discountCard);
-    }
+    void update(DiscountCard discountCard);
 }

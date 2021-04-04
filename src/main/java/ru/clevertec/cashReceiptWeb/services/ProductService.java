@@ -1,38 +1,19 @@
 package ru.clevertec.cashReceiptWeb.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.entityes.Product;
-import ru.clevertec.cashReceiptWeb.repositories.ProductsRepository;
 
 import java.util.List;
 
-@Service
-public class ProductService {
-    private final ProductsRepository productsRepository;
+interface ProductService {
+    List<Product> findAll();
 
-    @Autowired
-    public ProductService(ProductsRepository productsRepository) {
-        this.productsRepository = productsRepository;
-    }
+    void add(Product product);
 
-    public List<Product> getAllProducts() {
-        return productsRepository.getProductList();
-    }
+    void update(Product product);
 
-    public void add(Product product) {
-        productsRepository.addProduct(product);
-    }
+    void deleteById(Long id);
 
-    public void deleteById(Long id) {
-        productsRepository.removeProduct(id);
-    }
+    Product findById(Long id);
 
-    public Product getById(Long id) {
-        return productsRepository.getProductById(id);
-    }
-
-    public void update(Product product) {
-        productsRepository.updateProduct(product);
-    }
+    Product findByName(String name);
 }

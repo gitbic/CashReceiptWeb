@@ -18,31 +18,37 @@ public class JdbcTemplateProductRepository implements ProductsRepository {
     }
 
     @Override
-    public void addProduct(Product product) {
+    public void add(Product product) {
         String sqlQuery = "INSERT INTO product (id, name, price, is_discount) VALUES (?,?,?,?)";
         jdbcTemplate.update(sqlQuery, product.getId(), product.getName(), product.getPrice(), product.isDiscount());
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Product findById(Long id) {
         String sqlQuery = "SELECT * FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), id);
     }
 
     @Override
-    public void removeProduct(Long id) {
+    public Product findByName(String name) {
+        String sqlQuery = "SELECT * FROM product WHERE name = ?";
+        return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), name);
+    }
+
+    @Override
+    public void delete(Long id) {
         String sqlQuery = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sqlQuery, id);
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public void update(Product product) {
         String sqlQuery = "UPDATE product SET name = ?, price = ?, is_discount = ? WHERE id = ?";
         jdbcTemplate.update(sqlQuery, product.getName(), product.getPrice(), product.isDiscount(), product.getId());
     }
 
     @Override
-    public List<Product> getProductList() {
+    public List<Product> findAll() {
         String sqlQuery = "SELECT * FROM product";
         return jdbcTemplate.query(sqlQuery, new ProductMapper());
     }

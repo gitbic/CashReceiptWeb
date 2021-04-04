@@ -7,13 +7,14 @@ import java.util.List;
 
 @Repository
 public interface DiscountCardRepository {
-    void addCard(DiscountCard discountCard);
 
-    DiscountCard getCard(String cardNumber);
+    DiscountCard find(String cardNumber);
 
-    void removeCard(String cardNumber);
+    void add(DiscountCard discountCard);
 
-    void updateCard(DiscountCard discountCard);
+    void update(DiscountCard discountCard);
 
-    List<DiscountCard> getCardList();
+    void delete(String cardNumber);
+
+    List<DiscountCard> findAll();
 }

@@ -8,10 +8,8 @@ import org.springframework.context.event.EventListener;
 import ru.clevertec.cashReceiptWeb.repositories.DiscountCardRepository;
 import ru.clevertec.cashReceiptWeb.repositories.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
-import ru.clevertec.cashReceiptWeb.security.service.UserService;
-import ru.clevertec.cashReceiptWeb.security.service.UserServiceImpl;
-import ru.clevertec.cashReceiptWeb.services.DiscountCardService;
-import ru.clevertec.cashReceiptWeb.services.ProductService;
+import ru.clevertec.cashReceiptWeb.services.DiscountCardServiceImpl;
+import ru.clevertec.cashReceiptWeb.services.ProductServiceImpl;
 
 @SpringBootApplication
 public class CashReceiptWebApplication {
@@ -33,10 +31,10 @@ public class CashReceiptWebApplication {
     @EventListener
     public void onStartListener(ApplicationReadyEvent event) {
 
-        ProductService productService = new ProductService(productsRepository);
-        System.out.println(productService.getById(28L));
+        ProductServiceImpl productService = new ProductServiceImpl(productsRepository);
+        System.out.println(productService.findById(28L));
 
-        DiscountCardService discountCardService = new DiscountCardService(discountCardRepository);
+        DiscountCardServiceImpl discountCardService = new DiscountCardServiceImpl(discountCardRepository);
         System.out.println(discountCardService.get("2431"));
 
         System.out.println(userRepository.findById(3L));
