@@ -1,27 +1,27 @@
 package ru.clevertec.cashReceiptWeb.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.clevertec.cashReceiptWeb.security.model.Role;
+import ru.clevertec.cashReceiptWeb.security.model.User;
+import ru.clevertec.cashReceiptWeb.security.service.RoleService;
+import ru.clevertec.cashReceiptWeb.security.service.UserService;
 
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
 public class UserController {
-//    private final UserService userService;
-//    private final SecurityService securityService;
-//    private final UserValidator userValidator;
-//
-//    private final static String AUTH_DIR = "auth/";
-//
-//    @Autowired
-//    public UserController(UserService userService, SecurityService securityService, UserValidator userValidator) {
-//        this.userService = userService;
-//        this.securityService = securityService;
-//        this.userValidator = userValidator;
-//    }
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    RoleService roleService;
 
     @GetMapping({"/", "/welcome"})
     public String welcomePage(Model model) {
@@ -30,32 +30,32 @@ public class UserController {
         return "welcomePage";
     }
 
-    @GetMapping("/admin")
-    public String adminPage(Model model, Principal principal) {
-        return "adminPage";
-    }
-
     @GetMapping("/login")
-    public String loginPage(Model model) {
+    public String loginPage() {
         return "loginPage";
     }
 
     @GetMapping("/logoutSuccessful")
-    public String logoutSuccessfulPage(Model model) {
-        model.addAttribute("title", "Logout");
+    public String logoutSuccessfulPage() {
         return "logoutSuccessfulPage";
     }
 
     @GetMapping("/userInfo")
     public String userInfo(Model model, Principal principal) {
+        UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+        User user = userService.findByUserName(userDetails.getUsername());
+        Set<Role> userRoles = roleService.findAllByUserId(user.getId());
+        model.addAttribute("userRoles", userRoles);
         return "userInfoPage";
     }
 
+    @GetMapping("/registration")
+    public String registrationPage() {
+        return "registration";
+    }
+
     @GetMapping("/403")
-    public String accessDenied(Model model, Principal principal) {
-
-
-
+    public String accessDenied() {
         return "403Page";
     }
 }

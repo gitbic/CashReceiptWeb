@@ -12,7 +12,13 @@
 <h3>
     Welcome : <span th:utext="${#request.userPrincipal.name}"></span>
 </h3>
-<b>This is protected page!</b>
+
+<p>
+<b>User Roles:</b>
+<tr th:each="role : ${userRoles}">
+    <td th:text="${role.name}"/>
+</tr>
+
 
 </body>
 

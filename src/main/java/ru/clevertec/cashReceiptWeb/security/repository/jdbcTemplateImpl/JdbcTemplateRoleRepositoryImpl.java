@@ -42,7 +42,7 @@ public class JdbcTemplateRoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public Set<Role> findByUserId(Long userId) {
+    public Set<Role> findAllByUserId(Long userId) {
         String sqlQuery = "SELECT r.id, r.role_name FROM role r, user_role ur WHERE r.id = ur.role_id and ur.user_id = ?";
         return new HashSet<>(jdbcTemplate.query(sqlQuery, new RoleMapper(), userId));
     }

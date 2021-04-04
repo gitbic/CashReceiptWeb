@@ -15,5 +15,5 @@ public interface RoleRepository {
 
     Set<Role> findAll();
 
-    Set<Role> findByUserId(Long userId);
+    Set<Role> findAllByUserId(Long userId);
 }

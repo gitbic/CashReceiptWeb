@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         log.info("Found user {}", userName);
 
-        Set<Role> roles = roleRepository.findByUserId(user.getId());
+        Set<Role> roles = roleRepository.findAllByUserId(user.getId());
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
         if (roles != null) {
