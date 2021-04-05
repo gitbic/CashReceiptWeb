@@ -5,6 +5,10 @@
 
     | &nbsp;
 
+    <a th:if="${#request.userPrincipal != null}" th:href="@{/templates/purchase/products}">Byu</a>
+
+    | &nbsp;
+
     <a th:href="@{/userInfo}">User Info</a>
 
     | &nbsp;

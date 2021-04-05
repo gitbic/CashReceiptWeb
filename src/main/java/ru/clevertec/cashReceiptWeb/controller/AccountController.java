@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.util.Set;
 
 @Controller
-public class UserController {
+public class AccountController {
 
     @Autowired
     UserService userService;
