@@ -30,10 +30,6 @@ public class AdminController {
         Product product = new Product();
         model.addAttribute("product", product);
         model.addAttribute("products", productService.findAll());
-
-//        boolean discount = false;
-//        model.addAttribute("discount", discount);
-
         return "admin/productManager";
     }
 }

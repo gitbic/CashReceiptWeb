@@ -1,0 +1,18 @@
+<!Doctype html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+
+<h2>
+    <span th:text="${'Name: ' + product.name}"/>
+    <p>
+        <span th:text="${'Price: $' + product.price}"/>
+    <p>
+
+    <span th:if="${product.discount == true}">There is a discount on this product</span>
+</h2>
+</body>
+</html>

@@ -26,6 +26,7 @@
             <input th:field="*{price}" placeholder="price (*)" class="form-control"/>
         </div>
 
+        <span>Discount</span>
         <input type="checkbox" name="discount" th:checked="*{discount}"/>
 
         <div style="margin-bottom: 25px" class="form-group">
@@ -55,13 +56,13 @@
             <td th:text="${product.price}"/>
             <td th:text="${product.isDiscount}"/>
             <td>
-                <a th:href="@{'/products/show/' + ${product.id}}" th:text="view"/>
+                <a th:href="@{'/products/view/' + ${product.id}}" th:text="view"/>
             </td>
             <td>
-                <a th:href="@{'products/edit/' + ${product.id}}" th:text="edit"/>
+                <a th:href="@{'/products/edit/' + ${product.id}}" th:text="edit"/>
             </td>
             <td>
-                <a th:href="@{'products/delete/' + ${product.id}}" th:text="delete"/>
+                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="delete"/>
             </td>
 
         </tr>
