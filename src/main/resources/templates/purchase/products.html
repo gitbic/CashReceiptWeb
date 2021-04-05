@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<!Doctype html>
+<html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Shopping</title>
+    <title>Purchase</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-sdfasdfasdfasf
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Is discount</th>
+            <th>Number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"/>
+            <td th:text="${product.name}"/>
+            <td th:text="${product.price}"/>
+            <td th:text="${product.isDiscount}"/>
+            <td>
+                <form th:action="@{/purchase/buy}" th:object="${purchase}" method="post">
+                    <p><input type="hidden" th:value="${product.id}" name="productId"/></p>
+                    <select th:field="${purchase.productNumber}"/>
+                    <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
+                    </select>
+                    <span><input type="submit" value="Buy"/></span>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+
+        <span th:text="${'Total number of products: ' + products.size()}"/>
+
+    </table>
+
+</div>
 </body>
 </html>

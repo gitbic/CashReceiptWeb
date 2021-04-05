@@ -44,11 +44,11 @@ public class CashReceiptWebApplication {
 
         System.out.println(userRepository.findById(3L));
 
-        Purchase purchase = new Purchase();
-        purchase.setUserId(1L);
-        purchase.setProductId(1L);
-        purchase.setProductNumber(2);
-
-        purchaseRepository.save(purchase);
+//        Purchase purchase = new Purchase();
+//        purchase.setUserId(1L);
+//        purchase.setProductId(1L);
+//        purchase.setProductNumber(2);
+//
+//        purchaseRepository.save(purchase);
     }
 }

@@ -5,10 +5,6 @@
 
     | &nbsp;
 
-    <a th:if="${#request.userPrincipal != null}" th:href="@{/templates/purchase/products}">Byu</a>
-
-    | &nbsp;
-
     <a th:href="@{/userInfo}">User Info</a>
 
     | &nbsp;
@@ -26,5 +22,13 @@
     | &nbsp;
 
     <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
+
+    | &nbsp;
+
+    <a th:if="${#request.userPrincipal != null}" th:href="@{/purchase/products}">Buy</a>
+
+    | &nbsp;
+
+    <a th:if="${#request.userPrincipal != null}" th:href="@{/purchase/cart}">Cart</a>
 
 </div>
