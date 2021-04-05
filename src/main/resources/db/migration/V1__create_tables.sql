@@ -16,9 +16,10 @@ CREATE TABLE discount_card
 
 CREATE TABLE "user"
 (
-    id       bigserial    NOT NULL,
-    username varchar(100) NOT NULL,
-    password varchar(100) NOT NULL,
+    id          bigserial    NOT NULL,
+    username    varchar(100) NOT NULL,
+    password    varchar(100) NOT NULL,
+    card_number varchar(4) REFERENCES discount_card (card_number) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (id)
 );
 

@@ -27,10 +27,10 @@ VALUES ('Apple', 1.12, true),
        ('Kiwi', 5.52, true),
        ('Pineapple', 1.08, false);
 
-INSERT INTO "user" (username, password)
-VALUES ('user1', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.'),
-       ('user2', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.'),
-       ('user3', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.');
+INSERT INTO "user" (username, password, card_number)
+VALUES ('user1', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '1234'),
+       ('user2', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '2431'),
+       ('user3', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '4132');
 
 INSERT INTO "role" (role_name)
 VALUES ('ROLE_ADMIN'),
