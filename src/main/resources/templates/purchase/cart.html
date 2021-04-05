@@ -1,0 +1,53 @@
+<!Doctype html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+
+<div class="container">
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Is discount</th>
+            <th>View product</th>
+            <th>Delete product</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"/>
+            <td th:text="${product.name}"/>
+            <td th:text="${product.price}"/>
+            <td th:text="${product.isDiscount}"/>
+            <td>
+                <a th:href="@{'/products/view/' + ${product.id}}" th:text="view"/>
+            </td>
+            <td>
+                <a th:href="@{'/products/edit/' + ${product.id}}" th:text="edit"/>
+            </td>
+            <td>
+                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="delete"/>
+            </td>
+
+        </tr>
+        </tbody>
+
+        <span th:text="${'Total number of products: ' + products.size()}"/>
+
+    </table>
+
+</div>
+</body>
+</html>

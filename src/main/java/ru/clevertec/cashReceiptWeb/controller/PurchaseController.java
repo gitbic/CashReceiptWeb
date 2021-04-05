@@ -37,30 +37,29 @@ public class PurchaseController {
     DiscountCardService discountCardService;
 
     @GetMapping("/products")
-    public String showProducts(Model model){
-        Purchase purchase = new Purchase();
-        model.addAttribute("purchase", purchase);
+    public String showProducts(Model model) {
+        model.addAttribute("purchase", new Purchase());
         model.addAttribute("products", productService.findAll());
         return "/purchase/products";
     }
 
     @PostMapping("/buy")
     public String buy(@ModelAttribute(value = "purchase") Purchase purchase, Principal principal) {
-//        UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-//        User user = userService.findByUserName(userDetails.getUsername());
-//        purchase.setUserId(user.getId());
-        purchase.setUserId(1L);
-        System.out.println(purchase);
+        UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+        User user = userService.findByUserName(userDetails.getUsername());
+
+        purchase.setUserId(user.getId());
         purchaseService.save(purchase);
-
-
         return "redirect:/purchase/products";
     }
+
+    @GetMapping("/cart")
+    public String cart(Model model, Principal principal) {
+        UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+        User user = userService.findByUserName(userDetails.getUsername());
+
+        model.addAttribute("purchases", purchaseService.findAllByUserId(user.getId()));
+        model.addAttribute("products", productService.findAll());
+        return "/purchase/cart";
+    }
 }
-
-
-//    @PostMapping("/add")
-//    public String addProduct(@ModelAttribute(value = "product") Product product) {
-//        productService.add(product);
-//        return "redirect:/admin/productManager";
-//    }
