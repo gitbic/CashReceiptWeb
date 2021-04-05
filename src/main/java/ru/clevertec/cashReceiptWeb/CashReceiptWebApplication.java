@@ -10,8 +10,8 @@ import ru.clevertec.cashReceiptWeb.repository.DiscountCardRepository;
 import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.repository.PurchaseRepository;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
-import ru.clevertec.cashReceiptWeb.service.DiscountCardServiceImpl;
-import ru.clevertec.cashReceiptWeb.service.ProductServiceImpl;
+import ru.clevertec.cashReceiptWeb.security.service.UserService;
+import ru.clevertec.cashReceiptWeb.service.*;
 
 @SpringBootApplication
 public class CashReceiptWebApplication {
@@ -22,27 +22,23 @@ public class CashReceiptWebApplication {
     }
 
     @Autowired
-    ProductsRepository productsRepository;
+    UserService userService;
 
     @Autowired
-    DiscountCardRepository discountCardRepository;
+    ProductService productService;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    PurchaseRepository purchaseRepository;
+    DiscountCardService discountCardService;
 
     @EventListener
     public void onStartListener(ApplicationReadyEvent event) {
 
-        ProductServiceImpl productService = new ProductServiceImpl(productsRepository);
+
         System.out.println(productService.findById(1L));
 
-        DiscountCardServiceImpl discountCardService = new DiscountCardServiceImpl(discountCardRepository);
         System.out.println(discountCardService.get("2431"));
 
-        System.out.println(userRepository.findById(3L));
+        System.out.println(userService.findById(3L));
 
 //        Purchase purchase = new Purchase();
 //        purchase.setUserId(1L);
@@ -50,5 +46,6 @@ public class CashReceiptWebApplication {
 //        purchase.setProductNumber(2);
 //
 //        purchaseRepository.save(purchase);
+
     }
 }

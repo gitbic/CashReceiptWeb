@@ -41,6 +41,6 @@ public class JdbcTemplatePurchaseRepository implements PurchaseRepository {
     @Override
     public List<Purchase> findAllByUserId(Long userId) {
         String sqlQuery = "SELECT * FROM purchase WHERE user_id = ?";
-        return jdbcTemplate.query(sqlQuery, new PurchaseMapper());
+        return jdbcTemplate.query(sqlQuery, new PurchaseMapper(), userId);
     }
 }

@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
-import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
-import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
-import ru.clevertec.cashReceiptWeb.service.ProductService;
-import ru.clevertec.cashReceiptWeb.service.PurchaseService;
+import ru.clevertec.cashReceiptWeb.service.*;
+import ru.clevertec.cashReceiptWeb.service.impl.DtoMapperService;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/purchase")
@@ -35,6 +33,9 @@ public class PurchaseController {
 
     @Autowired
     DiscountCardService discountCardService;
+
+    @Autowired
+    DtoMapperService dtoMapperService;
 
     @GetMapping("/products")
     public String showProducts(Model model) {
@@ -58,8 +59,8 @@ public class PurchaseController {
         UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
         User user = userService.findByUserName(userDetails.getUsername());
 
-        model.addAttribute("purchases", purchaseService.findAllByUserId(user.getId()));
-        model.addAttribute("products", productService.findAll());
+        List<Purchase> purchases = purchaseService.findAllByUserId(user.getId());
+        model.addAttribute("purchasesDto", dtoMapperService.mapToPurchasesDto(purchases));
         return "/purchase/cart";
     }
 }

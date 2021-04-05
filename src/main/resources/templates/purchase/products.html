@@ -16,7 +16,6 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Price</th>
             <th>Is discount</th>
@@ -25,7 +24,6 @@
         </thead>
         <tbody>
         <tr th:each="product : ${products}">
-            <td th:text="${product.id}"/>
             <td th:text="${product.name}"/>
             <td th:text="${product.price}"/>
             <td th:text="${product.isDiscount}"/>

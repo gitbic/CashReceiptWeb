@@ -1,20 +1,18 @@
-package ru.clevertec.cashReceiptWeb.service;
+package ru.clevertec.cashReceiptWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
+import ru.clevertec.cashReceiptWeb.service.ProductService;
 
 import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    private final ProductsRepository productsRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository) {
-        this.productsRepository = productsRepository;
-    }
+    ProductsRepository productsRepository;
 
     public List<Product> findAll() {
         return productsRepository.findAll();

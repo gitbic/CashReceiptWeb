@@ -13,40 +13,63 @@
 <th:block th:include="/_menu"></th:block>
 
 <div class="container">
-
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
+            <th>Product name</th>
+            <th>Product number</th>
             <th>Is discount</th>
-            <th>View product</th>
-            <th>Delete product</th>
+            <!--            <th>View product</th>-->
+            <!--            <th>Delete product</th>-->
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${products}">
-            <td th:text="${product.id}"/>
-            <td th:text="${product.name}"/>
-            <td th:text="${product.price}"/>
-            <td th:text="${product.isDiscount}"/>
-            <td>
-                <a th:href="@{'/products/view/' + ${product.id}}" th:text="view"/>
-            </td>
-            <td>
-                <a th:href="@{'/products/edit/' + ${product.id}}" th:text="edit"/>
-            </td>
-            <td>
-                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="delete"/>
-            </td>
+
+        <tr th:each="purchaseDto : ${purchasesDto}">
+            <td th:text="${purchaseDto.productName}"/>
+            <td th:text="${purchaseDto.productNumber}"/>
+
 
         </tr>
         </tbody>
 
-        <span th:text="${'Total number of products: ' + products.size()}"/>
 
     </table>
+
+
+<!--    <table class="table table-hover">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>ID</th>-->
+<!--            <th>Name</th>-->
+<!--            <th>Price</th>-->
+<!--            <th>Is discount</th>-->
+<!--            &lt;!&ndash;            <th>View product</th>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <th>Delete product</th>&ndash;&gt;-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="product : ${products}">-->
+<!--            <td th:text="${product.id}"/>-->
+<!--            <td th:text="${product.name}"/>-->
+<!--            <td th:text="${product.price}"/>-->
+<!--            <td th:text="${product.isDiscount}"/>-->
+<!--            &lt;!&ndash;            <td>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <a th:href="@{'/products/view/' + ${product.id}}" th:text="view"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </td>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <td>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <a th:href="@{'/products/edit/' + ${product.id}}" th:text="edit"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </td>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <td>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="delete"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </td>&ndash;&gt;-->
+
+<!--        </tr>-->
+<!--        </tbody>-->
+
+<!--&lt;!&ndash;        <span th:text="${'Total number of products: ' + products.size()}"/>&ndash;&gt;-->
+
+<!--    </table>-->
 
 </div>
 </body>

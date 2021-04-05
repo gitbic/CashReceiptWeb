@@ -25,13 +25,13 @@ public class JdbcTemplateProductRepository implements ProductsRepository {
 
     @Override
     public Product findById(Long id) {
-        String sqlQuery = "SELECT * FROM product WHERE id = ? ORDER BY id";
+        String sqlQuery = "SELECT * FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), id);
     }
 
     @Override
     public Product findByName(String name) {
-        String sqlQuery = "SELECT * FROM product WHERE name = ? ORDER BY id";
+        String sqlQuery = "SELECT * FROM product WHERE name = ?";
         return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), name);
     }
 
