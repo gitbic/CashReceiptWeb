@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
@@ -58,8 +59,11 @@ public class PurchaseController {
     public String cart(Model model, Principal principal) {
         UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
         User user = userService.findByUserName(userDetails.getUsername());
-
+        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
         List<Purchase> purchases = purchaseService.findAllByUserId(user.getId());
+
+
+
         model.addAttribute("purchasesDto", dtoMapperService.mapToPurchasesDto(purchases));
         return "/purchase/cart";
     }

@@ -10,4 +10,5 @@ public class PurchaseDto {
     private BigDecimal productPrice;
     private int productNumber;
     private boolean isDiscount;
+    private BigDecimal cost;
 }

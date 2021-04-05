@@ -19,9 +19,7 @@ public class DtoMapperService {
     @Autowired
     PurchaseDtoMapper purchaseDtoMapper;
 
-
     public List<PurchaseDto> mapToPurchasesDto(List<Purchase> purchases) {
-//        PurchaseDtoMapper purchaseDtoMapper = new PurchaseDtoMapper();
         List<PurchaseDto> purchasesDto = new ArrayList<>();
 
         for (Purchase purchase : purchases) {
