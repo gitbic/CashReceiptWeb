@@ -7,7 +7,7 @@ import java.util.List;
 public interface PurchaseService {
     void save(Purchase purchase);
 
-    void deleteUserPurchase(Purchase purchase);
+    void deleteUserPurchase(Long userId, Long productId);
 
     void deleteAllByUserId(Long userId);
 

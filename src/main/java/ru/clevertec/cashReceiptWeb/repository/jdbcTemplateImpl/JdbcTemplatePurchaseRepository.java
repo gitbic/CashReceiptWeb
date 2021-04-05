@@ -27,9 +27,9 @@ public class JdbcTemplatePurchaseRepository implements PurchaseRepository {
     }
 
     @Override
-    public void deleteUserPurchase(Purchase purchase) {
+    public void deleteUserPurchase(Long userId, Long productId) {
         String sqlQuery = "DELETE FROM purchase WHERE user_id = ? and product_id = ?";
-        jdbcTemplate.update(sqlQuery, purchase.getUserId(), purchase.getProductId());
+        jdbcTemplate.update(sqlQuery, userId, productId);
     }
 
     @Override

@@ -7,9 +7,8 @@ import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.service.OrderService;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
-import ru.clevertec.cashReceiptWeb.service.PurchaseService;
 
-import java.math.BigDecimal;
+import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE;
 
 @Service
 public class PurchaseDtoMapper {
@@ -24,11 +23,14 @@ public class PurchaseDtoMapper {
         PurchaseDto purchaseDto = new PurchaseDto();
         Product product = productService.findById(purchase.getProductId());
 
+        purchaseDto.setProductId(product.getId());
         purchaseDto.setProductName(product.getName());
         purchaseDto.setProductPrice(product.getPrice());
         purchaseDto.setProductNumber(purchase.getProductNumber());
-        purchaseDto.setDiscount(product.isDiscount());
         purchaseDto.setCost(orderService.calculatePurchase(purchase));
+        if (product.isDiscount()) {
+            purchaseDto.setDiscount(DISCOUNT_PERCENT_FOR_PURCHASE);
+        }
 
         return purchaseDto;
     }

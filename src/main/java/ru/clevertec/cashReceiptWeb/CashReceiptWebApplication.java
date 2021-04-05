@@ -34,11 +34,11 @@ public class CashReceiptWebApplication {
     public void onStartListener(ApplicationReadyEvent event) {
 
 
-        System.out.println(productService.findById(1L));
-
-        System.out.println(discountCardService.get("2431"));
-
-        System.out.println(userService.findById(3L));
+//        System.out.println(productService.findById(1L));
+//
+//        System.out.println(discountCardService.get("2431"));
+//
+//        System.out.println(userService.findById(3L));
 
 //        Purchase purchase = new Purchase();
 //        purchase.setUserId(1L);

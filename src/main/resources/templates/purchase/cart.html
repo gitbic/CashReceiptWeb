@@ -17,59 +17,33 @@
         <thead>
         <tr>
             <th>Product name</th>
+            <th>Product price</th>
             <th>Product number</th>
-            <th>Is discount</th>
-            <!--            <th>View product</th>-->
-            <!--            <th>Delete product</th>-->
+            <th>Discount</th>
+            <th>Cost</th>
+            <th>View product</th>
+            <th>Delete purchase</th>
         </tr>
         </thead>
         <tbody>
 
         <tr th:each="purchaseDto : ${purchasesDto}">
             <td th:text="${purchaseDto.productName}"/>
+            <td th:text="${purchaseDto.productPrice}"/>
             <td th:text="${purchaseDto.productNumber}"/>
-
-
+            <td th:text="${purchaseDto.discount}"/>
+            <td th:text="${purchaseDto.cost}"/>
+            <td>
+                <a th:href="@{'/products/view/' + ${purchaseDto.productId}}" th:text="view"/>
+            </td>
+            <td>
+                <a th:href="@{'/purchase/delete/' + ${purchaseDto.productId}}" th:text="delete"/>
+            </td>
         </tr>
         </tbody>
 
 
     </table>
-
-
-<!--    <table class="table table-hover">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>ID</th>-->
-<!--            <th>Name</th>-->
-<!--            <th>Price</th>-->
-<!--            <th>Is discount</th>-->
-<!--            &lt;!&ndash;            <th>View product</th>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <th>Delete product</th>&ndash;&gt;-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="product : ${products}">-->
-<!--            <td th:text="${product.id}"/>-->
-<!--            <td th:text="${product.name}"/>-->
-<!--            <td th:text="${product.price}"/>-->
-<!--            <td th:text="${product.isDiscount}"/>-->
-<!--            &lt;!&ndash;            <td>&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a th:href="@{'/products/view/' + ${product.id}}" th:text="view"/>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </td>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <td>&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a th:href="@{'/products/edit/' + ${product.id}}" th:text="edit"/>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </td>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <td>&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="delete"/>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </td>&ndash;&gt;-->
-
-<!--        </tr>-->
-<!--        </tbody>-->
-
-<!--&lt;!&ndash;        <span th:text="${'Total number of products: ' + products.size()}"/>&ndash;&gt;-->
-
-<!--    </table>-->
 
 </div>
 </body>

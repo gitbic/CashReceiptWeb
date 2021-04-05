@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
-import static ru.clevertec.cashReceiptWeb.constants.Global.DISCOUNT_PERCENT_FOR_PURCHASE;
+import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE;
 
 @Service
 public class OrderServiceImpl implements OrderService {

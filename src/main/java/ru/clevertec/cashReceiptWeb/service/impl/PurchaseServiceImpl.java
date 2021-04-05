@@ -20,8 +20,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public void deleteUserPurchase(Purchase purchase) {
-        purchaseRepository.deleteUserPurchase(purchase);
+    public void deleteUserPurchase(Long userId, Long productId) {
+        purchaseRepository.deleteUserPurchase(userId, productId);
     }
 
     @Override

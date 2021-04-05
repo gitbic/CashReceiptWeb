@@ -5,10 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.security.model.User;
@@ -61,10 +59,25 @@ public class PurchaseController {
         User user = userService.findByUserName(userDetails.getUsername());
         DiscountCard discountCard = discountCardService.get(user.getCardNumber());
         List<Purchase> purchases = purchaseService.findAllByUserId(user.getId());
+        List<PurchaseDto> purchasesDto = dtoMapperService.mapToPurchasesDto(purchases);
 
 
-
-        model.addAttribute("purchasesDto", dtoMapperService.mapToPurchasesDto(purchases));
+        model.addAttribute("purchasesDto", purchasesDto);
         return "/purchase/cart";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deletePurchase(@PathVariable(value = "id") Long productId, Principal principal) {
+        UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+        User user = userService.findByUserName(userDetails.getUsername());
+
+        purchaseService.deleteUserPurchase(user.getId(), productId);
+        return "redirect:/purchase/cart";
+    }
+
+//    @GetMapping("/delete/{id}")
+//    public String deleteProduct(@PathVariable(value = "id") Long id) {
+//        productService.deleteById(id);
+//        return "redirect:/admin/productManager";
+//    }
 }
