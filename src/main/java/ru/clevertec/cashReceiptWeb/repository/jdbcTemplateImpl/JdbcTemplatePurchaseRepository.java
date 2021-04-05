@@ -1,13 +1,14 @@
 package ru.clevertec.cashReceiptWeb.repository.jdbcTemplateImpl;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import ru.clevertec.cashReceiptWeb.entity.Product;
+import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.repository.PurchaseRepository;
-import ru.clevertec.cashReceiptWeb.repository.mapper.ProductMapper;
+import ru.clevertec.cashReceiptWeb.repository.mapper.PurchaseMapper;
 
 import java.util.List;
 
+@Repository
 public class JdbcTemplatePurchaseRepository implements PurchaseRepository {
     JdbcTemplate jdbcTemplate;
 
@@ -16,68 +17,30 @@ public class JdbcTemplatePurchaseRepository implements PurchaseRepository {
     }
 
     @Override
+    public void save(Purchase purchase) {
+        String sqlQuery = "INSERT INTO purchase (user_id, product_id, product_number) VALUES (?,?,?)" +
+                "ON CONFLICT (user_id, product_id)" +
+                "DO UPDATE SET product_number = purchase.product_number + ?";
+
+        jdbcTemplate.update(sqlQuery, purchase.getUserId(), purchase.getProductId(), purchase.getProductNumber(),
+                purchase.getProductNumber());
+    }
+
+    @Override
+    public void deleteUserPurchase(Purchase purchase) {
+        String sqlQuery = "DELETE FROM purchase WHERE user_id = ? and product_id = ?";
+        jdbcTemplate.update(sqlQuery, purchase.getUserId(), purchase.getProductId());
+    }
+
+    @Override
+    public void deleteAllByUserId(Long userId) {
+        String sqlQuery = "DELETE FROM purchase WHERE user_id = ?";
+        jdbcTemplate.update(sqlQuery, userId);
+    }
+
+    @Override
     public List<Purchase> findAllByUserId(Long userId) {
-        return null;
-    }
-
-    @Override
-    public void add(Purchase purchase) {
-
-    }
-
-    @Override
-    public void update(Purchase purchase) {
-
-    }
-
-    @Override
-    public void delete(Long purchaseId) {
-
-    }
-
-    @Override
-    public void deleteAllForUser(Long userId) {
-
-    }
-
-    @Override
-    public List<Purchase> findAllForUser(Long userId) {
-        return null;
+        String sqlQuery = "SELECT * FROM purchase WHERE user_id = ?";
+        return jdbcTemplate.query(sqlQuery, new PurchaseMapper());
     }
 }
-
-//    @Override
-//    public void add(Product product) {
-//        String sqlQuery = "INSERT INTO product (name, price, is_discount) VALUES (?,?,?)";
-//        jdbcTemplate.update(sqlQuery, product.getName(), product.getPrice(), product.isDiscount());
-//    }
-//
-//    @Override
-//    public Product findById(Long id) {
-//        String sqlQuery = "SELECT * FROM product WHERE id = ? ORDER BY id";
-//        return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), id);
-//    }
-//
-//    @Override
-//    public Product findByName(String name) {
-//        String sqlQuery = "SELECT * FROM product WHERE name = ? ORDER BY id";
-//        return jdbcTemplate.queryForObject(sqlQuery, new ProductMapper(), name);
-//    }
-//
-//    @Override
-//    public void delete(Long id) {
-//        String sqlQuery = "DELETE FROM product WHERE id = ?";
-//        jdbcTemplate.update(sqlQuery, id);
-//    }
-//
-//    @Override
-//    public void update(Product product) {
-//        String sqlQuery = "UPDATE product SET name = ?, price = ?, is_discount = ? WHERE id = ?";
-//        jdbcTemplate.update(sqlQuery, product.getName(), product.getPrice(), product.isDiscount(), product.getId());
-//    }
-//
-//    @Override
-//    public List<Product> findAll() {
-//        String sqlQuery = "SELECT * FROM product ORDER BY id";
-//        return jdbcTemplate.query(sqlQuery, new ProductMapper());
-//    }

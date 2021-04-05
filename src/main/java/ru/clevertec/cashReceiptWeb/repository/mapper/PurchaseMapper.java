@@ -12,7 +12,6 @@ public class PurchaseMapper implements RowMapper<Purchase> {
     public Purchase mapRow(ResultSet rs, int rowNum) throws SQLException {
         Purchase purchase = new Purchase();
 
-        purchase.setPurchaseId(rs.getLong("purchase_id"));
         purchase.setUserId(rs.getLong("user_id"));
         purchase.setProductId(rs.getLong("product_id"));
         purchase.setProductNumber(rs.getInt("product_number"));

@@ -33,13 +33,13 @@ CREATE TABLE user_role
 (
     user_id bigint REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
     role_id bigint REFERENCES role (id) ON UPDATE CASCADE,
-    CONSTRAINT pkey PRIMARY KEY (role_id, user_id)
+    CONSTRAINT user_role_pkey PRIMARY KEY (role_id, user_id)
 );
 
 CREATE TABLE purchase
 (
-    purchase_id bigserial PRIMARY KEY,
-    user_id bigint REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    product_id bigint REFERENCES product (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    product_number int NOT NULL
+    user_id        bigint REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    product_id     bigint REFERENCES product (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    product_number int NOT NULL,
+    CONSTRAINT purchase_pkey PRIMARY KEY (user_id, product_id)
 );
