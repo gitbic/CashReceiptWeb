@@ -52,8 +52,7 @@ public class OrderServiceImpl implements OrderService {
     public BigDecimal calculateAllPurchases(List<Purchase> purchases, Principal principal) {
         UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
         User user = userService.findByUserName(userDetails.getUsername());
-//        discountCardService.get(user.ge)
-//        DiscountCard discountCard
+        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
 
         BigDecimal cost = BigDecimal.ZERO;
 
@@ -61,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
             cost = cost.add(calculatePurchase(purchase));
         }
 
-        BigDecimal discount = BigDecimal.ZERO;
+        BigDecimal discount = cost.multiply(BigDecimal.valueOf(discountCard.getDiscount() / 100));
 
         return cost.subtract(discount);
     }
