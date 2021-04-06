@@ -1,4 +1,4 @@
-package ru.clevertec.cashReceiptWeb.repository.mapper;
+package ru.clevertec.cashReceiptWeb.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;

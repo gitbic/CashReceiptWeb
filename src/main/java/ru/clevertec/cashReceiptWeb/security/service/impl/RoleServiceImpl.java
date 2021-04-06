@@ -1,14 +1,15 @@
-package ru.clevertec.cashReceiptWeb.security.service;
+package ru.clevertec.cashReceiptWeb.security.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
+import ru.clevertec.cashReceiptWeb.security.service.RoleService;
 
 import java.util.Set;
 
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
     RoleRepository roleRepository;

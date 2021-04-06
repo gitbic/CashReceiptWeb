@@ -1,7 +1,7 @@
-package ru.clevertec.cashReceiptWeb.repository.mapper;
+package ru.clevertec.cashReceiptWeb.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
@@ -10,7 +10,7 @@ import ru.clevertec.cashReceiptWeb.service.ProductService;
 
 import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE;
 
-@Service
+@Component
 public class PurchaseDtoMapper {
 
     @Autowired
@@ -27,7 +27,7 @@ public class PurchaseDtoMapper {
         purchaseDto.setProductName(product.getName());
         purchaseDto.setProductPrice(product.getPrice());
         purchaseDto.setProductNumber(purchase.getProductNumber());
-        purchaseDto.setCost(orderService.calculatePurchase(purchase));
+        purchaseDto.setCost(orderService.getPurchaseCost(purchase));
         if (product.isDiscount()) {
             purchaseDto.setDiscount(DISCOUNT_PERCENT_FOR_PURCHASE);
         }

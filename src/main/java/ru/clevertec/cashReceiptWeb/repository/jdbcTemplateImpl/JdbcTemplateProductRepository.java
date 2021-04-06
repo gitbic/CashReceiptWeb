@@ -3,8 +3,8 @@ package ru.clevertec.cashReceiptWeb.repository.jdbcTemplateImpl;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.entity.Product;
+import ru.clevertec.cashReceiptWeb.mapper.ProductMapper;
 import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
-import ru.clevertec.cashReceiptWeb.repository.mapper.ProductMapper;
 
 import java.util.List;
 

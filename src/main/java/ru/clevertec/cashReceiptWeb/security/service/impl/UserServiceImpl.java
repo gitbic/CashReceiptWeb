@@ -1,10 +1,11 @@
-package ru.clevertec.cashReceiptWeb.security.service;
+package ru.clevertec.cashReceiptWeb.security.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
+import ru.clevertec.cashReceiptWeb.security.service.UserService;
 
 import java.util.Set;
 

@@ -2,7 +2,7 @@ package ru.clevertec.cashReceiptWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,6 @@ import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.RoleService;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
 
-import java.security.Principal;
 import java.util.Set;
 
 @Controller
@@ -43,9 +42,9 @@ public class AccountController {
     }
 
     @GetMapping("/userInfo")
-    public String userInfo(Model model, Principal principal) {
-        UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-        User user = userService.findByUserName(userDetails.getUsername());
+    public String userInfo(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUserName(authentication.getName());
         Set<Role> userRoles = roleService.findAllByUserId(user.getId());
         model.addAttribute("userRoles", userRoles);
         return "userInfoPage";

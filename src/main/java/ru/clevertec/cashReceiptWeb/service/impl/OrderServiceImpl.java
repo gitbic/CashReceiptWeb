@@ -2,8 +2,9 @@ package ru.clevertec.cashReceiptWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
@@ -15,7 +16,6 @@ import ru.clevertec.cashReceiptWeb.service.ProductService;
 import ru.clevertec.cashReceiptWeb.service.PurchaseService;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.List;
 
 import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE;
@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
     DiscountCardService discountCardService;
 
     @Override
-    public BigDecimal calculatePurchase(Purchase purchase) {
+    public BigDecimal getPurchaseCost(Purchase purchase) {
         Product product = productService.findById(purchase.getProductId());
         BigDecimal cost = product.getPrice().multiply(BigDecimal.valueOf(purchase.getProductNumber()));
 
@@ -49,19 +49,33 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BigDecimal calculateAllPurchases(List<Purchase> purchases, Principal principal) {
-        UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-        User user = userService.findByUserName(userDetails.getUsername());
-        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
+    public PurchaseCostDto getPurchasesCostDto(List<Purchase> purchases, DiscountCard discountCard) {
 
-        BigDecimal cost = BigDecimal.ZERO;
-
+        BigDecimal totalCost = BigDecimal.ZERO;
         for (Purchase purchase : purchases) {
-            cost = cost.add(calculatePurchase(purchase));
+            totalCost = totalCost.add(getPurchaseCost(purchase));
         }
 
-        BigDecimal discount = cost.multiply(BigDecimal.valueOf(discountCard.getDiscount() / 100));
+        BigDecimal discount = totalCost.multiply(BigDecimal.valueOf(discountCard.getDiscount() / 100));
+        BigDecimal finalCost = totalCost.subtract(discount);
 
-        return cost.subtract(discount);
+        PurchaseCostDto purchaseCostDto = new PurchaseCostDto();
+        purchaseCostDto.setTotalCost(totalCost);
+        purchaseCostDto.setFinalCost(finalCost);
+        purchaseCostDto.setDiscountCost(discount);
+        purchaseCostDto.setDiscountPercent(discountCard.getDiscount());
+
+        return purchaseCostDto;
     }
+
+    @Override
+    public PurchaseCostDto getCurrentUserPurchasesCostDto() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUserName(authentication.getName());
+
+        List<Purchase> purchases = purchaseService.findAllByUserId(user.getId());
+        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
+        return getPurchasesCostDto(purchases, discountCard);
+    }
+
 }
