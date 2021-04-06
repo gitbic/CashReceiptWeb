@@ -7,14 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseCostViewDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
+import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
-import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
-import ru.clevertec.cashReceiptWeb.service.OrderService;
-import ru.clevertec.cashReceiptWeb.service.ProductService;
-import ru.clevertec.cashReceiptWeb.service.PurchaseService;
+import ru.clevertec.cashReceiptWeb.service.*;
 
 import java.util.List;
 
@@ -37,6 +36,9 @@ public class PurchaseController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    MappingUtil mappingUtil;
+
     @GetMapping("/products")
     public String showProducts(Model model) {
         model.addAttribute("purchase", new Purchase());
@@ -56,11 +58,17 @@ public class PurchaseController {
 
     @GetMapping("/cart")
     public String cart(Model model) {
-        List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
-        PurchaseCostDto purchasesCostDto = orderService.getCurrentUserPurchasesCostDto();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUserName(authentication.getName());
 
-        model.addAttribute("purchasesCostDto", purchasesCostDto);
+        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
+        List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
+        PurchaseCostDto purchaseCostDto = orderService.getCurrentUserPurchasesCostDto();
+        PurchaseCostViewDto purchaseCostViewDto = mappingUtil.mapToToPurchaseCostViewDto(purchaseCostDto);
+
         model.addAttribute("purchasesDto", purchasesDto);
+        model.addAttribute("purchaseCostViewDto", purchaseCostViewDto);
+        model.addAttribute("discountCard", discountCard);
         return "/purchase/cart";
     }
 

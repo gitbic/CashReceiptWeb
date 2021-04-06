@@ -63,7 +63,6 @@ public class OrderServiceImpl implements OrderService {
         purchaseCostDto.setTotalCost(totalCost);
         purchaseCostDto.setFinalCost(finalCost);
         purchaseCostDto.setDiscountCost(discount);
-        purchaseCostDto.setDiscountPercent(discountCard.getDiscount());
 
         return purchaseCostDto;
     }

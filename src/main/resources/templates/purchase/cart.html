@@ -41,8 +41,21 @@
             </td>
         </tr>
         </tbody>
-
-
+        <h5>
+            <p>
+                <span th:text="'Total number of purchase: ' + ${purchasesDto.size()}"/>
+            <p>
+                <span th:text="'Discount card №: ' + ${discountCard.cardNumber}"/>
+            <p>
+                <span th:text="'Discount: ' + ${discountCard.discount} + '%'"/>
+            <p>
+                <span th:text="'Total cost: ' + ${purchaseCostViewDto.totalCost}"/>
+            <p>
+                <span th:text="'Discount: ' + ${purchaseCostViewDto.discountCost}"/>
+            <p>
+                <span th:text="'Final cost: ' + ${purchaseCostViewDto.finalCost}"/>
+            <p>
+        </h5>
     </table>
 
 </div>
