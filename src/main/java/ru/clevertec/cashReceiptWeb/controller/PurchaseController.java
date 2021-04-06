@@ -15,7 +15,6 @@ import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 import ru.clevertec.cashReceiptWeb.service.OrderService;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 import ru.clevertec.cashReceiptWeb.service.PurchaseService;
-import ru.clevertec.cashReceiptWeb.service.impl.DtoMapperService;
 
 import java.util.List;
 
@@ -34,9 +33,6 @@ public class PurchaseController {
 
     @Autowired
     DiscountCardService discountCardService;
-
-    @Autowired
-    DtoMapperService dtoMapperService;
 
     @Autowired
     OrderService orderService;
@@ -60,8 +56,8 @@ public class PurchaseController {
 
     @GetMapping("/cart")
     public String cart(Model model) {
-        List<PurchaseDto> purchasesDto = dtoMapperService.getCurrentUserPurchaseDtoList();
-        PurchaseCostDto  purchasesCostDto = orderService.getCurrentUserPurchasesCostDto();
+        List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
+        PurchaseCostDto purchasesCostDto = orderService.getCurrentUserPurchasesCostDto();
 
         model.addAttribute("purchasesCostDto", purchasesCostDto);
         model.addAttribute("purchasesDto", purchasesDto);
