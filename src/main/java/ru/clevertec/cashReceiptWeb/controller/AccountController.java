@@ -5,10 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.model.User;
@@ -42,13 +39,13 @@ public class AccountController {
         return "account/logoutSuccessfulPage";
     }
 
-    @GetMapping("/userInfo")
+    @GetMapping("/info")
     public String userInfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUserName(authentication.getName());
         Set<Role> userRoles = roleService.findAllByUserId(user.getId());
         model.addAttribute("userRoles", userRoles);
-        return "account/userInfoPage";
+        return "account/infoPage";
     }
 
     @GetMapping("/registration")
@@ -60,12 +57,18 @@ public class AccountController {
         return "account/registrationPage";
     }
 
-    @PostMapping("/addUser")
-    public String addProduct(@ModelAttribute(value = "user") User user) {
+    @PostMapping("/add")
+    public String addUser(@ModelAttribute(value = "user") User user) {
         System.out.println(user);
         userService.save(user);
 
         return "redirect:/account/login";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable(value = "id") Long id) {
+        userService.delete(id);
+        return "redirect:/admin/userManagerPage";
     }
 
     @GetMapping("/403")

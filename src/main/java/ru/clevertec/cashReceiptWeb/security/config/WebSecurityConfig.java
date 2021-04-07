@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/account/login",
                 "/account/logout",
                 "/account/registration",
-                "/account/addUser",
+                "/account/add",
                 "/account/logoutSuccessful").permitAll();
         http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/**").authenticated();
@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
                 .loginPage("/account/login")
-                .defaultSuccessUrl("/account/userInfo")
+                .defaultSuccessUrl("/account/info")
                 .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")
