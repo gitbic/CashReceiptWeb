@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.RoleService;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
+import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -23,6 +26,9 @@ public class AccountController {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    DiscountCardService discountCardService;
 
     @GetMapping({"/", "/welcome"})
     public String welcomePage(Model model) {
@@ -52,14 +58,18 @@ public class AccountController {
 
     @GetMapping("/registration")
     public String registrationPage(Model model) {
+        List<DiscountCard> discountCards = discountCardService.findAll();
         User user = new User();
-        model.addAttribute(user);
+        model.addAttribute("user", user);
+        model.addAttribute("discountCards", discountCards);
         return "registration";
     }
 
     @PostMapping("/addUser")
     public String addProduct(@ModelAttribute(value = "user") User user) {
+        System.out.println(user);
         userService.save(user);
+
         return "redirect:/login";
     }
 

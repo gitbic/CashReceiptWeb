@@ -47,6 +47,4 @@ public class ProductController {
         return "redirect:/admin/productManager";
     }
 
-
-
 }
