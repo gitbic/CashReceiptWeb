@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 
+import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -29,6 +31,7 @@ public class ProductController {
     @GetMapping("/view/{id}")
     public String viewProduct(Model model, @PathVariable(value = "id") Long id) {
         Product product = productService.findById(id);
+        model.addAttribute("discount", DISCOUNT_PERCENT_FOR_PURCHASE);
         model.addAttribute(product);
         return "product/productViewPage";
     }

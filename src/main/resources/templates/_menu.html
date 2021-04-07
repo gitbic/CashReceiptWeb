@@ -5,7 +5,7 @@
 
     | &nbsp;
 
-    <a th:href="@{/userInfo}">User Info</a>
+    <a th:href="@{/account/userInfo}">User Info</a>
 
     | &nbsp;
 
@@ -13,15 +13,15 @@
 
     | &nbsp;
 
-    <a th:if="${#request.userPrincipal == null}" th:href="@{/login}">login</a>
+    <a th:if="${#request.userPrincipal == null}" th:href="@{/account/login}">login</a>
 
     | &nbsp;
 
-    <a th:if="${#request.userPrincipal == null}" th:href="@{/registration}">registration</a>
+    <a th:if="${#request.userPrincipal == null}" th:href="@{/account/registration}">registration</a>
 
     | &nbsp;
 
-    <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
+    <a th:if="${#request.userPrincipal != null}" th:href="@{/account/logout}">Logout</a>
 
     | &nbsp;
 

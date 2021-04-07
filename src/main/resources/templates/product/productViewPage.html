@@ -12,7 +12,10 @@
         <span th:text="${'Price: $' + product.price}"/>
     <p>
 
-    <span th:if="${product.discount == true}">There is a discount on this product</span>
+        <th:block th:if="${product.discount == true}">
+            <span th:text="${'Discount for this product: ' + discount + '%'}"/>
+        </th:block>
+
 </h2>
 </body>
 </html>

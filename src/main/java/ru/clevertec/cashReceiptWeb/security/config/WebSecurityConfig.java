@@ -36,20 +36,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/login", "/logout", "/registration", "/addUser").permitAll();
+        http.authorizeRequests().antMatchers(
+                "/account/login",
+                "/account/logout",
+                "/account/registration",
+                "/account/addUser",
+                "/account/logoutSuccessful").permitAll();
         http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
         http.authorizeRequests().antMatchers("/**").authenticated();
 
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/account/403");
 
         http.authorizeRequests().and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
-                .loginPage("/login")
-                .defaultSuccessUrl("/userInfo")
+                .loginPage("/account/login")
+                .defaultSuccessUrl("/account/userInfo")
                 .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+                .and().logout().logoutUrl("/account/logout").logoutSuccessUrl("/account/logoutSuccessful");
 
     }
 }

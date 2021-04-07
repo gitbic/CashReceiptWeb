@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.model.User;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
+@RequestMapping("/account")
 public class AccountController {
 
     @Autowired
@@ -29,13 +31,6 @@ public class AccountController {
 
     @Autowired
     DiscountCardService discountCardService;
-
-    @GetMapping({"/", "/welcome"})
-    public String welcomePage(Model model) {
-        model.addAttribute("title", "Welcome");
-        model.addAttribute("message", "This is welcome page!");
-        return "welcomePage";
-    }
 
     @GetMapping("/login")
     public String loginPage() {
@@ -70,7 +65,7 @@ public class AccountController {
         System.out.println(user);
         userService.save(user);
 
-        return "redirect:/login";
+        return "redirect:/account/login";
     }
 
     @GetMapping("/403")
