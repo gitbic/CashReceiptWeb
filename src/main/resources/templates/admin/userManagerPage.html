@@ -18,13 +18,10 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Is discount</th>
-            <th>View product</th>
-            <th>Edit product</th>
-            <th>Delete product</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Discount card number</th>
+            <th>Delete user</th>
         </tr>
         </thead>
         <tbody>
@@ -32,21 +29,14 @@
             <td th:text="${user.username}"/>
             <td th:text="${user.password}"/>
             <td th:text="${user.cardNumber}"/>
-            <td th:text="${product.isDiscount}"/>
             <td>
-                <a th:href="@{'/products/view/' + ${product.id}}" th:text="view"/>
-            </td>
-            <td>
-                <a th:href="@{'/products/edit/' + ${product.id}}" th:text="edit"/>
-            </td>
-            <td>
-                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="delete"/>
+                <a th:href="@{'/account/delete/' + ${user.id}}" th:text="delete"/>
             </td>
 
         </tr>
         </tbody>
 
-        <span th:text="${'Total number of products: ' + products.size()}"/>
+        <span th:text="${'Total number of users: ' + users.size()}"/>
 
     </table>
 
