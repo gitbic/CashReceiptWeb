@@ -30,14 +30,14 @@ public class ProductController {
     public String viewProduct(Model model, @PathVariable(value = "id") Long id) {
         Product product = productService.findById(id);
         model.addAttribute(product);
-        return "/product/productView";
+        return "product/productViewPage";
     }
 
     @GetMapping("/edit/{id}")
     public String productManager(Model model, @PathVariable(value = "id") Long id) {
         Product product = productService.findById(id);
         model.addAttribute("product", product);
-        return "/product/productEdit";
+        return "product/productEditPage";
     }
 
     @PostMapping("/update")

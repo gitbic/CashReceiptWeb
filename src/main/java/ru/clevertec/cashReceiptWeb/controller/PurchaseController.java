@@ -43,7 +43,7 @@ public class PurchaseController {
     public String showProducts(Model model) {
         model.addAttribute("purchase", new Purchase());
         model.addAttribute("products", productService.findAll());
-        return "/purchase/products";
+        return "purchase/byProductPage";
     }
 
     @PostMapping("/buy")
@@ -69,7 +69,7 @@ public class PurchaseController {
         model.addAttribute("purchasesDto", purchasesDto);
         model.addAttribute("purchaseCostViewDto", purchaseCostViewDto);
         model.addAttribute("discountCard", discountCard);
-        return "/purchase/cart";
+        return "purchase/cartPage";
     }
 
     @GetMapping("/delete/{id}")

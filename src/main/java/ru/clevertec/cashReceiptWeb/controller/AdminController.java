@@ -22,7 +22,7 @@ public class AdminController {
 
     @GetMapping ("/userManager")
     public String userManager() {
-        return "admin/userManager";
+        return "admin/userManagerPage";
     }
 
     @GetMapping ("/productManager")
@@ -30,6 +30,6 @@ public class AdminController {
         Product product = new Product();
         model.addAttribute("product", product);
         model.addAttribute("products", productService.findAll());
-        return "admin/productManager";
+        return "admin/productManagerPage";
     }
 }

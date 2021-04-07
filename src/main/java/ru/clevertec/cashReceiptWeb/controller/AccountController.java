@@ -39,12 +39,12 @@ public class AccountController {
 
     @GetMapping("/login")
     public String loginPage() {
-        return "loginPage";
+        return "account/loginPage";
     }
 
     @GetMapping("/logoutSuccessful")
     public String logoutSuccessfulPage() {
-        return "logoutSuccessfulPage";
+        return "account/logoutSuccessfulPage";
     }
 
     @GetMapping("/userInfo")
@@ -53,7 +53,7 @@ public class AccountController {
         User user = userService.findByUserName(authentication.getName());
         Set<Role> userRoles = roleService.findAllByUserId(user.getId());
         model.addAttribute("userRoles", userRoles);
-        return "userInfoPage";
+        return "account/userInfoPage";
     }
 
     @GetMapping("/registration")
@@ -62,7 +62,7 @@ public class AccountController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("discountCards", discountCards);
-        return "registration";
+        return "account/registrationPage";
     }
 
     @PostMapping("/addUser")
