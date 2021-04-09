@@ -11,7 +11,7 @@ public interface UserRepository {
 
     User findByUsername(String username);
 
-    void save(User user);
+    void add(User user);
 
     void delete(Long id);
 

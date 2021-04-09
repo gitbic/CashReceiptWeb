@@ -8,6 +8,7 @@
 <!-- Include _menu.html -->
 <th:block th:include="/_menu"></th:block>
 
+<h3 th:if="${usernameError != null}" th:text="${usernameError}"/>
 
 <form th:action="@{/account/add}"
       th:object="${user}" method="post" class="form-horizontal">

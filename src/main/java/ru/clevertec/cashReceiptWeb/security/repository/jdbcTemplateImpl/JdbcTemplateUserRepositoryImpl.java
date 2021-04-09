@@ -1,5 +1,7 @@
 package ru.clevertec.cashReceiptWeb.security.repository.jdbcTemplateImpl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.security.model.User;
@@ -10,6 +12,7 @@ import ru.clevertec.cashReceiptWeb.security.repository.mapper.UserMapper;
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 @Repository
 public class JdbcTemplateUserRepositoryImpl implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -27,15 +30,20 @@ public class JdbcTemplateUserRepositoryImpl implements UserRepository {
     @Override
     public User findByUsername(String username) {
         String sqlQuery = "SELECT * FROM \"user\" WHERE username = ?";
-        return jdbcTemplate.queryForObject(sqlQuery, new UserMapper(), username);
+        try {
+            return jdbcTemplate.queryForObject(sqlQuery, new UserMapper(), username);
+        } catch(EmptyResultDataAccessException e) {
+            log.info("Username \"{}\" not found", username);
+            return null;
+        }
     }
 
     @Override
-    public void save(User user) {
-        String sqlInsertProductQuery = "INSERT INTO \"user\" (username, password, card_number) VALUES (?,?,?)";
+    public void add(User user) {
+        String sqlInsertUserQuery = "INSERT INTO \"user\" (username, password, card_number) VALUES (?,?,?)";
         String sqlInsertRoleQuery = "INSERT INTO user_role(user_id, role_id) VALUES (?, ?)";
 
-        jdbcTemplate.update(sqlInsertProductQuery, user.getUsername(), user.getPassword(), user.getCardNumber());
+        jdbcTemplate.update(sqlInsertUserQuery, user.getUsername(), user.getPassword(), user.getCardNumber());
         Long id = findByUsername(user.getUsername()).getId();
         jdbcTemplate.update(sqlInsertRoleQuery, id, UserRole.ROLE_USER.getRoleId());
     }

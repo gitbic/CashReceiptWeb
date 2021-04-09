@@ -6,6 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.clevertec.cashReceiptWeb.constants.ErrMsg;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.model.User;
@@ -49,20 +51,26 @@ public class AccountController {
     }
 
     @GetMapping("/registration")
-    public String registrationPage(Model model) {
+    public String registrationPage(Model model, @ModelAttribute(value = "usernameError") String usernameError) {
         List<DiscountCard> discountCards = discountCardService.findAll();
         User user = new User();
+
         model.addAttribute("user", user);
         model.addAttribute("discountCards", discountCards);
+        model.addAttribute("usernameError", model.getAttribute("usernameError"));
+
         return "account/registrationPage";
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute(value = "user") User user) {
-        System.out.println(user);
-        userService.save(user);
+    public String addUser(@ModelAttribute(value = "user") User user, RedirectAttributes redirectAttributes) {
 
-        return "redirect:/account/login";
+        if (!userService.add(user)) {
+            redirectAttributes.addAttribute("usernameError", user.getUsername() + ErrMsg.USERNAME_EXIST);
+            return "redirect:/account/registration";
+        }
+
+        return "account/registrationSuccessfulPage";
     }
 
     @GetMapping("/delete/{id}")
