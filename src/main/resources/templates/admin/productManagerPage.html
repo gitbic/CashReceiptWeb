@@ -43,7 +43,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Is discount</th>
+            <th>Discount</th>
             <th>View product</th>
             <th>Edit product</th>
             <th>Delete product</th>
@@ -54,7 +54,8 @@
             <td th:text="${product.id}"/>
             <td th:text="${product.name}"/>
             <td th:text="${product.price}"/>
-            <td th:text="${product.isDiscount}"/>
+            <td th:if="${product.isDiscount}" th:text="${discount} + '%'"/>
+            <td th:unless="${product.isDiscount}" th:text="'0%'"/>
             <td>
                 <a th:href="@{'/products/view/' + ${product.id}}" th:text="view"/>
             </td>

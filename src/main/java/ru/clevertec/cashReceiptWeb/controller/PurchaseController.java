@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostViewDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
@@ -43,6 +44,7 @@ public class PurchaseController {
     public String showProducts(Model model) {
         model.addAttribute("purchase", new Purchase());
         model.addAttribute("products", productService.findAll());
+        model.addAttribute("discount", GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE);
         return "purchase/byProductPage";
     }
 

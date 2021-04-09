@@ -18,7 +18,7 @@
         <tr>
             <th>Name</th>
             <th>Price</th>
-            <th>Is discount</th>
+            <th>Discount</th>
             <th>Number</th>
         </tr>
         </thead>
@@ -26,7 +26,8 @@
         <tr th:each="product : ${products}">
             <td th:text="${product.name}"/>
             <td th:text="${product.price}"/>
-            <td th:text="${product.isDiscount}"/>
+            <td th:if="${product.isDiscount}" th:text="${discount} + '%'"/>
+            <td th:unless="${product.isDiscount}" th:text="'0%'"/>
             <td>
                 <form th:action="@{/purchase/buy}" th:object="${purchase}" method="post">
                     <p><input type="hidden" th:value="${product.id}" name="productId"/></p>
