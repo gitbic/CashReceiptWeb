@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         User user = userService.findByUserName(authentication.getName());
 
         List<Purchase> purchases = purchaseService.findAllByUserId(user.getId());
-        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
+        DiscountCard discountCard = discountCardService.findByCardNumber(user.getCardNumber());
         return getPurchasesCostDto(purchases, discountCard);
     }
 

@@ -63,7 +63,7 @@ public class PurchaseController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUserName(authentication.getName());
 
-        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
+        DiscountCard discountCard = discountCardService.findByCardNumber(user.getCardNumber());
         List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
         PurchaseCostDto purchaseCostDto = orderService.getCurrentUserPurchasesCostDto();
         PurchaseCostViewDto purchaseCostViewDto = mappingUtil.mapToToPurchaseCostViewDto(purchaseCostDto);

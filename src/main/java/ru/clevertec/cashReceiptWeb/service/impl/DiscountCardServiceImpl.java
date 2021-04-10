@@ -18,19 +18,16 @@ public class DiscountCardServiceImpl implements DiscountCardService {
         return discountCardRepository.findAll();
     }
 
-    public void add(DiscountCard discountCard) {
-        discountCardRepository.add(discountCard);
+    public void save(DiscountCard discountCard) {
+        discountCardRepository.save(discountCard);
     }
 
-    public void delete(String cardNumber) {
-        discountCardRepository.delete(cardNumber);
+    public void deleteByCardNumber(String cardNumber) {
+        discountCardRepository.deleteById(cardNumber);
     }
 
-    public DiscountCard get(String cardNumber) {
-        return discountCardRepository.find(cardNumber);
+    public DiscountCard findByCardNumber(String cardNumber) {
+        return discountCardRepository.findById(cardNumber).orElseThrow();
     }
 
-    public void update(DiscountCard discountCard) {
-        discountCardRepository.update(discountCard);
-    }
 }
