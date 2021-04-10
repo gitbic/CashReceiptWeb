@@ -18,7 +18,7 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute(value = "product") Product product) {
-        productService.add(product);
+        productService.save(product);
         return "redirect:/admin/productManager";
     }
 
@@ -45,8 +45,7 @@ public class ProductController {
 
     @PostMapping("/update")
     public String updateProduct(@ModelAttribute(value = "product") Product product) {
-        productService.update(product);
-        System.out.println(product);
+        productService.save(product);
         return "redirect:/admin/productManager";
     }
 

@@ -18,23 +18,22 @@ public class ProductServiceImpl implements ProductService {
         return productsRepository.findAll();
     }
 
-    public void add(Product product) {
-        productsRepository.add(product);
+    public void save(Product product) {
+        productsRepository.save(product);
     }
 
-    public void update(Product product) {
-        productsRepository.update(product);
-    }
 
     public void deleteById(Long id) {
-        productsRepository.delete(id);
+        productsRepository.deleteById(id);
     }
 
     public Product findById(Long id) {
-        return productsRepository.findById(id);
+        return productsRepository.findById(id).orElseThrow();
     }
 
-    public Product findByName(String name) {
+    @Override
+    public List<Product> findByName(String name) {
         return productsRepository.findByName(name);
     }
+
 }
