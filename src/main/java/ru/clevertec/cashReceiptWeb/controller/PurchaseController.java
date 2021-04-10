@@ -12,6 +12,7 @@ import ru.clevertec.cashReceiptWeb.dto.PurchaseCostViewDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
+import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
 import ru.clevertec.cashReceiptWeb.service.*;
@@ -78,7 +79,7 @@ public class PurchaseController {
     public String deletePurchase(@PathVariable(value = "id") Long productId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUserName(authentication.getName());
-        purchaseService.deleteUserPurchase(user.getId(), productId);
+        purchaseService.deleteByPurchaseId(new PurchaseId(user.getId(), productId));
         return "redirect:/purchase/cart";
     }
 

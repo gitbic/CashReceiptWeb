@@ -2,15 +2,16 @@ package ru.clevertec.cashReceiptWeb.service;
 
 import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
+import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 
 import java.util.List;
 
 public interface PurchaseService {
     void save(Purchase purchase);
 
-    void deleteUserPurchase(Long userId, Long productId);
-
     void deleteAllByUserId(Long userId);
+
+    void deleteByPurchaseId(PurchaseId purchaseId);
 
     List<Purchase> findAllByUserId(Long userId);
 

@@ -1,14 +1,14 @@
 package ru.clevertec.cashReceiptWeb.entity;
 
 import lombok.Data;
-import ru.clevertec.cashReceiptWeb.entity.pkey.PurchasePkey;
+import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "purchase")
-@IdClass(PurchasePkey.class)
+@IdClass(PurchaseId.class)
 public class Purchase {
 
     @Id

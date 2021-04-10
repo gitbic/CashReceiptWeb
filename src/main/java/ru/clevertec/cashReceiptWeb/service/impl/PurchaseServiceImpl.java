@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
+import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 import ru.clevertec.cashReceiptWeb.repository.PurchaseRepository;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
@@ -40,8 +41,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public void deleteUserPurchase(Long userId, Long productId) {
-        purchaseRepository.deleteUserPurchase(userId, productId);
+    public void deleteByPurchaseId(PurchaseId purchaseId) {
+        purchaseRepository.deleteById(purchaseId);
     }
 
     @Override
