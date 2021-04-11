@@ -12,8 +12,12 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private final ProductsRepository productsRepository;
+
     @Autowired
-    ProductsRepository productsRepository;
+    public ProductServiceImpl(ProductsRepository productsRepository) {
+        this.productsRepository = productsRepository;
+    }
 
     public List<Product> findAll() {
         return productsRepository.findAll();

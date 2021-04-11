@@ -1,6 +1,7 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,19 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    PurchaseService purchaseService;
+    private final PurchaseService purchaseService;
+    private final ProductService productService;
+    private final UserService userService;
+    private final DiscountCardService discountCardService;
 
     @Autowired
-    ProductService productService;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    DiscountCardService discountCardService;
+    public OrderServiceImpl(@Lazy PurchaseService purchaseService, ProductService productService,
+                            UserService userService, DiscountCardService discountCardService) {
+        this.purchaseService = purchaseService;
+        this.productService = productService;
+        this.userService = userService;
+        this.discountCardService = discountCardService;
+    }
 
     @Override
     public BigDecimal getPurchaseCost(Purchase purchase) {

@@ -12,8 +12,12 @@ import java.util.Optional;
 @Service
 public class DiscountCardServiceImpl implements DiscountCardService {
 
+    private final DiscountCardRepository discountCardRepository;
+
     @Autowired
-    DiscountCardRepository discountCardRepository;
+    public DiscountCardServiceImpl(DiscountCardRepository discountCardRepository) {
+        this.discountCardRepository = discountCardRepository;
+    }
 
     public List<DiscountCard> findAll() {
         return discountCardRepository.findAll();

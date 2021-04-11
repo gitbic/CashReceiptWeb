@@ -9,21 +9,20 @@ import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
-import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    ProductService productService;
+    private final ProductService productService;
+    private final UserService userService;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    DiscountCardService discountCardService;
+    public AdminController(ProductService productService, UserService userService) {
+        this.productService = productService;
+        this.userService = userService;
+    }
 
     @GetMapping
     public String adminPage(Model model) {

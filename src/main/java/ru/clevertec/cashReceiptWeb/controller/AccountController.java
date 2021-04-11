@@ -21,14 +21,16 @@ import java.util.List;
 @RequestMapping("/account")
 public class AccountController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final DiscountCardService discountCardService;
 
     @Autowired
-    RoleService roleService;
-
-    @Autowired
-    DiscountCardService discountCardService;
+    public AccountController(UserService userService, RoleService roleService, DiscountCardService discountCardService) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.discountCardService = discountCardService;
+    }
 
     @GetMapping("/login")
     public String loginPage() {

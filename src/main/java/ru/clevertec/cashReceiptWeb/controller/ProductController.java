@@ -13,8 +13,12 @@ import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT
 @RequestMapping("/products")
 public class ProductController {
 
+    private final ProductService productService;
+
     @Autowired
-    ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute(value = "product") Product product) {

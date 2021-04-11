@@ -23,17 +23,19 @@ import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
 
-    @Autowired
-    PurchaseRepository purchaseRepository;
+    private final PurchaseRepository purchaseRepository;
+    private final UserService userService;
+    private final ProductService productService;
+    private final OrderService orderService;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    ProductService productService;
-
-    @Autowired
-    OrderService orderService;
+    public PurchaseServiceImpl(PurchaseRepository purchaseRepository, UserService userService,
+                               ProductService productService, OrderService orderService) {
+        this.purchaseRepository = purchaseRepository;
+        this.userService = userService;
+        this.productService = productService;
+        this.orderService = orderService;
+    }
 
     @Override
     public void save(Purchase purchase) {

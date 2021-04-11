@@ -23,23 +23,24 @@ import java.util.List;
 @RequestMapping("/purchase")
 public class PurchaseController {
 
-    @Autowired
-    ProductService productService;
+    private final ProductService productService;
+    private final UserService userService;
+    private final PurchaseService purchaseService;
+    private final DiscountCardService discountCardService;
+    private final OrderService orderService;
+    private final MappingUtil mappingUtil;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    PurchaseService purchaseService;
-
-    @Autowired
-    DiscountCardService discountCardService;
-
-    @Autowired
-    OrderService orderService;
-
-    @Autowired
-    MappingUtil mappingUtil;
+    public PurchaseController(ProductService productService, UserService userService,
+                              PurchaseService purchaseService, DiscountCardService discountCardService,
+                              OrderService orderService, MappingUtil mappingUtil) {
+        this.productService = productService;
+        this.userService = userService;
+        this.purchaseService = purchaseService;
+        this.discountCardService = discountCardService;
+        this.orderService = orderService;
+        this.mappingUtil = mappingUtil;
+    }
 
     @GetMapping("/products")
     public String showProducts(Model model) {
