@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Page</title>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+
+<h2>Admin Page</h2>
+<h3>
+    Welcome : <span th:utext="${#request.userPrincipal.name}"></span>
+</h3>
+
+<h3>
+    <a th:href="@{/admin/productManager}">Manage products</a>
+    <br>
+    <a th:href="@{/admin/userManager}">Manage users</a>
+</h3>
+</body>
+
+</html>

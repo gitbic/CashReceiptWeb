@@ -1,0 +1,63 @@
+<!Doctype html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Product price</th>
+            <th>Product number</th>
+            <th>Discount</th>
+            <th>Cost</th>
+            <th>View product</th>
+            <th>Delete purchase</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="purchaseDto : ${purchasesDto}">
+            <td th:text="${purchaseDto.productName}"/>
+            <td th:text="${purchaseDto.productPrice}"/>
+            <td th:text="${purchaseDto.productNumber}"/>
+            <td th:text="${purchaseDto.discount}"/>
+            <td th:text="${purchaseDto.cost}"/>
+            <td>
+                <a th:href="@{'/products/view/' + ${purchaseDto.productId}}" th:text="view"/>
+            </td>
+            <td>
+                <a th:href="@{'/purchase/delete/' + ${purchaseDto.productId}}" th:text="delete"/>
+            </td>
+        </tr>
+        </tbody>
+        <h5>
+            <p>
+                <span th:text="'Total number of purchase: ' + ${purchasesDto.size()}"/>
+            <p>
+                <span th:text="'Discount card №: ' + ${discountCard.cardNumber}"/>
+            <p>
+                <span th:text="'Discount: ' + ${discountCard.discount} + '%'"/>
+            <p>
+                <span th:text="'Total cost: ' + ${purchaseCostViewDto.totalCost}"/>
+            <p>
+                <span th:text="'Discount: ' + ${purchaseCostViewDto.discountCost}"/>
+            <p>
+                <span th:text="'Final cost: ' + ${purchaseCostViewDto.finalCost}"/>
+            <p>
+        </h5>
+    </table>
+
+</div>
+</body>
+</html>
