@@ -18,4 +18,5 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     nativeQuery = true)
     List<Role> findAllByUserId(Long userId);
 
+
 }

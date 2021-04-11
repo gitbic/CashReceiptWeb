@@ -7,6 +7,7 @@ import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -27,13 +28,8 @@ public class ProductServiceImpl implements ProductService {
         productsRepository.deleteById(id);
     }
 
-    public Product findById(Long id) {
-        return productsRepository.findById(id).orElseThrow();
-    }
-
-    @Override
-    public List<Product> findByName(String name) {
-        return productsRepository.findByName(name);
+    public Optional<Product> findById(Long id) {
+        return productsRepository.findById(id);
     }
 
 }

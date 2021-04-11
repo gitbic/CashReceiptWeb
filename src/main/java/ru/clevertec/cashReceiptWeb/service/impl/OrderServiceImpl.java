@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Product;
@@ -17,8 +18,6 @@ import ru.clevertec.cashReceiptWeb.service.PurchaseService;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -37,12 +36,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public BigDecimal getPurchaseCost(Purchase purchase) {
-        Product product = productService.findById(purchase.getProductId());
+        Product product = productService.findById(purchase.getProductId()).orElseThrow();
         BigDecimal cost = product.getPrice().multiply(BigDecimal.valueOf(purchase.getProductNumber()));
 
         BigDecimal discount = BigDecimal.ZERO;
         if (product.isDiscount()) {
-            discount = cost.multiply(BigDecimal.valueOf(DISCOUNT_PERCENT_FOR_PURCHASE / 100));
+            discount = cost.multiply(BigDecimal.valueOf(
+                    GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE / GlobalConst.ONE_HUNDRED_PERCENT));
         }
 
         return cost.subtract(discount);
@@ -56,7 +56,8 @@ public class OrderServiceImpl implements OrderService {
             totalCost = totalCost.add(getPurchaseCost(purchase));
         }
 
-        BigDecimal discount = totalCost.multiply(BigDecimal.valueOf(discountCard.getDiscount() / 100));
+        BigDecimal discount = totalCost.multiply(BigDecimal.valueOf(
+                discountCard.getDiscount() / GlobalConst.ONE_HUNDRED_PERCENT));
         BigDecimal finalCost = totalCost.subtract(discount);
 
         PurchaseCostDto purchaseCostDto = new PurchaseCostDto();
@@ -70,10 +71,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PurchaseCostDto getCurrentUserPurchasesCostDto() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName()).get();
+        User user = userService.findByUserName(authentication.getName()).orElseThrow();
 
         List<Purchase> purchases = purchaseService.findAllByUserId(user.getId());
-        DiscountCard discountCard = discountCardService.findByCardNumber(user.getCardNumber());
+        DiscountCard discountCard = discountCardService.findByCardNumber(user.getCardNumber()).orElseThrow();
         return getPurchasesCostDto(purchases, discountCard);
     }
 

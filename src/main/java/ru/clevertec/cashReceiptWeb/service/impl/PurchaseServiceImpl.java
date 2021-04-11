@@ -58,7 +58,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public PurchaseDto getPurchaseDto(Purchase purchase) {
         PurchaseDto purchaseDto = new PurchaseDto();
-        Product product = productService.findById(purchase.getProductId());
+        Product product = productService.findById(purchase.getProductId()).orElseThrow();
 
         purchaseDto.setProductId(product.getId());
         purchaseDto.setProductName(product.getName());
@@ -85,7 +85,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<PurchaseDto> getCurrentUserPurchaseDtoList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName()).get();
+        User user = userService.findByUserName(authentication.getName()).orElseThrow();
         List<Purchase> purchases = findAllByUserId(user.getId());
 
         return getPurchaseDtoList(purchases);

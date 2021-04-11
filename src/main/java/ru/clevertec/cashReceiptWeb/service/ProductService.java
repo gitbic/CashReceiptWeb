@@ -4,6 +4,7 @@ package ru.clevertec.cashReceiptWeb.service;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
     List<Product> findAll();
@@ -12,7 +13,5 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    Product findById(Long id);
-
-    List<Product> findByName(String name);
+    Optional<Product> findById(Long id);
 }

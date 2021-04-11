@@ -7,6 +7,7 @@ import ru.clevertec.cashReceiptWeb.repository.DiscountCardRepository;
 import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DiscountCardServiceImpl implements DiscountCardService {
@@ -26,8 +27,8 @@ public class DiscountCardServiceImpl implements DiscountCardService {
         discountCardRepository.deleteById(cardNumber);
     }
 
-    public DiscountCard findByCardNumber(String cardNumber) {
-        return discountCardRepository.findById(cardNumber).orElseThrow();
+    public Optional<DiscountCard> findByCardNumber(String cardNumber) {
+        return discountCardRepository.findById(cardNumber);
     }
 
 }

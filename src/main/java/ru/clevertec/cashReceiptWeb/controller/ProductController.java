@@ -30,7 +30,7 @@ public class ProductController {
 
     @GetMapping("/view/{id}")
     public String viewProduct(Model model, @PathVariable(value = "id") Long id) {
-        Product product = productService.findById(id);
+        Product product = productService.findById(id).orElseThrow();
         model.addAttribute("discount", DISCOUNT_PERCENT_FOR_PURCHASE);
         model.addAttribute(product);
         return "product/productViewPage";
@@ -38,7 +38,7 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String productManager(Model model, @PathVariable(value = "id") Long id) {
-        Product product = productService.findById(id);
+        Product product = productService.findById(id).orElseThrow();
         model.addAttribute("product", product);
         return "product/productEditPage";
     }
