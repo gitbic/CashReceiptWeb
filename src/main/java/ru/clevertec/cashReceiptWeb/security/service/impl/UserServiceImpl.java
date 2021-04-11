@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
+import ru.clevertec.cashReceiptWeb.security.repository.enums.UserRole;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public class UserServiceImpl implements UserService {
     public boolean add(User user) {
         boolean isUserAdded = false;
 
-        if (findByUserName(user.getUsername()) == null) {
+        if (findByUserName(user.getUsername()).isEmpty()) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+            User savedUser = userRepository.save(user);
+
+            userRepository.saveUserRole(savedUser.getId(), UserRole.ROLE_USER.getRoleId());
             isUserAdded = true;
         }
 
@@ -32,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserName(String username) {
+    public Optional<User> findByUserName(String username) {
         return userRepository.findByUsername(username);
     }
 

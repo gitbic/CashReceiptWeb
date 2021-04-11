@@ -1,16 +1,16 @@
 package ru.clevertec.cashReceiptWeb.security.repository.enums;
 
 public enum UserRole {
-    ROLE_ADMIN(1),
-    ROLE_USER(2);
+    ROLE_ADMIN(1L),
+    ROLE_USER(2L);
 
-    private final int roleId;
+    private final Long roleId;
 
-    UserRole(int roleId) {
+    UserRole(Long roleId) {
         this.roleId = roleId;
     }
 
-    public int getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 }

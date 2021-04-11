@@ -52,7 +52,7 @@ public class PurchaseController {
     @PostMapping("/buy")
     public String buy(@ModelAttribute(value = "purchase") Purchase purchase) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
+        User user = userService.findByUserName(authentication.getName()).get();
 
         purchase.setUserId(user.getId());
         purchaseService.save(purchase);
@@ -62,7 +62,7 @@ public class PurchaseController {
     @GetMapping("/cart")
     public String cart(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
+        User user = userService.findByUserName(authentication.getName()).get();
 
         DiscountCard discountCard = discountCardService.findByCardNumber(user.getCardNumber());
         List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
@@ -78,7 +78,7 @@ public class PurchaseController {
     @GetMapping("/delete/{id}")
     public String deletePurchase(@PathVariable(value = "id") Long productId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
+        User user = userService.findByUserName(authentication.getName()).get();
         purchaseService.deleteByPurchaseId(new PurchaseId(user.getId(), productId));
         return "redirect:/purchase/cart";
     }

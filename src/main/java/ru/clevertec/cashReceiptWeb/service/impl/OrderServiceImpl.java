@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PurchaseCostDto getCurrentUserPurchasesCostDto() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
+        User user = userService.findByUserName(authentication.getName()).get();
 
         List<Purchase> purchases = purchaseService.findAllByUserId(user.getId());
         DiscountCard discountCard = discountCardService.findByCardNumber(user.getCardNumber());

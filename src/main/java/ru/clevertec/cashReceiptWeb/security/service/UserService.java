@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> findById(Long id);
 
-    User findByUserName(String username);
+    Optional<User> findByUserName(String username);
 
     boolean add(User user);
 

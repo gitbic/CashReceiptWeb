@@ -44,7 +44,7 @@ public class AccountController {
     @GetMapping("/info")
     public String userInfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
+        User user = userService.findByUserName(authentication.getName()).get();
         Set<Role> userRoles = roleService.findAllByUserId(user.getId());
         model.addAttribute("userRoles", userRoles);
         return "account/infoPage";

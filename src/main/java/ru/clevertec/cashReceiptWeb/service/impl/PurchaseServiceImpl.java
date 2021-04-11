@@ -85,7 +85,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<PurchaseDto> getCurrentUserPurchaseDtoList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
+        User user = userService.findByUserName(authentication.getName()).get();
         List<Purchase> purchases = findAllByUserId(user.getId());
 
         return getPurchaseDtoList(purchases);
