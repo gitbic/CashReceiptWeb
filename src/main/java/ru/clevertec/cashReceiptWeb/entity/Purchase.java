@@ -12,13 +12,13 @@ import javax.persistence.*;
 public class Purchase {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Id
-    @Column(name = "product_id")
+    @Column(name = "product_id", nullable = false)
     private Long productId;
 
-    @Column(name = "product_number")
+    @Column(name = "product_number", nullable = false)
     private Integer productNumber;
 }

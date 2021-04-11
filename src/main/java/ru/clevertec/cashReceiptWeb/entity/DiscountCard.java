@@ -13,9 +13,9 @@ import javax.persistence.Table;
 public class DiscountCard {
 
     @Id
-    @Column(name = "card_number")
+    @Column(name = "card_number", nullable = false)
     private String cardNumber;
 
-    @Column(name = "discount")
+    @Column(name = "discount", nullable = false)
     private double discount;
 }

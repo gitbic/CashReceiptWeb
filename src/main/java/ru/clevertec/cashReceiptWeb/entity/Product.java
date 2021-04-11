@@ -12,15 +12,14 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "is_discount")
+    @Column(name = "is_discount", nullable = false)
     private boolean isDiscount;
 }
