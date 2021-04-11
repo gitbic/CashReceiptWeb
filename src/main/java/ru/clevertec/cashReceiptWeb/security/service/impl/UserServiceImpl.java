@@ -7,7 +7,8 @@ import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
         if (findByUserName(user.getUsername()) == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userRepository.add(user);
+            userRepository.save(user);
             isUserAdded = true;
         }
 
@@ -36,17 +37,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public void delete(Long id) {
-        userRepository.delete(id);
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
     @Override
-    public Set<User> findAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 }

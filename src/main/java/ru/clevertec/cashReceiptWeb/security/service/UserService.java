@@ -2,16 +2,17 @@ package ru.clevertec.cashReceiptWeb.security.service;
 
 import ru.clevertec.cashReceiptWeb.security.model.User;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
-    User findById(Long id);
+    Optional<User> findById(Long id);
 
     User findByUserName(String username);
 
     boolean add(User user);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
-    Set<User> findAll();
+    List<User> findAll();
 }
