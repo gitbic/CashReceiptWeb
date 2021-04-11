@@ -6,7 +6,7 @@ import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
 import ru.clevertec.cashReceiptWeb.security.service.RoleService;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -15,7 +15,7 @@ public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
 
     @Override
-    public Set<Role> findAllByUserId(Long userId) {
+    public List<Role> findAllByUserId(Long userId) {
         return roleRepository.findAllByUserId(userId);
     }
 }

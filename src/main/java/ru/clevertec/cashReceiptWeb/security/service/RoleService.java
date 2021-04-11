@@ -2,8 +2,8 @@ package ru.clevertec.cashReceiptWeb.security.service;
 
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 
-import java.util.Set;
+import java.util.List;
 
 public interface RoleService {
-    Set<Role> findAllByUserId(Long userId);
+    List<Role> findAllByUserId(Long userId);
 }

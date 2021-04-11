@@ -16,7 +16,6 @@ import ru.clevertec.cashReceiptWeb.security.service.UserService;
 import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/account")
@@ -45,7 +44,7 @@ public class AccountController {
     public String userInfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUserName(authentication.getName()).get();
-        Set<Role> userRoles = roleService.findAllByUserId(user.getId());
+        List<Role> userRoles = roleService.findAllByUserId(user.getId());
         model.addAttribute("userRoles", userRoles);
         return "account/infoPage";
     }
