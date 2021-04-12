@@ -20,9 +20,9 @@ public interface UserService {
 
     UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
 
-    User saveUser(User user);
-
     UserResponseDto addUser(UserRequestDto userRequestDto);
+
+    User saveUser(User user);
 
     void deleteUserById(Long id);
 

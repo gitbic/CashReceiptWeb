@@ -3,8 +3,10 @@ package ru.clevertec.cashReceiptWeb.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.clevertec.cashReceiptWeb.dto.ProductRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.ProductResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.Product;
+import ru.clevertec.cashReceiptWeb.exception.ProductNotFoundException;
 import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
 import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
@@ -53,4 +55,28 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(Long id) {
         productsRepository.deleteById(id);
     }
+
+    @Override
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
+        System.out.println("--------------");
+        System.out.println(id);
+        Product newProduct = modelMapper.map(productRequestDto, Product.class);
+        Product product = findProductById(id).orElseThrow(() -> new ProductNotFoundException(id));
+
+        product.setName(newProduct.getName());
+        product.setPrice(newProduct.getPrice());
+        product.setDiscount(newProduct.isDiscount());
+        System.out.println(product);
+        product = saveProduct(product);
+        System.out.println(product);
+        return modelMapper.map(product, ProductResponseDto.class);
+    }
+
+    @Override
+    public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
+        Product product = modelMapper.map(productRequestDto, Product.class);
+        product = saveProduct(product);
+        return modelMapper.map(product, ProductResponseDto.class);
+    }
+
 }

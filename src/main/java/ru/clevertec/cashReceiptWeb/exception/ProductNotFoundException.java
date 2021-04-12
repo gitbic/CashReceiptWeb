@@ -1,4 +1,4 @@
-package ru.clevertec.cashReceiptWeb.security.service.impl;
+package ru.clevertec.cashReceiptWeb.exception;
 
 public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException() {
