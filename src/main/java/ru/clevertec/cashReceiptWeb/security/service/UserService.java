@@ -14,15 +14,15 @@ public interface UserService {
 
     Optional<User> findUserByUserName(String username);
 
-    boolean addUser(User user);
+    User addUser(User user);
 
-    User updateUser(Long id, User newUser);
+    User updateUser(Long id, User user);
 
     UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
 
     User saveUser(User user);
 
-    UserResponseDto saveUser(UserRequestDto userRequestDto);
+    UserResponseDto addUser(UserRequestDto userRequestDto);
 
     void deleteUserById(Long id);
 

@@ -17,10 +17,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    // if username exist return errorMsg
     @PostMapping()
     public UserResponseDto addUser(@RequestBody UserRequestDto userRequestDto) {
-        return userService.saveUser(userRequestDto);
+        return userService.addUser(userRequestDto);
     }
 
     //  if user not exist ? addUser : error ???

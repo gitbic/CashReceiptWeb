@@ -9,6 +9,6 @@ public class UserNotFoundException extends RuntimeException {
     }
 
     public UserNotFoundException(Long id) {
-        this("User with id \"" + id.toString() + "\" not found");
+        this(String.format("User with id \"%s\" not found", id));
     }
 }

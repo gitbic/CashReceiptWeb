@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.dto.UserRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.UserResponseDto;
 import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
+import ru.clevertec.cashReceiptWeb.exception.UsernameExistException;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
 import ru.clevertec.cashReceiptWeb.security.repository.enums.UserRole;
@@ -31,31 +32,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addUser(User user) {
-        boolean isUserAdded = false;
-
-        if (findUserByUserName(user.getUsername()).isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            User savedUser = userRepository.save(user);
-
-            userRepository.saveUserRole(savedUser.getId(), UserRole.ROLE_USER.getRoleId());
-            isUserAdded = true;
+    public User addUser(User user) {
+        if (findUserByUserName(user.getUsername()).isPresent()) {
+            throw new UsernameExistException(user.getUsername());
         }
 
-        return isUserAdded;
+        User savedUser = saveUser(user);
+        userRepository.saveUserRole(savedUser.getId(), UserRole.ROLE_USER.getRoleId());
+        return user;
     }
 
     @Override
-    public User updateUser(Long id, User newUser) {
-        newUser.setId(id);
-        return saveUser(newUser);
+    public UserResponseDto addUser(UserRequestDto userRequestDto) {
+        User user = modelMapper.map(userRequestDto, User.class);
+        user = addUser(user);
+        return modelMapper.map(user, UserResponseDto.class);
+    }
+
+    @Override
+    public User updateUser(Long id, User user) {
+        user.setId(id);
+        return saveUser(user);
     }
 
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
         User user = modelMapper.map(userRequestDto, User.class);
-        user.setId(id);
-        user = saveUser(user);
+        user = updateUser(id, user);
         return modelMapper.map(user, UserResponseDto.class);
     }
 
@@ -63,12 +66,6 @@ public class UserServiceImpl implements UserService {
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
-    }
-
-    @Override
-    public UserResponseDto saveUser(UserRequestDto userRequestDto) {
-        User user = saveUser(modelMapper.map(userRequestDto, User.class));
-        return modelMapper.map(user, UserResponseDto.class);
     }
 
     @Override
