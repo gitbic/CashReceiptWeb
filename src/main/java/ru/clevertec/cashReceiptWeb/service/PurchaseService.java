@@ -9,11 +9,11 @@ import java.util.List;
 public interface PurchaseService {
     void save(Purchase purchase);
 
-    void deleteAllByUserId(Long userId);
+    void deleteAllPurchasesByUserId(Long userId);
 
-    void deleteByPurchaseId(PurchaseId purchaseId);
+    void deletePurchaseByPurchaseId(PurchaseId purchaseId);
 
-    List<Purchase> findAllByUserId(Long userId);
+    List<Purchase> findAllPurchasesByUserId(Long userId);
 
     PurchaseDto getPurchaseDto(Purchase purchase);
 

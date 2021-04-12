@@ -1,4 +1,4 @@
-package ru.clevertec.cashReceiptWeb.service;
+package ru.clevertec.cashReceiptWeb.util;
 
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;

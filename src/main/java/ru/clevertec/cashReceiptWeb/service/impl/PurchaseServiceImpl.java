@@ -43,24 +43,24 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public void deleteByPurchaseId(PurchaseId purchaseId) {
+    public void deletePurchaseByPurchaseId(PurchaseId purchaseId) {
         purchaseRepository.deleteById(purchaseId);
     }
 
     @Override
-    public void deleteAllByUserId(Long userId) {
+    public void deleteAllPurchasesByUserId(Long userId) {
         purchaseRepository.deleteAllByUserId(userId);
     }
 
     @Override
-    public List<Purchase> findAllByUserId(Long userId) {
+    public List<Purchase> findAllPurchasesByUserId(Long userId) {
         return purchaseRepository.findAllByUserId(userId);
     }
 
     @Override
     public PurchaseDto getPurchaseDto(Purchase purchase) {
         PurchaseDto purchaseDto = new PurchaseDto();
-        Product product = productService.findById(purchase.getProductId()).orElseThrow();
+        Product product = productService.findProductById(purchase.getProductId()).orElseThrow();
 
         purchaseDto.setProductId(product.getId());
         purchaseDto.setProductName(product.getName());
@@ -87,8 +87,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<PurchaseDto> getCurrentUserPurchaseDtoList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName()).orElseThrow();
-        List<Purchase> purchases = findAllByUserId(user.getId());
+        User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
+        List<Purchase> purchases = findAllPurchasesByUserId(user.getId());
 
         return getPurchaseDtoList(purchases);
     }

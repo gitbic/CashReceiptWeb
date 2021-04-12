@@ -16,6 +16,7 @@ import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
 import ru.clevertec.cashReceiptWeb.service.*;
+import ru.clevertec.cashReceiptWeb.util.MappingUtil;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class PurchaseController {
     @GetMapping("/products")
     public String showProducts(Model model) {
         model.addAttribute("purchase", new Purchase());
-        model.addAttribute("products", productService.findAll());
+        model.addAttribute("products", productService.findAllProducts());
         model.addAttribute("discount", GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE);
         return "purchase/byProductPage";
     }
@@ -53,7 +54,7 @@ public class PurchaseController {
     @PostMapping("/buy")
     public String buy(@ModelAttribute(value = "purchase") Purchase purchase) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName()).orElseThrow();
+        User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
 
         purchase.setUserId(user.getId());
         purchaseService.save(purchase);
@@ -63,9 +64,9 @@ public class PurchaseController {
     @GetMapping("/cart")
     public String cart(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName()).orElseThrow();
+        User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
 
-        DiscountCard discountCard = discountCardService.findByCardNumber(user.getCardNumber()).orElseThrow();
+        DiscountCard discountCard = discountCardService.findDiscountCardByCardNumber(user.getCardNumber()).orElseThrow();
         List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
         PurchaseCostDto purchaseCostDto = orderService.getCurrentUserPurchasesCostDto();
         PurchaseCostViewDto purchaseCostViewDto = mappingUtil.mapToToPurchaseCostViewDto(purchaseCostDto);
@@ -79,8 +80,8 @@ public class PurchaseController {
     @GetMapping("/delete/{id}")
     public String deletePurchase(@PathVariable(value = "id") Long productId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName()).orElseThrow();
-        purchaseService.deleteByPurchaseId(new PurchaseId(user.getId(), productId));
+        User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
+        purchaseService.deletePurchaseByPurchaseId(new PurchaseId(user.getId(), productId));
         return "redirect:/purchase/cart";
     }
 

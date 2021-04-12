@@ -24,10 +24,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean add(User user) {
+    public boolean addUser(User user) {
         boolean isUserAdded = false;
 
-        if (findByUserName(user.getUsername()).isEmpty()) {
+        if (findUserByUserName(user.getUsername()).isEmpty()) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             User savedUser = userRepository.save(user);
 
@@ -41,32 +41,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(Long id, User newUser) {
         newUser.setId(id);
-        return save(newUser);
+        return saveUser(newUser);
     }
 
     @Override
-    public User save(User user) {
+    public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
-    public Optional<User> findByUserName(String username) {
+    public Optional<User> findUserByUserName(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findUserById(Long id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 }

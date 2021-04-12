@@ -42,15 +42,15 @@ public class UserController {
     @GetMapping("/info")
     public String userInfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName()).orElseThrow();
-        List<Role> userRoles = roleService.findAllByUserId(user.getId());
+        User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
+        List<Role> userRoles = roleService.findAllRolesByUserId(user.getId());
         model.addAttribute("userRoles", userRoles);
         return "account/infoPage";
     }
 
     @GetMapping("/registration")
     public String registrationPage(Model model, @ModelAttribute(value = "usernameError") String usernameError) {
-        List<DiscountCard> discountCards = discountCardService.findAll();
+        List<DiscountCard> discountCards = discountCardService.findAllDiscountCards();
         User user = new User();
 
         model.addAttribute("user", user);
@@ -62,17 +62,17 @@ public class UserController {
 
     @PostMapping()
     public User addUser(@RequestBody User user) {
-        return userService.save(user);
+        return userService.saveUser(user);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
+        userService.deleteUserById(id);
     }
 
     @GetMapping()
     public List<User> getAllUsers() {
-        return userService.findAll();
+        return userService.findAllUsers();
     }
 
     @GetMapping("/{id}")

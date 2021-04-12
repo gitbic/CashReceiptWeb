@@ -19,20 +19,20 @@ public class ProductServiceImpl implements ProductService {
         this.productsRepository = productsRepository;
     }
 
-    public List<Product> findAll() {
+    public List<Product> findAllProducts() {
         return productsRepository.findAll();
     }
 
-    public void save(Product product) {
+    public void saveProduct(Product product) {
         productsRepository.save(product);
     }
 
 
-    public void deleteById(Long id) {
+    public void deleteProductById(Long id) {
         productsRepository.deleteById(id);
     }
 
-    public Optional<Product> findById(Long id) {
+    public Optional<Product> findProductById(Long id) {
         return productsRepository.findById(id);
     }
 

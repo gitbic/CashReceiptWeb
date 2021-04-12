@@ -19,11 +19,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    // if username exist return errorMsg
     @PostMapping()
     public User addUser(@RequestBody User user) {
-        return userService.save(user);
+        return userService.saveUser(user);
     }
-
+    //  if user not exist ? addUser : error
     @PutMapping("/{id}")
     public User updateUser(@RequestBody User newUser, @PathVariable Long id) {
         return userService.updateUser(id, newUser);
@@ -31,17 +32,17 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
+        userService.deleteUserById(id);
     }
 
     @GetMapping()
     public List<User> getAllUsers() {
-        return userService.findAll();
+        return userService.findAllUsers();
     }
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
-        return userService.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return userService.findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
 }

@@ -32,14 +32,14 @@ public class AdminController {
     @GetMapping("/userManager")
     public String userManager(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", userService.findAllUsers());
         return "admin/userManagerPage";
     }
 
     @GetMapping("/productManager")
     public String productManager(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("products", productService.findAll());
+        model.addAttribute("products", productService.findAllProducts());
         model.addAttribute("discount", GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE);
         return "admin/productManagerPage";
     }

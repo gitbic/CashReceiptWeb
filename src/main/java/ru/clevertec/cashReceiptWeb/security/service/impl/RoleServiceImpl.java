@@ -19,7 +19,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> findAllByUserId(Long userId) {
+    public List<Role> findAllRolesByUserId(Long userId) {
         return roleRepository.findAllByUserId(userId);
     }
 }

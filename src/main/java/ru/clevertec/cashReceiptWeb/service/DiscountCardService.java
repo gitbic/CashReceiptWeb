@@ -7,11 +7,11 @@ import java.util.Optional;
 
 
 public interface DiscountCardService {
-    List<DiscountCard> findAll();
+    List<DiscountCard> findAllDiscountCards();
 
-    void deleteByCardNumber(String cardNumber);
+    void deleteDiscountCardByCardNumber(String cardNumber);
 
-    Optional<DiscountCard> findByCardNumber(String cardNumber);
+    Optional<DiscountCard> findDiscountCardByCardNumber(String cardNumber);
 
-    void save(DiscountCard discountCard);
+    void saveDiscountCard(DiscountCard discountCard);
 }

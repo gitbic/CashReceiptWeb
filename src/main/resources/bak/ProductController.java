@@ -22,19 +22,19 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute(value = "product") Product product) {
-        productService.save(product);
+        productService.saveProduct(product);
         return "redirect:/admin/productManager";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable(value = "id") Long id) {
-        productService.deleteById(id);
+        productService.deleteProductById(id);
         return "redirect:/admin/productManager";
     }
 
     @GetMapping("/view/{id}")
     public String viewProduct(Model model, @PathVariable(value = "id") Long id) {
-        Product product = productService.findById(id).orElseThrow();
+        Product product = productService.findProductById(id).orElseThrow();
         model.addAttribute("discount", DISCOUNT_PERCENT_FOR_PURCHASE);
         model.addAttribute(product);
         return "product/productViewPage";
@@ -42,14 +42,14 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String productManager(Model model, @PathVariable(value = "id") Long id) {
-        Product product = productService.findById(id).orElseThrow();
+        Product product = productService.findProductById(id).orElseThrow();
         model.addAttribute("product", product);
         return "product/productEditPage";
     }
 
     @PostMapping("/update")
     public String updateProduct(@ModelAttribute(value = "product") Product product) {
-        productService.save(product);
+        productService.saveProduct(product);
         return "redirect:/admin/productManager";
     }
 
