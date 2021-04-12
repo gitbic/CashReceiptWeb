@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ProductService {
     List<Product> findAllProducts();
 
-    void saveProduct(Product product);
+    Product saveProduct(Product product);
 
     void deleteProductById(Long id);
 

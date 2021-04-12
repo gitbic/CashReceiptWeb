@@ -1,9 +1,8 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
-import ru.clevertec.cashReceiptWeb.security.model.User;
+import ru.clevertec.cashReceiptWeb.dto.UserRequestDto;
+import ru.clevertec.cashReceiptWeb.dto.UserResponseDto;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
 
 import java.util.List;
@@ -14,20 +13,20 @@ public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     // if username exist return errorMsg
     @PostMapping()
-    public User addUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public UserResponseDto addUser(@RequestBody UserRequestDto userRequestDto) {
+        return userService.saveUser(userRequestDto);
     }
-    //  if user not exist ? addUser : error
+
+    //  if user not exist ? addUser : error ???
     @PutMapping("/{id}")
-    public User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-        return userService.updateUser(id, newUser);
+    public UserResponseDto updateUser(@RequestBody UserRequestDto userRequestDto, @PathVariable Long id) {
+        return userService.updateUser(id, userRequestDto);
     }
 
     @DeleteMapping("/{id}")
@@ -36,13 +35,13 @@ public class UserController {
     }
 
     @GetMapping()
-    public List<User> getAllUsers() {
-        return userService.findAllUsers();
+    public List<UserResponseDto> getAllUsersDto() {
+        return userService.getAllUsersDto();
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
+    public UserResponseDto getUserDto(@PathVariable Long id) {
+        return userService.getUserResponseDto(id);
     }
 
 }
