@@ -28,7 +28,7 @@ public interface UserService {
 
     List<User> findAllUsers();
 
-    List<UserResponseDto> getAllUsersDto();
+    List<UserResponseDto> getAllUsersResponseDto();
 
     User getCurrentUser();
 }

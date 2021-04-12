@@ -1,14 +1,13 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.clevertec.cashReceiptWeb.entity.Product;
+import org.springframework.web.bind.annotation.*;
+import ru.clevertec.cashReceiptWeb.dto.ProductResponseDto;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("/products")
 public class ProductController {
 
@@ -19,22 +18,31 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
+
+    @GetMapping()
+    public List<ProductResponseDto> getAllProductsDto() {
+        return productService.getAllProductsResponseDto();
     }
 
+    @GetMapping("/{id}")
+    public ProductResponseDto getProductDto(@PathVariable Long id) {
+        return productService.getProductResponseDto(id);
+    }
 
-//    // if username exist return errorMsg
-//    // if id exist this method save user, but id must be autoincrement
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        productService.deleteProductById(id);
+    }
+
 //    @PostMapping()
-//    public User addUser(@RequestBody User user) {
-//        return userService.saveUser(user);
+//    public UserResponseDto addUser(@RequestBody UserRequestDto userRequestDto) {
+//        return userService.addUser(userRequestDto);
 //    }
-//    //  if user not exist ? addUser : error
+//
+//    //  if user not exist ? addUser : error ???
 //    @PutMapping("/{id}")
-//    public User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-//        return userService.updateUser(id, newUser);
+//    public UserResponseDto updateUser(@RequestBody UserRequestDto userRequestDto, @PathVariable Long id) {
+//        return userService.updateUser(id, userRequestDto);
 //    }
 //
 //    @DeleteMapping("/{id}")
@@ -42,15 +50,6 @@ public class ProductController {
 //        userService.deleteUserById(id);
 //    }
 //
-//    @GetMapping()
-//    public List<User> getAllUsers() {
-//        return userService.findAllUsers();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public User getUser(@PathVariable Long id) {
-//        return userService.findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
-//    }
 
 //    @PostMapping("/add")
 //    public String addProduct(@ModelAttribute(value = "product") Product product) {
