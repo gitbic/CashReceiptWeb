@@ -12,6 +12,10 @@ public interface UserService {
 
     boolean add(User user);
 
+    User updateUser(Long id, User newUser);
+
+    User save(User user);
+
     void deleteById(Long id);
 
     List<User> findAll();

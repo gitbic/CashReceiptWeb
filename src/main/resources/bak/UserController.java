@@ -3,11 +3,8 @@ package ru.clevertec.cashReceiptWeb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.clevertec.cashReceiptWeb.constants.ErrMsg;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.model.User;
@@ -17,16 +14,16 @@ import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/account")
-public class AccountController {
+@RestController
+@RequestMapping("/users")
+public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
     private final DiscountCardService discountCardService;
 
     @Autowired
-    public AccountController(UserService userService, RoleService roleService, DiscountCardService discountCardService) {
+    public UserController(UserService userService, RoleService roleService, DiscountCardService discountCardService) {
         this.userService = userService;
         this.roleService = roleService;
         this.discountCardService = discountCardService;
@@ -63,25 +60,24 @@ public class AccountController {
         return "account/registrationPage";
     }
 
-    @PostMapping("/add")
-    public String addUser(@ModelAttribute(value = "user") User user, RedirectAttributes redirectAttributes) {
-
-        if (!userService.add(user)) {
-            redirectAttributes.addAttribute("usernameError", user.getUsername() + ErrMsg.USERNAME_EXIST);
-            return "redirect:/account/registration";
-        }
-
-        return "account/registrationSuccessfulPage";
+    @PostMapping()
+    public User addUser(@RequestBody User user) {
+        return userService.save(user);
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable(value = "id") Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
-        return "redirect:/admin/userManager";
     }
 
-    @GetMapping("/403")
-    public String accessDenied() {
-        return "403Page";
+    @GetMapping()
+    public List<User> getAllUsers() {
+        return userService.findAll();
     }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id){
+        return userService.
+    }
+
 }
