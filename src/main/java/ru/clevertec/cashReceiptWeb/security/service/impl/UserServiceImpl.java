@@ -32,33 +32,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) {
+    public UserResponseDto addUser(UserRequestDto userRequestDto) {
+        User user = modelMapper.map(userRequestDto, User.class);
+
         if (findUserByUserName(user.getUsername()).isPresent()) {
             throw new UsernameExistException(user.getUsername());
         }
 
-        User savedUser = saveUser(user);
-        userRepository.saveUserRole(savedUser.getId(), UserRole.ROLE_USER.getRoleId());
-        return user;
-    }
+        user = saveUser(user);
+        userRepository.saveUserRole(user.getId(), UserRole.ROLE_USER.getRoleId());
 
-    @Override
-    public UserResponseDto addUser(UserRequestDto userRequestDto) {
-        User user = modelMapper.map(userRequestDto, User.class);
-        user = addUser(user);
         return modelMapper.map(user, UserResponseDto.class);
     }
 
     @Override
-    public User updateUser(Long id, User user) {
-        user.setId(id);
-        return saveUser(user);
-    }
-
-    @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
-        User user = modelMapper.map(userRequestDto, User.class);
-        user = updateUser(id, user);
+        User newUser = modelMapper.map(userRequestDto, User.class);
+        User user = findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        user.setUsername(newUser.getUsername());
+        user.setPassword(newUser.getPassword());
+        user.setCardNumber(newUser.getCardNumber());
+        user = saveUser(user);
+
         return modelMapper.map(user, UserResponseDto.class);
     }
 

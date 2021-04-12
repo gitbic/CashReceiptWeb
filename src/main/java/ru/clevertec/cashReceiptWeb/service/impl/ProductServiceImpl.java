@@ -58,17 +58,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
-        System.out.println("--------------");
-        System.out.println(id);
         Product newProduct = modelMapper.map(productRequestDto, Product.class);
         Product product = findProductById(id).orElseThrow(() -> new ProductNotFoundException(id));
 
         product.setName(newProduct.getName());
         product.setPrice(newProduct.getPrice());
         product.setDiscount(newProduct.isDiscount());
-        System.out.println(product);
         product = saveProduct(product);
-        System.out.println(product);
+
         return modelMapper.map(product, ProductResponseDto.class);
     }
 

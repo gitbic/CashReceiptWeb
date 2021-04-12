@@ -14,10 +14,6 @@ public interface UserService {
 
     Optional<User> findUserByUserName(String username);
 
-    User addUser(User user);
-
-    User updateUser(Long id, User user);
-
     UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
 
     UserResponseDto addUser(UserRequestDto userRequestDto);
