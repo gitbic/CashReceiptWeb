@@ -5,12 +5,15 @@ import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, PurchaseId> {
 
+    @Transactional
     void deleteAllByUserId(Long userId);
 
     List<Purchase> findAllByUserId(Long userId);
+
 }

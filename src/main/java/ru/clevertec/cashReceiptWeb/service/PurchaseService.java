@@ -10,23 +10,27 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PurchaseService {
-    Purchase save(Purchase purchase);
+    Purchase savePurchase(Purchase purchase);
 
     PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto);
 
     void deleteAllPurchasesByUserId(Long userId);
 
-    Optional<Purchase> findPurchase(PurchaseId purchaseId);
+    Optional<Purchase> findPurchaseByPurchaseId(PurchaseId purchaseId);
 
     void deletePurchaseByPurchaseId(PurchaseId purchaseId);
 
     List<Purchase> findAllPurchasesByUserId(Long userId);
 
-    List<PurchaseSimpleResponseDto> getAllPurchasesSimpleResponseDtoByUserId(Long userId);
+    List<PurchaseSimpleResponseDto> getAllPurchasesByUserIdSimpleResponseDtoList(Long userId);
 
     PurchaseFullResponseDto getPurchaseFullResponseDto(Purchase purchase);
 
     List<PurchaseFullResponseDto> getPurchaseFullResponseDtoList(List<Purchase> purchases);
 
-    List<PurchaseFullResponseDto> getCurrentUserPurchaseFullResponseDtoList();
+    List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList();
+
+    PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId);
+
+    PurchaseSimpleResponseDto updatePurchase(PurchaseRequestDto purchaseRequestDto);
 }

@@ -57,7 +57,7 @@ public class PurchaseController {
         User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
 
         purchase.setUserId(user.getId());
-        purchaseService.save(purchase);
+        purchaseService.savePurchase(purchase);
         return "redirect:/purchase/products";
     }
 

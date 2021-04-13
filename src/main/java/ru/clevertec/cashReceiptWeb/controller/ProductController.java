@@ -19,7 +19,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-
     @GetMapping()
     public List<ProductResponseDto> getAllProductsDto() {
         return productService.getAllProductsResponseDto();

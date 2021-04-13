@@ -10,6 +10,7 @@ import ru.clevertec.cashReceiptWeb.dto.PurchaseSimpleResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
+import ru.clevertec.cashReceiptWeb.exception.PurchaseNotFoundException;
 import ru.clevertec.cashReceiptWeb.repository.PurchaseRepository;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
@@ -42,25 +43,25 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public Purchase save(Purchase purchase) {
+    public Purchase savePurchase(Purchase purchase) {
         return purchaseRepository.save(purchase);
     }
 
     @Override
     public PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto) {
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
-        Optional<Purchase> optionalPurchase = findPurchase(newPurchase.getPurchaseId());
+        Optional<Purchase> optionalPurchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId());
 
         if (optionalPurchase.isPresent()) {
             newPurchase.setProductNumber(optionalPurchase.get().getProductNumber() + newPurchase.getProductNumber());
         }
 
-        newPurchase = save(newPurchase);
+        newPurchase = savePurchase(newPurchase);
         return modelMapper.map(newPurchase, PurchaseSimpleResponseDto.class);
     }
 
     @Override
-    public Optional<Purchase> findPurchase(PurchaseId purchaseId) {
+    public Optional<Purchase> findPurchaseByPurchaseId(PurchaseId purchaseId) {
         return purchaseRepository.findById(purchaseId);
     }
 
@@ -81,10 +82,29 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 
     @Override
-    public List<PurchaseSimpleResponseDto> getAllPurchasesSimpleResponseDtoByUserId(Long userId) {
+    public List<PurchaseSimpleResponseDto> getAllPurchasesByUserIdSimpleResponseDtoList(Long userId) {
         return findAllPurchasesByUserId(userId).stream()
                 .map(purchase -> modelMapper.map(purchase, PurchaseSimpleResponseDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId) {
+        Purchase purchase = findPurchaseByPurchaseId(purchaseId)
+                .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
+        return modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
+    }
+
+    @Override
+    public PurchaseSimpleResponseDto updatePurchase(PurchaseRequestDto purchaseRequestDto) {
+        Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
+        Purchase purchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId())
+                .orElseThrow(() -> new PurchaseNotFoundException(newPurchase.getPurchaseId()));
+
+        purchase.setProductNumber(newPurchase.getProductNumber());
+        purchase = savePurchase(purchase);
+
+        return modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
     }
 
     @Override
@@ -115,11 +135,12 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public List<PurchaseFullResponseDto> getCurrentUserPurchaseFullResponseDtoList() {
+    public List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
         List<Purchase> purchases = findAllPurchasesByUserId(user.getId());
 
         return getPurchaseFullResponseDtoList(purchases);
     }
+
 }
