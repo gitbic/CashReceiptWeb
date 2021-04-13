@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostViewDto;
-import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseFullResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
@@ -67,7 +67,7 @@ public class PurchaseController {
         User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
 
         DiscountCard discountCard = discountCardService.findDiscountCardByCardNumber(user.getCardNumber()).orElseThrow();
-        List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
+        List<PurchaseFullResponseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
         PurchaseCostDto purchaseCostDto = orderService.getCurrentUserPurchasesCostDto();
         PurchaseCostViewDto purchaseCostViewDto = mappingUtil.mapToToPurchaseCostViewDto(purchaseCostDto);
 

@@ -21,4 +21,8 @@ public class Purchase {
 
     @Column(name = "product_number", nullable = false)
     private Integer productNumber;
+
+    public PurchaseId getPurchaseId() {
+        return new PurchaseId(userId, productId);
+    }
 }
