@@ -24,8 +24,10 @@ public class PurchaseController {
     }
 
     @PutMapping
-    public PurchaseSimpleResponseDto updatePurchase(@RequestBody PurchaseRequestDto purchaseRequestDto) {
-        return purchaseService.updatePurchase(purchaseRequestDto);
+    public PurchaseSimpleResponseDto updatePurchase(@RequestBody PurchaseRequestDto purchaseRequestDto,
+                                                    @RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
+        return purchaseService.updatePurchase(purchaseId, purchaseRequestDto);
     }
 
     @GetMapping("/{userId}")

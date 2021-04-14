@@ -3,11 +3,11 @@ package ru.clevertec.cashReceiptWeb.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
+import ru.clevertec.cashReceiptWeb.exception.DiscountCardNotFoundException;
 import ru.clevertec.cashReceiptWeb.repository.DiscountCardRepository;
 import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DiscountCardServiceImpl implements DiscountCardService {
@@ -31,8 +31,9 @@ public class DiscountCardServiceImpl implements DiscountCardService {
         discountCardRepository.deleteById(cardNumber);
     }
 
-    public Optional<DiscountCard> findDiscountCardByCardNumber(String cardNumber) {
-        return discountCardRepository.findById(cardNumber);
+    public DiscountCard findDiscountCardByCardNumber(String cardNumber) {
+        return discountCardRepository.findById(cardNumber)
+                .orElseThrow(() -> new DiscountCardNotFoundException(cardNumber));
     }
 
 }

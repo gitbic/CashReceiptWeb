@@ -28,5 +28,5 @@ public interface PurchaseService {
 
     PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId);
 
-    PurchaseSimpleResponseDto updatePurchase(PurchaseRequestDto purchaseRequestDto);
+    PurchaseSimpleResponseDto updatePurchase(PurchaseId purchaseId, PurchaseRequestDto purchaseRequestDto);
 }

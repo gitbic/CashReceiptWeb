@@ -5,14 +5,13 @@ import ru.clevertec.cashReceiptWeb.dto.UserResponseDto;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
-    Optional<User> findUserById(Long id);
+    User findUserById(Long id);
 
     UserResponseDto getUserResponseDto(Long id);
 
-    Optional<User> findUserByUserName(String username);
+    User findUserByUserName(String username);
 
     UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
 
@@ -26,5 +25,4 @@ public interface UserService {
 
     List<UserResponseDto> getAllUsersResponseDto();
 
-    User getCurrentUser();
 }

@@ -42,11 +42,6 @@ public class PurchaseServiceImpl implements PurchaseService {
         this.modelMapper = modelMapper;
     }
 
-    private Purchase findPurchaseByPurchaseId(PurchaseId purchaseId) {
-        return purchaseRepository.findById(purchaseId)
-                .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
-    }
-
     @Override
     public void deletePurchaseByPurchaseId(PurchaseId purchaseId) {
         purchaseRepository.deleteById(purchaseId);
@@ -89,9 +84,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public PurchaseSimpleResponseDto updatePurchase(PurchaseRequestDto purchaseRequestDto) {
+    public PurchaseSimpleResponseDto updatePurchase(PurchaseId purchaseId, PurchaseRequestDto purchaseRequestDto) {
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
-        Purchase purchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId());
+        Purchase purchase = findPurchaseByPurchaseId(purchaseId);
 
         purchase.setProductNumber(newPurchase.getProductNumber());
         purchase = purchaseRepository.save(purchase);
@@ -102,7 +97,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public PurchaseFullResponseDto getPurchaseFullResponseDto(Purchase purchase) {
         PurchaseFullResponseDto purchaseFullResponseDto = new PurchaseFullResponseDto();
-        Product product = productService.findProductById(purchase.getProductId()).orElseThrow();
+        Product product = productService.findProductById(purchase.getProductId());
 
         purchaseFullResponseDto.setProductId(product.getId());
         purchaseFullResponseDto.setProductName(product.getName());
@@ -129,10 +124,15 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(authentication.getName()).orElseThrow();
+        User user = userService.findUserByUserName(authentication.getName());
         List<Purchase> purchases = findAllPurchasesByUserId(user.getId());
 
         return getPurchaseFullResponseDtoList(purchases);
+    }
+
+    private Purchase findPurchaseByPurchaseId(PurchaseId purchaseId) {
+        return purchaseRepository.findById(purchaseId)
+                .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
     }
 
 }

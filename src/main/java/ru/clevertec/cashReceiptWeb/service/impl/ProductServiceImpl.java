@@ -6,13 +6,11 @@ import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.dto.ProductRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.ProductResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.Product;
-import ru.clevertec.cashReceiptWeb.exception.ProductNotFoundException;
 import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
 import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,12 +34,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto getProductResponseDto(Long id) {
-        Product product = findProductById(id).orElseThrow(() -> new UserNotFoundException(id));
+        Product product = findProductById(id);
         return modelMapper.map(product, ProductResponseDto.class);
     }
 
-    public Optional<Product> findProductById(Long id) {
-        return productsRepository.findById(id);
+    public Product findProductById(Long id) {
+        return productsRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     public List<Product> findAllProducts() {
@@ -59,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
         Product newProduct = modelMapper.map(productRequestDto, Product.class);
-        Product product = findProductById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        Product product = findProductById(id);
 
         product.setName(newProduct.getName());
         product.setPrice(newProduct.getPrice());

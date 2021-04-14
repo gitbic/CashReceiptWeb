@@ -14,7 +14,6 @@ import ru.clevertec.cashReceiptWeb.security.repository.enums.UserRole;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto addUser(UserRequestDto userRequestDto) {
         User user = modelMapper.map(userRequestDto, User.class);
 
-        if (findUserByUserName(user.getUsername()).isPresent()) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new UsernameExistException(user.getUsername());
         }
 
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
         User newUser = modelMapper.map(userRequestDto, User.class);
-        User user = findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
+        User user = findUserById(id);
 
         user.setUsername(newUser.getUsername());
         user.setPassword(newUser.getPassword());
@@ -67,13 +66,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserByUserName(String username) {
-        return userRepository.findByUsername(username);
+    public User findUserByUserName(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
     }
 
     @Override
-    public Optional<User> findUserById(Long id) {
-        return userRepository.findById(id);
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override
@@ -85,17 +84,10 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
-    // TODO spring token need
-    @Override
-    public User getCurrentUser() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        return findUserByUserName(authentication.getName()).orElseThrow();
-        return findUserById(1L).orElseThrow();
-    }
 
     @Override
     public UserResponseDto getUserResponseDto(Long id) {
-        User user = findUserById(id).orElseThrow(() -> new UserNotFoundException(id));
+        User user = findUserById(id);
         return modelMapper.map(user, UserResponseDto.class);
     }
 
