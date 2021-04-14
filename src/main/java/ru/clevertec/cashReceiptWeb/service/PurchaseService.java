@@ -7,16 +7,12 @@ import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PurchaseService {
-    Purchase savePurchase(Purchase purchase);
 
     PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto);
 
     void deleteAllPurchasesByUserId(Long userId);
-
-    Optional<Purchase> findPurchaseByPurchaseId(PurchaseId purchaseId);
 
     void deletePurchaseByPurchaseId(PurchaseId purchaseId);
 

@@ -28,26 +28,26 @@ public class PurchaseController {
         return purchaseService.updatePurchase(purchaseRequestDto);
     }
 
-    @GetMapping("/{id}")
-    public List<PurchaseSimpleResponseDto> getUserAllPurchasesDto(@PathVariable Long id) {
-        return purchaseService.getAllPurchasesByUserIdSimpleResponseDtoList(id);
+    @GetMapping("/{userId}")
+    public List<PurchaseSimpleResponseDto> getUserAllPurchasesDto(@PathVariable Long userId) {
+        return purchaseService.getAllPurchasesByUserIdSimpleResponseDtoList(userId);
     }
 
-    @RequestMapping(value = "/{userId}/{productId}", method = RequestMethod.GET)
-    public PurchaseSimpleResponseDto getPurchaseDto(@PathVariable Long userId, @PathVariable Long productId) {
-        PurchaseId purchaseId = new PurchaseId(userId, productId);
+    @GetMapping()
+    public PurchaseSimpleResponseDto getUserAllPurchasesDto(@RequestBody PurchaseId purchaseId) {
         return purchaseService.getPurchaseSimpleResponseDto(purchaseId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteAllPurchasesByUserId(@PathVariable Long id) {
-        purchaseService.deleteAllPurchasesByUserId(id);
+    @DeleteMapping("/{userId}")
+    public void deleteAllPurchasesByUserId(@PathVariable Long userId) {
+        purchaseService.deleteAllPurchasesByUserId(userId);
     }
 
-    @RequestMapping(value = "/{userId}/{productId}", method = RequestMethod.DELETE)
-    public void deletePurchase(@PathVariable Long userId, @PathVariable Long productId) {
-        PurchaseId purchaseId = new PurchaseId(userId, productId);
+    @DeleteMapping
+    public void deletePurchase(@RequestBody PurchaseId purchaseId) {
         purchaseService.deletePurchaseByPurchaseId(purchaseId);
     }
+
+
 
 }

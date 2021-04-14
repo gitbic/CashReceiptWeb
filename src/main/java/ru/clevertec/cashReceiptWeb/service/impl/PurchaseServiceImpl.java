@@ -42,26 +42,11 @@ public class PurchaseServiceImpl implements PurchaseService {
         this.modelMapper = modelMapper;
     }
 
-    @Override
-    public Purchase savePurchase(Purchase purchase) {
+    private Purchase savePurchase(Purchase purchase) {
         return purchaseRepository.save(purchase);
     }
 
-    @Override
-    public PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto) {
-        Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
-        Optional<Purchase> optionalPurchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId());
-
-        if (optionalPurchase.isPresent()) {
-            newPurchase.setProductNumber(optionalPurchase.get().getProductNumber() + newPurchase.getProductNumber());
-        }
-
-        newPurchase = savePurchase(newPurchase);
-        return modelMapper.map(newPurchase, PurchaseSimpleResponseDto.class);
-    }
-
-    @Override
-    public Optional<Purchase> findPurchaseByPurchaseId(PurchaseId purchaseId) {
+    private Optional<Purchase> findPurchaseByPurchaseId(PurchaseId purchaseId) {
         return purchaseRepository.findById(purchaseId);
     }
 
@@ -80,8 +65,20 @@ public class PurchaseServiceImpl implements PurchaseService {
         return purchaseRepository.findAllByUserId(userId);
     }
 
-
     @Override
+    public PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto) {
+        Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
+        Optional<Purchase> optionalPurchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId());
+
+        if (optionalPurchase.isPresent()) {
+            newPurchase.setProductNumber(optionalPurchase.get().getProductNumber() + newPurchase.getProductNumber());
+        }
+
+        newPurchase = savePurchase(newPurchase);
+        return modelMapper.map(newPurchase, PurchaseSimpleResponseDto.class);
+    }
+
+     @Override
     public List<PurchaseSimpleResponseDto> getAllPurchasesByUserIdSimpleResponseDtoList(Long userId) {
         return findAllPurchasesByUserId(userId).stream()
                 .map(purchase -> modelMapper.map(purchase, PurchaseSimpleResponseDto.class))
