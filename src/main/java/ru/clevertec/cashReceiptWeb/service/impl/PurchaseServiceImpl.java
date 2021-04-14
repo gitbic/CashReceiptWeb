@@ -1,8 +1,7 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseFullResponseDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseRequestDto;
@@ -12,13 +11,10 @@ import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 import ru.clevertec.cashReceiptWeb.exception.PurchaseNotFoundException;
 import ru.clevertec.cashReceiptWeb.repository.PurchaseRepository;
-import ru.clevertec.cashReceiptWeb.security.model.User;
-import ru.clevertec.cashReceiptWeb.security.service.UserService;
 import ru.clevertec.cashReceiptWeb.service.OrderService;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 import ru.clevertec.cashReceiptWeb.service.PurchaseService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,14 +25,13 @@ import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT
 public class PurchaseServiceImpl implements PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
-    private final UserService userService;
     private final ProductService productService;
     private final OrderService orderService;
     private final ModelMapper modelMapper;
 
-    public PurchaseServiceImpl(PurchaseRepository purchaseRepository, UserService userService, ProductService productService, OrderService orderService, ModelMapper modelMapper) {
+    public PurchaseServiceImpl(PurchaseRepository purchaseRepository, ProductService productService,
+                               @Lazy OrderService orderService, ModelMapper modelMapper) {
         this.purchaseRepository = purchaseRepository;
-        this.userService = userService;
         this.productService = productService;
         this.orderService = orderService;
         this.modelMapper = modelMapper;
@@ -71,7 +66,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public List<PurchaseSimpleResponseDto> getAllPurchasesByUserIdSimpleResponseDtoList(Long userId) {
+    public List<PurchaseSimpleResponseDto> getUserPurchasesSimpleResponseDtoList(Long userId) {
         return findAllPurchasesByUserId(userId).stream()
                 .map(purchase -> modelMapper.map(purchase, PurchaseSimpleResponseDto.class))
                 .collect(Collectors.toList());
@@ -95,39 +90,31 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public PurchaseFullResponseDto getPurchaseFullResponseDto(Purchase purchase) {
+    public List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList(Long userId) {
+        List<Purchase> purchases = findAllPurchasesByUserId(userId);
+        return purchases.stream()
+                .map(purchase -> getPurchaseFullResponseDto(purchase.getPurchaseId()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public PurchaseFullResponseDto getPurchaseFullResponseDto(PurchaseId purchaseId) {
         PurchaseFullResponseDto purchaseFullResponseDto = new PurchaseFullResponseDto();
+        Purchase purchase = findPurchaseByPurchaseId(purchaseId);
         Product product = productService.findProductById(purchase.getProductId());
 
+        purchaseFullResponseDto.setUserId(purchase.getUserId());
         purchaseFullResponseDto.setProductId(product.getId());
         purchaseFullResponseDto.setProductName(product.getName());
         purchaseFullResponseDto.setProductPrice(product.getPrice());
         purchaseFullResponseDto.setProductNumber(purchase.getProductNumber());
         purchaseFullResponseDto.setCost(orderService.getPurchaseCost(purchase));
+
         if (product.isDiscount()) {
             purchaseFullResponseDto.setDiscount(DISCOUNT_PERCENT_FOR_PURCHASE);
         }
 
         return purchaseFullResponseDto;
-    }
-
-    @Override
-    public List<PurchaseFullResponseDto> getPurchaseFullResponseDtoList(List<Purchase> purchases) {
-        List<PurchaseFullResponseDto> purchasesDto = new ArrayList<>();
-
-        for (Purchase purchase : purchases) {
-            purchasesDto.add(getPurchaseFullResponseDto(purchase));
-        }
-        return purchasesDto;
-    }
-
-    @Override
-    public List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(authentication.getName());
-        List<Purchase> purchases = findAllPurchasesByUserId(user.getId());
-
-        return getPurchaseFullResponseDtoList(purchases);
     }
 
     private Purchase findPurchaseByPurchaseId(PurchaseId purchaseId) {

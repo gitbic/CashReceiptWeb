@@ -18,13 +18,11 @@ public interface PurchaseService {
 
     List<Purchase> findAllPurchasesByUserId(Long userId);
 
-    List<PurchaseSimpleResponseDto> getAllPurchasesByUserIdSimpleResponseDtoList(Long userId);
+    List<PurchaseSimpleResponseDto> getUserPurchasesSimpleResponseDtoList(Long userId);
 
-    PurchaseFullResponseDto getPurchaseFullResponseDto(Purchase purchase);
+    List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList(Long userId);
 
-    List<PurchaseFullResponseDto> getPurchaseFullResponseDtoList(List<Purchase> purchases);
-
-    List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList();
+    PurchaseFullResponseDto getPurchaseFullResponseDto(PurchaseId purchaseId);
 
     PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId);
 

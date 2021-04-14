@@ -1,7 +1,5 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -11,7 +9,6 @@ import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.security.model.User;
-import ru.clevertec.cashReceiptWeb.security.service.UserService;
 import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 import ru.clevertec.cashReceiptWeb.service.OrderService;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
@@ -25,15 +22,12 @@ public class OrderServiceImpl implements OrderService {
 
     private final PurchaseService purchaseService;
     private final ProductService productService;
-    private final UserService userService;
     private final DiscountCardService discountCardService;
 
-    @Autowired
-    public OrderServiceImpl(@Lazy PurchaseService purchaseService, ProductService productService,
-                            UserService userService, DiscountCardService discountCardService) {
+    public OrderServiceImpl(PurchaseService purchaseService, ProductService productService,
+                            DiscountCardService discountCardService) {
         this.purchaseService = purchaseService;
         this.productService = productService;
-        this.userService = userService;
         this.discountCardService = discountCardService;
     }
 
@@ -74,7 +68,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PurchaseCostDto getCurrentUserPurchasesCostDto() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(authentication.getName());
+//        User user = userService.findUserByUserName(authentication.getName());
+        User user = new User();
 
         List<Purchase> purchases = purchaseService.findAllPurchasesByUserId(user.getId());
         DiscountCard discountCard = discountCardService.findDiscountCardByCardNumber(user.getCardNumber());

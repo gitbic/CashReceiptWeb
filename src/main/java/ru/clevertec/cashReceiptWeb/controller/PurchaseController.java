@@ -1,6 +1,7 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseFullResponseDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseSimpleResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
@@ -31,15 +32,27 @@ public class PurchaseController {
     }
 
     @GetMapping("/{userId}")
-    public List<PurchaseSimpleResponseDto> getUserAllPurchasesDto(@PathVariable Long userId) {
-        return purchaseService.getAllPurchasesByUserIdSimpleResponseDtoList(userId);
+    public List<PurchaseSimpleResponseDto> getUserAllPurchasesSimpleDto(@PathVariable Long userId) {
+        return purchaseService.getUserPurchasesSimpleResponseDtoList(userId);
     }
 
     @GetMapping()
-    public PurchaseSimpleResponseDto getUserAllPurchasesDto(
+    public PurchaseSimpleResponseDto getPurchaseSimpleDto(
             @RequestParam Long userId, @RequestParam Long productId) {
         PurchaseId purchaseId = new PurchaseId(userId, productId);
         return purchaseService.getPurchaseSimpleResponseDto(purchaseId);
+    }
+
+    @GetMapping("/full")
+    public PurchaseFullResponseDto getPurchaseFullDto(
+            @RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
+        return purchaseService.getPurchaseFullResponseDto(purchaseId);
+    }
+
+    @GetMapping("/full/{userId}")
+    public List<PurchaseFullResponseDto> getUserAllPurchaseFullDto(@PathVariable Long userId) {
+        return purchaseService.getUserPurchasesFullResponseDtoList(userId);
     }
 
     @DeleteMapping("/{userId}")
@@ -52,6 +65,5 @@ public class PurchaseController {
         PurchaseId purchaseId = new PurchaseId(userId, productId);
         purchaseService.deletePurchaseByPurchaseId(purchaseId);
     }
-
 
 }
