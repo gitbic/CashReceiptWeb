@@ -18,5 +18,8 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     nativeQuery = true)
     List<Role> findAllByUserId(Long userId);
 
-
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO user_role(user_id, role_id) VALUES (?, ?)", nativeQuery = true)
+    void saveUserRole(Long userId, Long roleId);
 }

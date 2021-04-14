@@ -1,7 +1,6 @@
 package ru.clevertec.cashReceiptWeb.security.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.dto.UserRequestDto;
@@ -9,6 +8,7 @@ import ru.clevertec.cashReceiptWeb.dto.UserResponseDto;
 import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
 import ru.clevertec.cashReceiptWeb.exception.UsernameExistException;
 import ru.clevertec.cashReceiptWeb.security.model.User;
+import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
 import ru.clevertec.cashReceiptWeb.security.repository.enums.UserRole;
 import ru.clevertec.cashReceiptWeb.security.service.UserService;
@@ -21,12 +21,14 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ModelMapper modelMapper;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                           BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.modelMapper = modelMapper;
     }
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user = saveUser(user);
-        userRepository.saveUserRole(user.getId(), UserRole.ROLE_USER.getRoleId());
+        roleRepository.saveUserRole(user.getId(), UserRole.ROLE_USER.getRoleId());
 
         return modelMapper.map(user, UserResponseDto.class);
     }
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
-
+    // TODO spring token need
     @Override
     public User getCurrentUser() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
