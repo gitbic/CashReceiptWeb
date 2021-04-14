@@ -42,12 +42,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         this.modelMapper = modelMapper;
     }
 
-    private Purchase savePurchase(Purchase purchase) {
-        return purchaseRepository.save(purchase);
-    }
-
-    private Optional<Purchase> findPurchaseByPurchaseId(PurchaseId purchaseId) {
-        return purchaseRepository.findById(purchaseId);
+    private Purchase findPurchaseByPurchaseId(PurchaseId purchaseId) {
+        return purchaseRepository.findById(purchaseId)
+                .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
     }
 
     @Override
@@ -68,17 +65,17 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto) {
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
-        Optional<Purchase> optionalPurchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId());
+        Optional<Purchase> optionalPurchase = purchaseRepository.findById(newPurchase.getPurchaseId());
 
         if (optionalPurchase.isPresent()) {
             newPurchase.setProductNumber(optionalPurchase.get().getProductNumber() + newPurchase.getProductNumber());
         }
 
-        newPurchase = savePurchase(newPurchase);
+        newPurchase = purchaseRepository.save(newPurchase);
         return modelMapper.map(newPurchase, PurchaseSimpleResponseDto.class);
     }
 
-     @Override
+    @Override
     public List<PurchaseSimpleResponseDto> getAllPurchasesByUserIdSimpleResponseDtoList(Long userId) {
         return findAllPurchasesByUserId(userId).stream()
                 .map(purchase -> modelMapper.map(purchase, PurchaseSimpleResponseDto.class))
@@ -87,19 +84,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId) {
-        Purchase purchase = findPurchaseByPurchaseId(purchaseId)
-                .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
+        Purchase purchase = findPurchaseByPurchaseId(purchaseId);
         return modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
     }
 
     @Override
     public PurchaseSimpleResponseDto updatePurchase(PurchaseRequestDto purchaseRequestDto) {
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
-        Purchase purchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId())
-                .orElseThrow(() -> new PurchaseNotFoundException(newPurchase.getPurchaseId()));
+        Purchase purchase = findPurchaseByPurchaseId(newPurchase.getPurchaseId());
 
         purchase.setProductNumber(newPurchase.getProductNumber());
-        purchase = savePurchase(purchase);
+        purchase = purchaseRepository.save(purchase);
 
         return modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
     }

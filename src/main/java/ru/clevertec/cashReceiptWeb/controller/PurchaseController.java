@@ -34,7 +34,9 @@ public class PurchaseController {
     }
 
     @GetMapping()
-    public PurchaseSimpleResponseDto getUserAllPurchasesDto(@RequestBody PurchaseId purchaseId) {
+    public PurchaseSimpleResponseDto getUserAllPurchasesDto(
+            @RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
         return purchaseService.getPurchaseSimpleResponseDto(purchaseId);
     }
 
@@ -44,10 +46,10 @@ public class PurchaseController {
     }
 
     @DeleteMapping
-    public void deletePurchase(@RequestBody PurchaseId purchaseId) {
+    public void deletePurchase(@RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
         purchaseService.deletePurchaseByPurchaseId(purchaseId);
     }
-
 
 
 }
