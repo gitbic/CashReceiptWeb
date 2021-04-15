@@ -19,7 +19,7 @@ public class DiscountCardServiceImpl implements DiscountCardService {
         this.discountCardRepository = discountCardRepository;
     }
 
-    public List<DiscountCard> findAllDiscountCards() {
+    public List<DiscountCard> getAllDiscountCards() {
         return discountCardRepository.findAll();
     }
 
@@ -31,7 +31,7 @@ public class DiscountCardServiceImpl implements DiscountCardService {
         discountCardRepository.deleteById(cardNumber);
     }
 
-    public DiscountCard findDiscountCardByCardNumber(String cardNumber) {
+    public DiscountCard getDiscountCardByCardNumber(String cardNumber) {
         return discountCardRepository.findById(cardNumber)
                 .orElseThrow(() -> new DiscountCardNotFoundException(cardNumber));
     }

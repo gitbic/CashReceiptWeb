@@ -48,7 +48,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public List<Purchase> findAllPurchasesByUserId(Long userId) {
+    public List<Purchase> getAllPurchasesByUserId(Long userId) {
         return purchaseRepository.findAllByUserId(userId);
     }
 
@@ -67,7 +67,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public List<PurchaseSimpleResponseDto> getUserPurchasesSimpleResponseDtoList(Long userId) {
-        return findAllPurchasesByUserId(userId).stream()
+        return getAllPurchasesByUserId(userId).stream()
                 .map(purchase -> modelMapper.map(purchase, PurchaseSimpleResponseDto.class))
                 .collect(Collectors.toList());
     }
@@ -91,7 +91,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList(Long userId) {
-        List<Purchase> purchases = findAllPurchasesByUserId(userId);
+        List<Purchase> purchases = getAllPurchasesByUserId(userId);
         return purchases.stream()
                 .map(purchase -> getPurchaseFullResponseDto(purchase.getPurchaseId()))
                 .collect(Collectors.toList());
@@ -101,7 +101,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     public PurchaseFullResponseDto getPurchaseFullResponseDto(PurchaseId purchaseId) {
         PurchaseFullResponseDto purchaseFullResponseDto = new PurchaseFullResponseDto();
         Purchase purchase = findPurchaseByPurchaseId(purchaseId);
-        Product product = productService.findProductById(purchase.getProductId());
+        Product product = productService.getProductById(purchase.getProductId());
 
         purchaseFullResponseDto.setUserId(purchase.getUserId());
         purchaseFullResponseDto.setProductId(product.getId());

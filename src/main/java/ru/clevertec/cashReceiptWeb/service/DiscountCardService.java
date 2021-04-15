@@ -6,11 +6,11 @@ import java.util.List;
 
 
 public interface DiscountCardService {
-    List<DiscountCard> findAllDiscountCards();
+    List<DiscountCard> getAllDiscountCards();
 
     void deleteDiscountCardByCardNumber(String cardNumber);
 
-    DiscountCard findDiscountCardByCardNumber(String cardNumber);
+    DiscountCard getDiscountCardByCardNumber(String cardNumber);
 
     void saveDiscountCard(DiscountCard discountCard);
 }

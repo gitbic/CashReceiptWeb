@@ -8,15 +8,11 @@ import ru.clevertec.cashReceiptWeb.entity.Product;
 import java.util.List;
 
 public interface ProductService {
-    List<Product> findAllProducts();
-
     List<ProductResponseDto> getAllProductsResponseDto();
 
-    Product findProductById(Long id);
+    Product getProductById(Long id);
 
     ProductResponseDto getProductResponseDto(Long id);
-
-    Product saveProduct(Product product);
 
     void deleteProductById(Long id);
 

@@ -1,6 +1,6 @@
 CREATE TABLE product
 (
-    id          bigserial        NOT NULL,
+    id          bigserial,
     name        varchar(100)     NOT NULL,
     price       double precision NOT NULL,
     is_discount boolean          NOT NULL,
@@ -16,31 +16,36 @@ CREATE TABLE discount_card
 
 CREATE TABLE "user"
 (
-    id          bigserial    NOT NULL,
+    id          bigserial,
     username    varchar(100) NOT NULL,
     password    varchar(100) NOT NULL,
-    card_number varchar(4) REFERENCES discount_card (card_number) ON UPDATE CASCADE ON DELETE CASCADE,
-    PRIMARY KEY (id)
+    card_number varchar(4)   NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (card_number) REFERENCES discount_card (card_number)
 );
 
 CREATE TABLE role
 (
-    id        bigserial    NOT NULL,
+    id        bigserial,
     role_name varchar(100) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE user_role
 (
-    user_id bigint REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    role_id bigint REFERENCES role (id) ON UPDATE CASCADE,
-    CONSTRAINT user_role_pkey PRIMARY KEY (role_id, user_id)
+    user_id bigint NOT NULL,
+    role_id bigint NOT NULL,
+    CONSTRAINT user_role_pkey PRIMARY KEY (role_id, user_id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES role (id) ON UPDATE CASCADE
 );
 
 CREATE TABLE purchase
 (
-    user_id        bigint REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    product_id     bigint REFERENCES product (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    product_number int NOT NULL,
-    CONSTRAINT purchase_pkey PRIMARY KEY (user_id, product_id)
+    user_id        bigint NOT NULL,
+    product_id     bigint NOT NULL,
+    product_number int    NOT NULL,
+    CONSTRAINT purchase_pkey PRIMARY KEY (user_id, product_id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES product (id) ON UPDATE CASCADE ON DELETE CASCADE
 );

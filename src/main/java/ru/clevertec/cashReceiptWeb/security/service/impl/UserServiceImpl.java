@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
         User newUser = modelMapper.map(userRequestDto, User.class);
-        User user = findUserById(id);
+        User user = getUserById(id);
 
         user.setUsername(newUser.getUsername());
         user.setPassword(newUser.getPassword());
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(Long id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
@@ -76,19 +76,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public UserResponseDto getUserResponseDto(Long id) {
-        User user = findUserById(id);
+        User user = getUserById(id);
         return modelMapper.map(user, UserResponseDto.class);
     }
 
     @Override
     public List<UserResponseDto> getAllUsersResponseDto() {
-        return findAllUsers().stream()
+        return userRepository.findAll().stream()
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .collect(Collectors.toList());
     }

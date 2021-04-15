@@ -5,5 +5,5 @@ import ru.clevertec.cashReceiptWeb.security.model.Role;
 import java.util.List;
 
 public interface RoleService {
-    List<Role> findAllRolesByUserId(Long userId);
+    List<Role> getAllRolesByUserId(Long userId);
 }

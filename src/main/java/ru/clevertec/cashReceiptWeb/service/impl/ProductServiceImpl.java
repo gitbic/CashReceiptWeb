@@ -27,27 +27,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponseDto> getAllProductsResponseDto() {
-        return findAllProducts().stream()
+        return productsRepository.findAll().stream()
                 .map(product -> modelMapper.map(product, ProductResponseDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public ProductResponseDto getProductResponseDto(Long id) {
-        Product product = findProductById(id);
+        Product product = getProductById(id);
         return modelMapper.map(product, ProductResponseDto.class);
     }
 
-    public Product findProductById(Long id) {
+    public Product getProductById(Long id) {
         return productsRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-    }
-
-    public List<Product> findAllProducts() {
-        return productsRepository.findAll();
-    }
-
-    public Product saveProduct(Product product) {
-        return productsRepository.save(product);
     }
 
     public void deleteProductById(Long id) {
@@ -57,12 +49,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
         Product newProduct = modelMapper.map(productRequestDto, Product.class);
-        Product product = findProductById(id);
+        Product product = getProductById(id);
 
         product.setName(newProduct.getName());
         product.setPrice(newProduct.getPrice());
         product.setDiscount(newProduct.isDiscount());
-        product = saveProduct(product);
+        product = productsRepository.save(product);
 
         return modelMapper.map(product, ProductResponseDto.class);
     }
@@ -70,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
         Product product = modelMapper.map(productRequestDto, Product.class);
-        product = saveProduct(product);
+        product = productsRepository.save(product);
         return modelMapper.map(product, ProductResponseDto.class);
     }
 

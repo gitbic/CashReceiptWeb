@@ -16,7 +16,7 @@ public interface PurchaseService {
 
     void deletePurchaseByPurchaseId(PurchaseId purchaseId);
 
-    List<Purchase> findAllPurchasesByUserId(Long userId);
+    List<Purchase> getAllPurchasesByUserId(Long userId);
 
     List<PurchaseSimpleResponseDto> getUserPurchasesSimpleResponseDtoList(Long userId);
 

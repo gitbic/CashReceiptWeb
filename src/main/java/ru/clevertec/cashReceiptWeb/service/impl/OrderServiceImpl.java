@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public BigDecimal getPurchaseCost(Purchase purchase) {
-        Product product = productService.findProductById(purchase.getProductId());
+        Product product = productService.getProductById(purchase.getProductId());
         BigDecimal cost = product.getPrice().multiply(BigDecimal.valueOf(purchase.getProductNumber()));
 
         BigDecimal discount = BigDecimal.ZERO;
@@ -71,8 +71,8 @@ public class OrderServiceImpl implements OrderService {
 //        User user = userService.findUserByUserName(authentication.getName());
         User user = new User();
 
-        List<Purchase> purchases = purchaseService.findAllPurchasesByUserId(user.getId());
-        DiscountCard discountCard = discountCardService.findDiscountCardByCardNumber(user.getCardNumber());
+        List<Purchase> purchases = purchaseService.getAllPurchasesByUserId(user.getId());
+        DiscountCard discountCard = discountCardService.getDiscountCardByCardNumber(user.getCardNumber());
         return getPurchasesCostDto(purchases, discountCard);
     }
 
