@@ -1,20 +1,10 @@
 package ru.clevertec.cashReceiptWeb.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 
-import java.util.List;
-
 @Repository
-public interface DiscountCardRepository {
+public interface DiscountCardRepository extends JpaRepository<DiscountCard, String> {
 
-    DiscountCard find(String cardNumber);
-
-    void add(DiscountCard discountCard);
-
-    void update(DiscountCard discountCard);
-
-    void delete(String cardNumber);
-
-    List<DiscountCard> findAll();
 }

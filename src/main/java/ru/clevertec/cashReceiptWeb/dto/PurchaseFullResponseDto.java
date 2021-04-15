@@ -5,7 +5,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class PurchaseDto {
+public class PurchaseFullResponseDto {
+    private Long userId;
     private Long productId;
     private String productName;
     private BigDecimal productPrice;

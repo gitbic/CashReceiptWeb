@@ -6,16 +6,20 @@ import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
 import ru.clevertec.cashReceiptWeb.security.service.RoleService;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    RoleRepository roleRepository;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     @Override
-    public Set<Role> findAllByUserId(Long userId) {
+    public List<Role> findAllRolesByUserId(Long userId) {
         return roleRepository.findAllByUserId(userId);
     }
 }

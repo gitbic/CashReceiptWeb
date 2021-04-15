@@ -13,10 +13,9 @@ import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
 import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
 
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -31,15 +30,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(userName);
+        Optional<User> optionalUser = userRepository.findByUsername(userName);
 
-        if (user == null) {
+        if (optionalUser.isEmpty()) {
             log.warn("User not found {}", userName);
-            throw new UsernameNotFoundException("User " + userName + " was not found in the database");
+            throw new UsernameNotFoundException("User " + userName + " not found in the database");
         }
-        log.info("Found user {}", userName);
 
-        Set<Role> roles = roleRepository.findAllByUserId(user.getId());
+        log.info("Found user {}", userName);
+        User user = optionalUser.get();
+
+        List<Role> roles = roleRepository.findAllByUserId(user.getId());
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
         if (roles != null) {

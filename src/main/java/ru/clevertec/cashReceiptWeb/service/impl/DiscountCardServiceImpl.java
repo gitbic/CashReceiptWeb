@@ -3,6 +3,7 @@ package ru.clevertec.cashReceiptWeb.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
+import ru.clevertec.cashReceiptWeb.exception.DiscountCardNotFoundException;
 import ru.clevertec.cashReceiptWeb.repository.DiscountCardRepository;
 import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 
@@ -11,26 +12,28 @@ import java.util.List;
 @Service
 public class DiscountCardServiceImpl implements DiscountCardService {
 
-    @Autowired
-    DiscountCardRepository discountCardRepository;
+    private final DiscountCardRepository discountCardRepository;
 
-    public List<DiscountCard> findAll() {
+    @Autowired
+    public DiscountCardServiceImpl(DiscountCardRepository discountCardRepository) {
+        this.discountCardRepository = discountCardRepository;
+    }
+
+    public List<DiscountCard> findAllDiscountCards() {
         return discountCardRepository.findAll();
     }
 
-    public void add(DiscountCard discountCard) {
-        discountCardRepository.add(discountCard);
+    public void saveDiscountCard(DiscountCard discountCard) {
+        discountCardRepository.save(discountCard);
     }
 
-    public void delete(String cardNumber) {
-        discountCardRepository.delete(cardNumber);
+    public void deleteDiscountCardByCardNumber(String cardNumber) {
+        discountCardRepository.deleteById(cardNumber);
     }
 
-    public DiscountCard get(String cardNumber) {
-        return discountCardRepository.find(cardNumber);
+    public DiscountCard findDiscountCardByCardNumber(String cardNumber) {
+        return discountCardRepository.findById(cardNumber)
+                .orElseThrow(() -> new DiscountCardNotFoundException(cardNumber));
     }
 
-    public void update(DiscountCard discountCard) {
-        discountCardRepository.update(discountCard);
-    }
 }

@@ -1,22 +1,30 @@
 package ru.clevertec.cashReceiptWeb.service;
 
-import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseFullResponseDto;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseRequestDto;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseSimpleResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
+import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 
 import java.util.List;
 
 public interface PurchaseService {
-    void save(Purchase purchase);
 
-    void deleteUserPurchase(Long userId, Long productId);
+    PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto);
 
-    void deleteAllByUserId(Long userId);
+    void deleteAllPurchasesByUserId(Long userId);
 
-    List<Purchase> findAllByUserId(Long userId);
+    void deletePurchaseByPurchaseId(PurchaseId purchaseId);
 
-    PurchaseDto getPurchaseDto(Purchase purchase);
+    List<Purchase> findAllPurchasesByUserId(Long userId);
 
-    List<PurchaseDto> getPurchaseDtoList(List<Purchase> purchases);
+    List<PurchaseSimpleResponseDto> getUserPurchasesSimpleResponseDtoList(Long userId);
 
-    List<PurchaseDto> getCurrentUserPurchaseDtoList();
+    List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList(Long userId);
+
+    PurchaseFullResponseDto getPurchaseFullResponseDto(PurchaseId purchaseId);
+
+    PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId);
+
+    PurchaseSimpleResponseDto updatePurchase(PurchaseId purchaseId, PurchaseRequestDto purchaseRequestDto);
 }

@@ -1,85 +1,69 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
-import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
-import ru.clevertec.cashReceiptWeb.dto.PurchaseCostViewDto;
-import ru.clevertec.cashReceiptWeb.dto.PurchaseDto;
-import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
-import ru.clevertec.cashReceiptWeb.entity.Purchase;
-import ru.clevertec.cashReceiptWeb.security.model.User;
-import ru.clevertec.cashReceiptWeb.security.service.UserService;
-import ru.clevertec.cashReceiptWeb.service.*;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseFullResponseDto;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseRequestDto;
+import ru.clevertec.cashReceiptWeb.dto.PurchaseSimpleResponseDto;
+import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
+import ru.clevertec.cashReceiptWeb.service.PurchaseService;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/purchase")
+@RestController
+@RequestMapping("/purchases")
 public class PurchaseController {
 
-    @Autowired
-    ProductService productService;
+    private final PurchaseService purchaseService;
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    PurchaseService purchaseService;
-
-    @Autowired
-    DiscountCardService discountCardService;
-
-    @Autowired
-    OrderService orderService;
-
-    @Autowired
-    MappingUtil mappingUtil;
-
-    @GetMapping("/products")
-    public String showProducts(Model model) {
-        model.addAttribute("purchase", new Purchase());
-        model.addAttribute("products", productService.findAll());
-        model.addAttribute("discount", GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE);
-        return "purchase/byProductPage";
+    public PurchaseController(PurchaseService purchaseService) {
+        this.purchaseService = purchaseService;
     }
 
-    @PostMapping("/buy")
-    public String buy(@ModelAttribute(value = "purchase") Purchase purchase) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
-
-        purchase.setUserId(user.getId());
-        purchaseService.save(purchase);
-        return "redirect:/purchase/products";
+    @PostMapping
+    public PurchaseSimpleResponseDto addPurchase(@RequestBody PurchaseRequestDto purchaseRequestDto) {
+        return purchaseService.addPurchase(purchaseRequestDto);
     }
 
-    @GetMapping("/cart")
-    public String cart(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
-
-        DiscountCard discountCard = discountCardService.get(user.getCardNumber());
-        List<PurchaseDto> purchasesDto = purchaseService.getCurrentUserPurchaseDtoList();
-        PurchaseCostDto purchaseCostDto = orderService.getCurrentUserPurchasesCostDto();
-        PurchaseCostViewDto purchaseCostViewDto = mappingUtil.mapToToPurchaseCostViewDto(purchaseCostDto);
-
-        model.addAttribute("purchasesDto", purchasesDto);
-        model.addAttribute("purchaseCostViewDto", purchaseCostViewDto);
-        model.addAttribute("discountCard", discountCard);
-        return "purchase/cartPage";
+    @PutMapping
+    public PurchaseSimpleResponseDto updatePurchase(@RequestBody PurchaseRequestDto purchaseRequestDto,
+                                                    @RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
+        return purchaseService.updatePurchase(purchaseId, purchaseRequestDto);
     }
 
-    @GetMapping("/delete/{id}")
-    public String deletePurchase(@PathVariable(value = "id") Long productId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUserName(authentication.getName());
-        purchaseService.deleteUserPurchase(user.getId(), productId);
-        return "redirect:/purchase/cart";
+    @GetMapping("/{userId}")
+    public List<PurchaseSimpleResponseDto> getUserAllPurchasesSimpleDto(@PathVariable Long userId) {
+        return purchaseService.getUserPurchasesSimpleResponseDtoList(userId);
+    }
+
+    @GetMapping()
+    public PurchaseSimpleResponseDto getPurchaseSimpleDto(
+            @RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
+        return purchaseService.getPurchaseSimpleResponseDto(purchaseId);
+    }
+
+    @GetMapping("/full")
+    public PurchaseFullResponseDto getPurchaseFullDto(
+            @RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
+        return purchaseService.getPurchaseFullResponseDto(purchaseId);
+    }
+
+    @GetMapping("/full/{userId}")
+    public List<PurchaseFullResponseDto> getUserAllPurchaseFullDto(@PathVariable Long userId) {
+        return purchaseService.getUserPurchasesFullResponseDtoList(userId);
+    }
+
+    @DeleteMapping("/{userId}")
+    public void deleteAllPurchasesByUserId(@PathVariable Long userId) {
+        purchaseService.deleteAllPurchasesByUserId(userId);
+    }
+
+    @DeleteMapping
+    public void deletePurchase(@RequestParam Long userId, @RequestParam Long productId) {
+        PurchaseId purchaseId = new PurchaseId(userId, productId);
+        purchaseService.deletePurchaseByPurchaseId(purchaseId);
     }
 
 }

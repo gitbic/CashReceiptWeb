@@ -1,19 +1,16 @@
 package ru.clevertec.cashReceiptWeb.service;
 
-import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 
 import java.util.List;
 
 
 public interface DiscountCardService {
-    List<DiscountCard> findAll();
+    List<DiscountCard> findAllDiscountCards();
 
-    void add(DiscountCard discountCard);
+    void deleteDiscountCardByCardNumber(String cardNumber);
 
-    void delete(String cardNumber);
+    DiscountCard findDiscountCardByCardNumber(String cardNumber);
 
-    DiscountCard get(String cardNumber);
-
-    void update(DiscountCard discountCard);
+    void saveDiscountCard(DiscountCard discountCard);
 }

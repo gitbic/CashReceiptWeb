@@ -1,17 +1,26 @@
 package ru.clevertec.cashReceiptWeb.security.service;
 
+import ru.clevertec.cashReceiptWeb.dto.UserRequestDto;
+import ru.clevertec.cashReceiptWeb.dto.UserResponseDto;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 
-import java.util.Set;
+import java.util.List;
 
 public interface UserService {
-    User findById(Long id);
+    User findUserById(Long id);
 
-    User findByUserName(String username);
+    UserResponseDto getUserResponseDto(Long id);
 
-    boolean add(User user);
+    UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
 
-    void delete(Long id);
+    UserResponseDto addUser(UserRequestDto userRequestDto);
 
-    Set<User> findAll();
+    User saveUser(User user);
+
+    void deleteUserById(Long id);
+
+    List<User> findAllUsers();
+
+    List<UserResponseDto> getAllUsersResponseDto();
+
 }

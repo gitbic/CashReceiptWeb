@@ -1,40 +1,77 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.clevertec.cashReceiptWeb.dto.ProductRequestDto;
+import ru.clevertec.cashReceiptWeb.dto.ProductResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.Product;
+import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
 import ru.clevertec.cashReceiptWeb.repository.ProductsRepository;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    ProductsRepository productsRepository;
+    private final ProductsRepository productsRepository;
+    private final ModelMapper modelMapper;
 
-    public List<Product> findAll() {
+    @Autowired
+    public ProductServiceImpl(ProductsRepository productsRepository, ModelMapper modelMapper) {
+        this.productsRepository = productsRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public List<ProductResponseDto> getAllProductsResponseDto() {
+        return findAllProducts().stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductResponseDto getProductResponseDto(Long id) {
+        Product product = findProductById(id);
+        return modelMapper.map(product, ProductResponseDto.class);
+    }
+
+    public Product findProductById(Long id) {
+        return productsRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public List<Product> findAllProducts() {
         return productsRepository.findAll();
     }
 
-    public void add(Product product) {
-        productsRepository.add(product);
+    public Product saveProduct(Product product) {
+        return productsRepository.save(product);
     }
 
-    public void update(Product product) {
-        productsRepository.update(product);
+    public void deleteProductById(Long id) {
+        productsRepository.deleteById(id);
     }
 
-    public void deleteById(Long id) {
-        productsRepository.delete(id);
+    @Override
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
+        Product newProduct = modelMapper.map(productRequestDto, Product.class);
+        Product product = findProductById(id);
+
+        product.setName(newProduct.getName());
+        product.setPrice(newProduct.getPrice());
+        product.setDiscount(newProduct.isDiscount());
+        product = saveProduct(product);
+
+        return modelMapper.map(product, ProductResponseDto.class);
     }
 
-    public Product findById(Long id) {
-        return productsRepository.findById(id);
+    @Override
+    public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
+        Product product = modelMapper.map(productRequestDto, Product.class);
+        product = saveProduct(product);
+        return modelMapper.map(product, ProductResponseDto.class);
     }
 
-    public Product findByName(String name) {
-        return productsRepository.findByName(name);
-    }
 }

@@ -27,17 +27,17 @@
         </thead>
         <tbody>
 
-        <tr th:each="purchaseDto : ${purchasesDto}">
-            <td th:text="${purchaseDto.productName}"/>
-            <td th:text="${purchaseDto.productPrice}"/>
-            <td th:text="${purchaseDto.productNumber}"/>
-            <td th:text="${purchaseDto.discount}"/>
-            <td th:text="${purchaseDto.cost}"/>
+        <tr th:each="purchaseFullResponseDto : ${purchasesDto}">
+            <td th:text="${purchaseFullResponseDto.productName}"/>
+            <td th:text="${purchaseFullResponseDto.productPrice}"/>
+            <td th:text="${purchaseFullResponseDto.productNumber}"/>
+            <td th:text="${purchaseFullResponseDto.discount}"/>
+            <td th:text="${purchaseFullResponseDto.cost}"/>
             <td>
-                <a th:href="@{'/products/view/' + ${purchaseDto.productId}}" th:text="view"/>
+                <a th:href="@{'/products/view/' + ${purchaseFullResponseDto.productId}}" th:text="view"/>
             </td>
             <td>
-                <a th:href="@{'/purchase/delete/' + ${purchaseDto.productId}}" th:text="delete"/>
+                <a th:href="@{'/purchase/delete/' + ${purchaseFullResponseDto.productId}}" th:text="delete"/>
             </td>
         </tr>
         </tbody>
