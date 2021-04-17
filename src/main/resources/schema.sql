@@ -1,44 +1,51 @@
-INSERT INTO discount_card
-VALUES ('1234', 0.25),
-       ('2431', 1.3),
-       ('4132', 1.87),
-       ('3421', 2.12),
-       ('1423', 0.89);
+CREATE TABLE product
+(
+    id          bigserial,
+    name        varchar(100)     NOT NULL,
+    price       double precision NOT NULL,
+    is_discount boolean          NOT NULL,
+    PRIMARY KEY (id)
+);
 
-INSERT INTO product(name, price, is_discount)
-VALUES ('Apple', 1.12, true),
-       ('Watermelon', 2.05, false),
-       ('Orange', 0.99, false),
-       ('Pear', 0.85, true),
-       ('Cherry', 3.18, false),
-       ('Strawberry', 5.2, true),
-       ('Nectarine', 3.17, false),
-       ('Grape', 2.88, true),
-       ('Mango', 6.05, true),
-       ('Blueberry', 2.89, false),
-       ('Pomegranate', 0.43, false),
-       ('Lemon', 4.12, true),
-       ('Plum', 12.63, true),
-       ('Banana', 1.47, false),
-       ('Raspberry', 2.71, true),
-       ('Mandarin', 6.25, false),
-       ('Jackfruit', 3.81, false),
-       ('Papaya', 4.93, true),
-       ('Kiwi', 5.52, true),
-       ('Pineapple', 1.08, false);
+CREATE TABLE discount_card
+(
+    card_number varchar(4)       NOT NULL,
+    discount    double precision NOT NULL,
+    PRIMARY KEY (card_number)
+);
 
-INSERT INTO "user" (username, password, card_number)
-VALUES ('user1', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '1234'),
-       ('user2', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '2431'),
-       ('user3', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '4132');
+CREATE TABLE "user"
+(
+    id          bigserial,
+    username    varchar(100) NOT NULL,
+    password    varchar(100) NOT NULL,
+    card_number varchar(4),
+    PRIMARY KEY (id),
+    FOREIGN KEY (card_number) REFERENCES discount_card (card_number)
+);
 
-INSERT INTO "role" (role_name)
-VALUES ('ROLE_ADMIN'),
-       ('ROLE_USER');
+CREATE TABLE role
+(
+    id        bigserial,
+    role_name varchar(100) NOT NULL,
+    PRIMARY KEY (id)
+);
 
-INSERT INTO "user_role"
-VALUES (1, 1),
-       (2, 1),
-       (2, 2),
-       (3, 2);
+CREATE TABLE user_role
+(
+    user_id bigint NOT NULL,
+    role_id bigint NOT NULL,
+    CONSTRAINT user_role_pkey PRIMARY KEY (role_id, user_id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+);
 
+CREATE TABLE purchase
+(
+    user_id        bigint NOT NULL,
+    product_id     bigint NOT NULL,
+    product_number int    NOT NULL,
+    CONSTRAINT purchase_pkey PRIMARY KEY (user_id, product_id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES product (id) ON DELETE CASCADE
+);

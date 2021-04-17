@@ -1,7 +1,5 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
@@ -9,6 +7,7 @@ import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.security.model.User;
+import ru.clevertec.cashReceiptWeb.security.service.UserService;
 import ru.clevertec.cashReceiptWeb.service.DiscountCardService;
 import ru.clevertec.cashReceiptWeb.service.OrderService;
 import ru.clevertec.cashReceiptWeb.service.ProductService;
@@ -23,12 +22,14 @@ public class OrderServiceImpl implements OrderService {
     private final PurchaseService purchaseService;
     private final ProductService productService;
     private final DiscountCardService discountCardService;
+    private final UserService userService;
 
     public OrderServiceImpl(PurchaseService purchaseService, ProductService productService,
-                            DiscountCardService discountCardService) {
+                            DiscountCardService discountCardService, UserService userService) {
         this.purchaseService = purchaseService;
         this.productService = productService;
         this.discountCardService = discountCardService;
+        this.userService = userService;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PurchaseCostDto getPurchasesCostDto(List<Purchase> purchases, DiscountCard discountCard) {
+    public PurchaseCostDto getAllPurchasesCostDto(List<Purchase> purchases, DiscountCard discountCard) {
 
         BigDecimal totalCost = BigDecimal.ZERO;
         for (Purchase purchase : purchases) {
@@ -66,14 +67,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PurchaseCostDto getCurrentUserPurchasesCostDto() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userService.findUserByUserName(authentication.getName());
-        User user = new User();
+    public PurchaseCostDto getUserAllPurchasesCostDto(Long userId) {
+        User user = userService.getUserById(userId);
 
-        List<Purchase> purchases = purchaseService.getAllPurchasesByUserId(user.getId());
+        List<Purchase> purchases = purchaseService.getAllPurchasesByUserId(userId);
         DiscountCard discountCard = discountCardService.getDiscountCardByCardNumber(user.getCardNumber());
-        return getPurchasesCostDto(purchases, discountCard);
+        return getAllPurchasesCostDto(purchases, discountCard);
     }
 
 }

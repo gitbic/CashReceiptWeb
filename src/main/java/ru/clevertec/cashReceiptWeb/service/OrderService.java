@@ -11,7 +11,7 @@ public interface OrderService {
 
     BigDecimal getPurchaseCost(Purchase purchase);
 
-    PurchaseCostDto getPurchasesCostDto(List<Purchase> purchases, DiscountCard discountCard);
+    PurchaseCostDto getAllPurchasesCostDto(List<Purchase> purchases, DiscountCard discountCard);
 
-    PurchaseCostDto getCurrentUserPurchasesCostDto();
+    PurchaseCostDto getUserAllPurchasesCostDto(Long userId);
 }

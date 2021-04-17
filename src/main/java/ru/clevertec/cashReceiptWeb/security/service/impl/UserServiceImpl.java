@@ -3,6 +3,7 @@ package ru.clevertec.cashReceiptWeb.security.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.dto.UserRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.UserResponseDto;
 import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
@@ -36,8 +37,10 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto addUser(UserRequestDto userRequestDto) {
         User user = modelMapper.map(userRequestDto, User.class);
 
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UsernameExistException(user.getUsername());
+        checkingExistingUsername(user.getUsername());
+
+        if (user.getCardNumber() == null) {
+            user.setCardNumber(GlobalConst.DISCOUNT_CARD_NUMBER_NONE);
         }
 
         user = saveUser(user);
@@ -86,5 +89,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream()
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .collect(Collectors.toList());
+    }
+
+    private void checkingExistingUsername(String username) {
+        if (userRepository.existsByUsername(username)) {
+            throw new UsernameExistException(username);
+        }
     }
 }

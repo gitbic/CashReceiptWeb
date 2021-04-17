@@ -32,18 +32,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService()).passwordEncoder(bCryptPasswordEncoder());
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/**");
-    }
+        @Override
+        public void configure(WebSecurity web) {
+            web.ignoring().antMatchers("/**");
+        }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
-
-//        http.authorizeRequests().antMatchers(
-//                "*").permitAll();
 
         http.authorizeRequests().antMatchers(
                 "/account/login",

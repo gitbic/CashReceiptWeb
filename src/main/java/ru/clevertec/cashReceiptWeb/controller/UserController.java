@@ -22,7 +22,6 @@ public class UserController {
         return userService.addUser(userRequestDto);
     }
 
-    // TODO check unique name before update
     @PutMapping("/{id}")
     public UserResponseDto updateUser(@RequestBody UserRequestDto userRequestDto, @PathVariable Long id) {
         return userService.updateUser(id, userRequestDto);
