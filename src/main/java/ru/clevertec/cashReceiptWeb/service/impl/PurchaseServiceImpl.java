@@ -3,6 +3,7 @@ package ru.clevertec.cashReceiptWeb.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseFullResponseDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseSimpleResponseDto;
@@ -18,8 +19,6 @@ import ru.clevertec.cashReceiptWeb.service.PurchaseService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static ru.clevertec.cashReceiptWeb.constants.GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
@@ -110,9 +109,11 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchaseFullResponseDto.setProductNumber(purchase.getProductNumber());
         purchaseFullResponseDto.setCost(orderService.getPurchaseCost(purchase));
 
-        if (product.isDiscount()) {
-            purchaseFullResponseDto.setDiscount(DISCOUNT_PERCENT_FOR_PURCHASE);
-        }
+        double discountPercent = product.isDiscount()
+                ? GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE
+                : GlobalConst.DISCOUNT_PERCENT_ZERO;
+
+        purchaseFullResponseDto.setDiscountPercent(discountPercent);
 
         return purchaseFullResponseDto;
     }

@@ -1,10 +1,10 @@
 package ru.clevertec.cashReceiptWeb.exception;
 
-public class DiscountCardNotFoundException extends RuntimeException{
+public class DiscountCardNotFoundException extends EntityNotFoundException{
     public DiscountCardNotFoundException() {
     }
 
     public DiscountCardNotFoundException(String cardNumber) {
-        super(String.format("Discount card with number \"%s\" not found", cardNumber));
+        super(String.format("Discount card with number '%s' not found", cardNumber));
     }
 }

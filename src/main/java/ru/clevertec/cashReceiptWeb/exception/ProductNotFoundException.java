@@ -1,6 +1,6 @@
 package ru.clevertec.cashReceiptWeb.exception;
 
-public class ProductNotFoundException extends RuntimeException {
+public class ProductNotFoundException extends EntityNotFoundException {
     public ProductNotFoundException() {
     }
 
@@ -9,6 +9,6 @@ public class ProductNotFoundException extends RuntimeException {
     }
 
     public ProductNotFoundException(Long id) {
-        this(String.format("Product with id \"%s\" not found", id));
+        super(String.format("Product with id '%s' not found", id));
     }
 }

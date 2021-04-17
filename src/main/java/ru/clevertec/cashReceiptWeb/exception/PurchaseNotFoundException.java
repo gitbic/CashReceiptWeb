@@ -2,7 +2,7 @@ package ru.clevertec.cashReceiptWeb.exception;
 
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 
-public class PurchaseNotFoundException extends RuntimeException{
+public class PurchaseNotFoundException extends EntityNotFoundException{
     public PurchaseNotFoundException() {
     }
 
@@ -11,6 +11,6 @@ public class PurchaseNotFoundException extends RuntimeException{
     }
 
     public PurchaseNotFoundException(PurchaseId purchaseId) {
-        this(String.format("User with id \"%s\" not found", purchaseId));
+        super(String.format("Purchase with id '%s' not found", purchaseId));
     }
 }

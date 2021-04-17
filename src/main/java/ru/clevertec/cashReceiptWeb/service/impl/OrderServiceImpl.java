@@ -47,32 +47,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PurchaseCostDto getAllPurchasesCostDto(List<Purchase> purchases, DiscountCard discountCard) {
-
-        BigDecimal totalCost = BigDecimal.ZERO;
-        for (Purchase purchase : purchases) {
-            totalCost = totalCost.add(getPurchaseCost(purchase));
-        }
-
-        BigDecimal discount = totalCost.multiply(BigDecimal.valueOf(
-                discountCard.getDiscount() / GlobalConst.ONE_HUNDRED_PERCENT));
-        BigDecimal finalCost = totalCost.subtract(discount);
-
-        PurchaseCostDto purchaseCostDto = new PurchaseCostDto();
-        purchaseCostDto.setTotalCost(totalCost);
-        purchaseCostDto.setFinalCost(finalCost);
-        purchaseCostDto.setDiscountCost(discount);
-
-        return purchaseCostDto;
-    }
-
-    @Override
     public PurchaseCostDto getUserAllPurchasesCostDto(Long userId) {
         User user = userService.getUserById(userId);
 
         List<Purchase> purchases = purchaseService.getAllPurchasesByUserId(userId);
         DiscountCard discountCard = discountCardService.getDiscountCardByCardNumber(user.getCardNumber());
-        return getAllPurchasesCostDto(purchases, discountCard);
+        double discountPercentByCard = discountCard.getDiscount();
+
+        BigDecimal totalCost = purchases.stream()
+                .map(this::getPurchaseCost)
+                .reduce(BigDecimal.ZERO , BigDecimal::add);
+
+        BigDecimal discountCost = totalCost.multiply(BigDecimal.valueOf(
+                discountPercentByCard / GlobalConst.ONE_HUNDRED_PERCENT));
+
+        BigDecimal finalCost = totalCost.subtract(discountCost);
+
+        PurchaseCostDto purchaseCostDto = new PurchaseCostDto();
+        purchaseCostDto.setTotalCost(totalCost);
+        purchaseCostDto.setFinalCost(finalCost);
+        purchaseCostDto.setDiscountCost(discountCost);
+        purchaseCostDto.setDiscountPercentByCard(discountPercentByCard);
+
+        return purchaseCostDto;
     }
 
 }
