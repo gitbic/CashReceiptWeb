@@ -20,7 +20,7 @@ public interface PurchaseService {
 
     List<PurchaseSimpleResponseDto> getUserPurchasesSimpleResponseDtoList(Long userId);
 
-    List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList(Long userId);
+    List<PurchaseFullResponseDto> getUserPurchaseFullResponseDtoList(Long userId);
 
     PurchaseFullResponseDto getPurchaseFullResponseDto(PurchaseId purchaseId);
 

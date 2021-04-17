@@ -1,7 +1,7 @@
 package ru.clevertec.cashReceiptWeb.util;
 
 import org.springframework.stereotype.Service;
-import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
+import ru.clevertec.cashReceiptWeb.dto.OrderCostDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseCostViewDto;
 
 import java.math.BigDecimal;
@@ -12,12 +12,12 @@ public class MappingUtil {
     private static final String SIGN_DOLLAR = "$";
     private static final int NUMBER_DECIMAL = 2;
 // TODO del
-    public PurchaseCostViewDto mapToToPurchaseCostViewDto(PurchaseCostDto purchaseCostDto) {
+    public PurchaseCostViewDto mapToToPurchaseCostViewDto(OrderCostDto orderCostDto) {
         PurchaseCostViewDto purchaseCostViewDto = new PurchaseCostViewDto();
 
-        purchaseCostViewDto.setTotalCost(priceToString(purchaseCostDto.getTotalCost()));
-        purchaseCostViewDto.setFinalCost(priceToString(purchaseCostDto.getFinalCost()));
-        purchaseCostViewDto.setDiscountCost(priceToString(purchaseCostDto.getDiscountCost()));
+        purchaseCostViewDto.setTotalCost(priceToString(orderCostDto.getTotalCost()));
+        purchaseCostViewDto.setFinalCost(priceToString(orderCostDto.getFinalCost()));
+        purchaseCostViewDto.setDiscountCost(priceToString(orderCostDto.getDiscountCost()));
 
         return purchaseCostViewDto;
     }

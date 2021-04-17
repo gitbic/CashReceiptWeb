@@ -89,7 +89,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList(Long userId) {
+    public List<PurchaseFullResponseDto> getUserPurchaseFullResponseDtoList(Long userId) {
         List<Purchase> purchases = getAllPurchasesByUserId(userId);
         return purchases.stream()
                 .map(purchase -> getPurchaseFullResponseDto(purchase.getPurchaseId()))

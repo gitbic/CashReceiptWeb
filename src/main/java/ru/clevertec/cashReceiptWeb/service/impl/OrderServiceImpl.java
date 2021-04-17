@@ -2,7 +2,8 @@ package ru.clevertec.cashReceiptWeb.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
-import ru.clevertec.cashReceiptWeb.dto.PurchaseCostDto;
+import ru.clevertec.cashReceiptWeb.dto.OrderDto;
+import ru.clevertec.cashReceiptWeb.dto.OrderCostDto;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.entity.Product;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
@@ -33,6 +34,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderDto getOrderDto(Long userId) {
+        OrderDto orderDto = new OrderDto();
+
+        orderDto.setPurchaseFullResponseDtoList(purchaseService.getUserPurchaseFullResponseDtoList(userId));
+        orderDto.setOrderCostDto(getOrderCostDto(userId));
+
+        return orderDto;
+    }
+
+    @Override
     public BigDecimal getPurchaseCost(Purchase purchase) {
         Product product = productService.getProductById(purchase.getProductId());
         BigDecimal cost = product.getPrice().multiply(BigDecimal.valueOf(purchase.getProductNumber()));
@@ -46,8 +57,7 @@ public class OrderServiceImpl implements OrderService {
         return cost.subtract(discount);
     }
 
-    @Override
-    public PurchaseCostDto getUserAllPurchasesCostDto(Long userId) {
+    private OrderCostDto getOrderCostDto(Long userId) {
         User user = userService.getUserById(userId);
 
         List<Purchase> purchases = purchaseService.getAllPurchasesByUserId(userId);
@@ -56,20 +66,19 @@ public class OrderServiceImpl implements OrderService {
 
         BigDecimal totalCost = purchases.stream()
                 .map(this::getPurchaseCost)
-                .reduce(BigDecimal.ZERO , BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal discountCost = totalCost.multiply(BigDecimal.valueOf(
                 discountPercentByCard / GlobalConst.ONE_HUNDRED_PERCENT));
 
         BigDecimal finalCost = totalCost.subtract(discountCost);
 
-        PurchaseCostDto purchaseCostDto = new PurchaseCostDto();
-        purchaseCostDto.setTotalCost(totalCost);
-        purchaseCostDto.setFinalCost(finalCost);
-        purchaseCostDto.setDiscountCost(discountCost);
-        purchaseCostDto.setDiscountPercentByCard(discountPercentByCard);
+        OrderCostDto orderCostDto = new OrderCostDto();
+        orderCostDto.setTotalCost(totalCost);
+        orderCostDto.setFinalCost(finalCost);
+        orderCostDto.setDiscountCost(discountCost);
+        orderCostDto.setDiscountPercentByCard(discountPercentByCard);
 
-        return purchaseCostDto;
+        return orderCostDto;
     }
-
 }

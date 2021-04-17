@@ -52,7 +52,7 @@ public class PurchaseController {
 
     @GetMapping("/full/{userId}")
     public List<PurchaseFullResponseDto> getUserAllPurchaseFullDto(@PathVariable Long userId) {
-        return purchaseService.getUserPurchasesFullResponseDtoList(userId);
+        return purchaseService.getUserPurchaseFullResponseDtoList(userId);
     }
 
     @DeleteMapping("/{userId}")
