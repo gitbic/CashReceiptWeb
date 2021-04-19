@@ -35,10 +35,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getOrderDto(Long userId) {
+        User user = userService.getUserById(userId);
+        DiscountCard discountCard = discountCardService.getDiscountCardByCardNumber(user.getCardNumber());
         OrderDto orderDto = new OrderDto();
 
         orderDto.setPurchaseFullResponseDtoList(purchaseService.getUserPurchaseFullResponseDtoList(userId));
         orderDto.setOrderCostDto(getOrderCostDto(userId));
+        orderDto.setUsername(user.getUsername());
+        orderDto.setDiscountPercentByCard(discountCard.getDiscount());
 
         return orderDto;
     }
@@ -59,17 +63,15 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderCostDto getOrderCostDto(Long userId) {
         User user = userService.getUserById(userId);
-
-        List<Purchase> purchases = purchaseService.getAllPurchasesByUserId(userId);
         DiscountCard discountCard = discountCardService.getDiscountCardByCardNumber(user.getCardNumber());
-        double discountPercentByCard = discountCard.getDiscount();
+        List<Purchase> purchases = purchaseService.getAllPurchasesByUserId(userId);
 
         BigDecimal totalCost = purchases.stream()
                 .map(this::getPurchaseCost)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal discountCost = totalCost.multiply(BigDecimal.valueOf(
-                discountPercentByCard / GlobalConst.ONE_HUNDRED_PERCENT));
+                discountCard.getDiscount() / GlobalConst.ONE_HUNDRED_PERCENT));
 
         BigDecimal finalCost = totalCost.subtract(discountCost);
 
@@ -77,7 +79,6 @@ public class OrderServiceImpl implements OrderService {
         orderCostDto.setTotalCost(totalCost);
         orderCostDto.setFinalCost(finalCost);
         orderCostDto.setDiscountCost(discountCost);
-        orderCostDto.setDiscountPercentByCard(discountPercentByCard);
 
         return orderCostDto;
     }

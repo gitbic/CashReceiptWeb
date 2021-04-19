@@ -12,5 +12,5 @@ public class PurchaseFullResponseDto {
     private BigDecimal productPrice;
     private int productNumber;
     private double discountPercent;
-    private BigDecimal cost;
+    private BigDecimal purchaseCost;
 }

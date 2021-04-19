@@ -9,5 +9,4 @@ public class OrderCostDto {
     private BigDecimal totalCost;
     private BigDecimal finalCost;
     private BigDecimal discountCost;
-    private double discountPercentByCard;
 }

@@ -107,7 +107,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchaseFullResponseDto.setProductName(product.getName());
         purchaseFullResponseDto.setProductPrice(product.getPrice());
         purchaseFullResponseDto.setProductNumber(purchase.getProductNumber());
-        purchaseFullResponseDto.setCost(orderService.getPurchaseCost(purchase));
+        purchaseFullResponseDto.setPurchaseCost(orderService.getPurchaseCost(purchase));
 
         double discountPercent = product.isDiscount()
                 ? GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE

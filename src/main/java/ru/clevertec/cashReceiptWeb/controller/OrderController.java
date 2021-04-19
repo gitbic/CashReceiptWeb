@@ -1,14 +1,29 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.clevertec.cashReceiptWeb.dto.OrderDto;
+import ru.clevertec.cashReceiptWeb.service.OrderService;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
 
-//    @GetMapping
-//    public OrderDto getOrderDto() {
-//
-//    }
+    private final OrderService orderService;
+
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @GetMapping("/{userId}")
+    public OrderDto getOrderDto(@PathVariable Long userId) {
+        return orderService.getOrderDto(userId);
+    }
+
+    @GetMapping("/check/{userId}")
+    public String printOrderCheck(@PathVariable Long userId, @RequestParam(defaultValue = "txt") String printType) {
+        // todo send order dto to CashReceiptPrinter
+        OrderDto orderDto = orderService.getOrderDto(userId);
+        return "check";
+    }
+
 }

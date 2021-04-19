@@ -6,6 +6,8 @@ import java.util.List;
 
 @Data
 public class OrderDto {
-    List<PurchaseFullResponseDto> purchaseFullResponseDtoList;
-    OrderCostDto orderCostDto;
+    private List<PurchaseFullResponseDto> purchaseFullResponseDtoList;
+    private OrderCostDto orderCostDto;
+    private String username;
+    private double discountPercentByCard;
 }

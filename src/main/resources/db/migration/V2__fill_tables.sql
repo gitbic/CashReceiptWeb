@@ -33,13 +33,31 @@ VALUES ('user1', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.',
        ('user2', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '2431'),
        ('user3', '$2a$10$rbcr6uxKMJ8BAfBr42yqW.XqqQzhAHZxtqwmj/0OdP1snVbq4zkV.', '4132');
 
-INSERT INTO "role" (role_name)
+INSERT INTO role (role_name)
 VALUES ('ROLE_ADMIN'),
        ('ROLE_USER');
 
-INSERT INTO "user_role"
+INSERT INTO user_role
 VALUES (1, 1),
        (2, 1),
        (2, 2),
        (3, 2);
 
+INSERT INTO purchase
+VALUES (1, 1, 1),
+       (1, 3, 4),
+       (1, 5, 2),
+       (1, 6, 8),
+       (1, 12, 1),
+       (1, 7, 7),
+       (1, 4, 5),
+       (1, 14, 4),
+       (1, 19, 8),
+       (1, 17, 12),
+       (2, 1, 2),
+       (2, 10, 4),
+       (2, 8, 3),
+       (2, 3, 6),
+       (2, 6, 4),
+       (2, 19, 2),
+       (2, 16, 3);
