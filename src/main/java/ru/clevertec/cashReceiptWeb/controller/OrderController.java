@@ -19,8 +19,8 @@ public class OrderController {
         return orderService.getOrderDto(userId);
     }
 
-    @GetMapping("/check/{userId}")
-    public String printOrderCheck(@PathVariable Long userId, @RequestParam(defaultValue = "txt") String printType) {
+    @GetMapping("/cashreceipt")
+    public String printOrderCheck(@RequestParam Long userId, @RequestParam(defaultValue = "txt") String printType) {
         // todo send order dto to CashReceiptPrinter
         OrderDto orderDto = orderService.getOrderDto(userId);
         return "check";
