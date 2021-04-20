@@ -1,12 +1,21 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 import ru.clevertec.cashReceiptWeb.dto.OrderDto;
 import ru.clevertec.cashReceiptWeb.service.OrderService;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
+
+    @Value("${cash-receipt-printer.url}")
+    private String cashReceiptPrinterUrl;
 
     private final OrderService orderService;
 
@@ -19,11 +28,22 @@ public class OrderController {
         return orderService.getOrderDto(userId);
     }
 
-    @GetMapping("/cashreceipt")
+    @GetMapping("/cashReceipt")
     public String printOrderCheck(@RequestParam Long userId, @RequestParam(defaultValue = "txt") String printType) {
-        // todo send order dto to CashReceiptPrinter
         OrderDto orderDto = orderService.getOrderDto(userId);
-        return "check";
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<OrderDto> requestBody = new HttpEntity<>(orderDto);
+
+        ResponseEntity<String> resultResponseEntity =
+                restTemplate.postForEntity(cashReceiptPrinterUrl, requestBody, String.class);
+
+        if (resultResponseEntity.getStatusCode() == HttpStatus.OK) {
+            return resultResponseEntity.getBody();
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
 }
