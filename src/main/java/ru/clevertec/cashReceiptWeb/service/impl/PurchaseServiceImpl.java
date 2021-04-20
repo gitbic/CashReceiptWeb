@@ -1,5 +1,6 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
 
@@ -36,23 +38,38 @@ public class PurchaseServiceImpl implements PurchaseService {
         this.modelMapper = modelMapper;
     }
 
+
     @Override
     public void deletePurchaseByPurchaseId(PurchaseId purchaseId) {
+        log.info("Method: {}, input value: {}", "deletePurchaseByPurchaseId", purchaseId);
         purchaseRepository.deleteById(purchaseId);
+        log.info("Method: {}, output value: {}", "deletePurchaseByPurchaseId", "none");
     }
+
 
     @Override
     public void deleteAllPurchasesByUserId(Long userId) {
+        log.info("Method: {}, input value: userId = {}", "deleteAllPurchasesByUserId", userId);
         purchaseRepository.deleteAllByUserId(userId);
+        log.info("Method: {}, output value: {}", "deleteAllPurchasesByUserId", "none");
     }
+
 
     @Override
     public List<Purchase> getAllPurchasesByUserId(Long userId) {
-        return purchaseRepository.findAllByUserId(userId);
+        log.info("Method: {}, input value: userId = {}", "getAllPurchasesByUserId", userId);
+
+        List<Purchase> purchases = purchaseRepository.findAllByUserId(userId);
+
+        log.info("Method: {}, output value: {}", "getAllPurchasesByUserId", purchases);
+        return purchases;
     }
+
 
     @Override
     public PurchaseSimpleResponseDto addPurchase(PurchaseRequestDto purchaseRequestDto) {
+        log.info("Method: {}, input value: {}", "addPurchase", purchaseRequestDto);
+
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
         Optional<Purchase> optionalPurchase = purchaseRepository.findById(newPurchase.getPurchaseId());
 
@@ -61,43 +78,76 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
 
         newPurchase = purchaseRepository.save(newPurchase);
-        return modelMapper.map(newPurchase, PurchaseSimpleResponseDto.class);
+        PurchaseSimpleResponseDto purchaseSimpleResponseDto =
+                modelMapper.map(newPurchase, PurchaseSimpleResponseDto.class);
+
+        log.info("Method: {}, output value: {}", "addPurchase", purchaseSimpleResponseDto);
+        return purchaseSimpleResponseDto;
     }
+
 
     @Override
     public List<PurchaseSimpleResponseDto> getUserPurchasesSimpleResponseDtoList(Long userId) {
-        return getAllPurchasesByUserId(userId).stream()
+        log.info("Method: {}, input value: userId = {}", "getUserPurchasesSimpleResponseDtoList", userId);
+
+        List<PurchaseSimpleResponseDto> purchaseSimpleResponseDtoList = getAllPurchasesByUserId(userId).stream()
                 .map(purchase -> modelMapper.map(purchase, PurchaseSimpleResponseDto.class))
                 .collect(Collectors.toList());
+
+        log.info("Method: {}, output value: {}", "getUserPurchasesSimpleResponseDtoList", purchaseSimpleResponseDtoList);
+        return purchaseSimpleResponseDtoList;
     }
+
 
     @Override
     public PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId) {
+        log.info("Method: {}, input value: {}", "getPurchaseSimpleResponseDto", purchaseId);
+
         Purchase purchase = findPurchaseByPurchaseId(purchaseId);
-        return modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
+        PurchaseSimpleResponseDto purchaseSimpleResponseDto =
+                modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
+
+        log.info("Method: {}, output value: {}", "getPurchaseSimpleResponseDto", purchaseSimpleResponseDto);
+        return purchaseSimpleResponseDto;
     }
+
 
     @Override
     public PurchaseSimpleResponseDto updatePurchase(PurchaseId purchaseId, PurchaseRequestDto purchaseRequestDto) {
+        log.info("Method: {}, input values: {}, {}", "updatePurchase", purchaseId, purchaseRequestDto);
+
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
         Purchase purchase = findPurchaseByPurchaseId(purchaseId);
 
         purchase.setProductNumber(newPurchase.getProductNumber());
         purchase = purchaseRepository.save(purchase);
 
-        return modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
+        PurchaseSimpleResponseDto purchaseSimpleResponseDto =
+                modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
+
+        log.info("Method: {}, output value: {}", "updatePurchase", purchaseSimpleResponseDto);
+        return purchaseSimpleResponseDto;
     }
+
 
     @Override
     public List<PurchaseFullResponseDto> getUserPurchaseFullResponseDtoList(Long userId) {
+        log.info("Method: {}, input value: userId = {}", "getUserPurchaseFullResponseDtoList", userId);
+
         List<Purchase> purchases = getAllPurchasesByUserId(userId);
-        return purchases.stream()
+        List<PurchaseFullResponseDto> purchaseFullResponseDtoList = purchases.stream()
                 .map(purchase -> getPurchaseFullResponseDto(purchase.getPurchaseId()))
                 .collect(Collectors.toList());
+
+        log.info("Method: {}, output value: {}", "getUserPurchaseFullResponseDtoList", purchaseFullResponseDtoList);
+        return purchaseFullResponseDtoList;
     }
+
 
     @Override
     public PurchaseFullResponseDto getPurchaseFullResponseDto(PurchaseId purchaseId) {
+        log.info("Method: {}, input value: {}", "getPurchaseFullResponseDto", purchaseId);
+
         PurchaseFullResponseDto purchaseFullResponseDto = new PurchaseFullResponseDto();
         Purchase purchase = findPurchaseByPurchaseId(purchaseId);
         Product product = productService.getProductById(purchase.getProductId());
@@ -115,12 +165,18 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         purchaseFullResponseDto.setDiscountPercent(discountPercent);
 
+        log.info("Method: {}, output value: {}", "getPurchaseFullResponseDto", purchaseFullResponseDto);
         return purchaseFullResponseDto;
     }
 
     private Purchase findPurchaseByPurchaseId(PurchaseId purchaseId) {
-        return purchaseRepository.findById(purchaseId)
+        log.info("Method: {}, input value: {}", "findPurchaseByPurchaseId", purchaseId);
+
+        Purchase purchase = purchaseRepository.findById(purchaseId)
                 .orElseThrow(() -> new PurchaseNotFoundException(purchaseId));
+
+        log.info("Method: {}, output value: {}", "findPurchaseByPurchaseId", purchase);
+        return purchase;
     }
 
 }

@@ -36,7 +36,6 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
 
         log.info("Method: {}, output value: {}", "getAllProductsResponseDto()", productResponseDtoList);
-
         return productResponseDtoList;
     }
 
@@ -47,8 +46,8 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = getProductById(id);
         ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
-        log.info("Method: {}, output value: {}", "getProductResponseDto", productResponseDto);
 
+        log.info("Method: {}, output value: {}", "getProductResponseDto", productResponseDto);
         return productResponseDto;
     }
 
@@ -58,8 +57,8 @@ public class ProductServiceImpl implements ProductService {
         log.info("Method: {}, input value: id = {}", "getProductById", id);
 
         Product product = productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-        log.info("Method: {}, output value: {}", "getProductById", product);
 
+        log.info("Method: {}, output value: {}", "getProductById", product);
         return product;
     }
 
@@ -85,8 +84,8 @@ public class ProductServiceImpl implements ProductService {
         product = productsRepository.save(product);
 
         ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
-        log.info("Method: {}, output value: {}", "updateProduct", productResponseDto);
 
+        log.info("Method: {}, output value: {}", "updateProduct", productResponseDto);
         return productResponseDto;
     }
 
@@ -99,8 +98,8 @@ public class ProductServiceImpl implements ProductService {
         product = productsRepository.save(product);
 
         ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
-        log.info("Method: {}, output value: {}", "addProduct", productResponseDto);
 
+        log.info("Method: {}, output value: {}", "addProduct", productResponseDto);
         return productResponseDto;
     }
 
