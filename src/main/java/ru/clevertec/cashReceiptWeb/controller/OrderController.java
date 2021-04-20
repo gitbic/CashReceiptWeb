@@ -29,7 +29,7 @@ public class OrderController {
     }
 
     @GetMapping("/cashReceipt")
-    public String printOrderCheck(@RequestParam Long userId, @RequestParam(defaultValue = "txt") String printType) {
+    public String printOrderCheck(@RequestParam Long userId) {
         OrderDto orderDto = orderService.getOrderDto(userId);
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<OrderDto> requestBody = new HttpEntity<>(orderDto);
