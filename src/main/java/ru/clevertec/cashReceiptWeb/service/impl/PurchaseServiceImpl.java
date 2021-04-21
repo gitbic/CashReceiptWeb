@@ -109,9 +109,8 @@ public class PurchaseServiceImpl implements PurchaseService {
         log.info("Method: {}, input values: {}, {}", "updatePurchase", purchaseId, purchaseRequestDto);
 
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
-        Purchase purchase = findPurchaseByPurchaseId(purchaseId);
 
-        purchase.toBuilder()
+        Purchase purchase = findPurchaseByPurchaseId(purchaseId).toBuilder()
                 .productNumber(newPurchase.getProductNumber())
                 .build();
 

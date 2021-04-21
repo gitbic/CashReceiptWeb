@@ -64,9 +64,8 @@ public class UserServiceImpl implements UserService {
         log.info("Method: {}, input values: id = {}, {}", "updateUser", id, userRequestDto);
 
         User newUser = modelMapper.map(userRequestDto, User.class);
-        User user = getUserById(id);
 
-        user.toBuilder()
+        User user = getUserById(id).toBuilder()
                 .username(newUser.getUsername())
                 .password(newUser.getPassword())
                 .cardNumber(newUser.getCardNumber())

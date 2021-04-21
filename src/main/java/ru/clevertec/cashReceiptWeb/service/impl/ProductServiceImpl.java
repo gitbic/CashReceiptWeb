@@ -74,9 +74,8 @@ public class ProductServiceImpl implements ProductService {
         log.info("Method: {}, input values: id = {}, {}", "updateProduct", id, productRequestDto);
 
         Product newProduct = modelMapper.map(productRequestDto, Product.class);
-        Product product = getProductById(id);
 
-        product.toBuilder()
+        Product product = getProductById(id).toBuilder()
                 .name(newProduct.getName())
                 .price(newProduct.getPrice())
                 .isDiscount(newProduct.isDiscount())
