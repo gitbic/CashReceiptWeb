@@ -1,5 +1,6 @@
 package ru.clevertec.cashReceiptWeb.security.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import ru.clevertec.cashReceiptWeb.security.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -33,24 +35,41 @@ public class UserServiceImpl implements UserService {
         this.modelMapper = modelMapper;
     }
 
+
     @Override
     public UserResponseDto addUser(UserRequestDto userRequestDto) {
+        log.info("Method: {}, input value: {}", "addUser", userRequestDto);
+
         User user = modelMapper.map(userRequestDto, User.class);
 
-        checkingExistingUsername(user.getUsername());
+        String username = user.getUsername();
+
+        if (userRepository.existsByUsername(username)) {
+            log.warn("Method: {}, username {} is already exist", "addUser", username);
+            throw new UsernameExistException(username);
+        }
 
         if (user.getCardNumber() == null) {
             user.setCardNumber(GlobalConst.DISCOUNT_CARD_NUMBER_NONE);
         }
 
         user = saveUser(user);
-        roleRepository.saveUserRole(user.getId(), UserRole.ROLE_USER.getRoleId());
+        UserRole roleUser = UserRole.ROLE_USER;
 
-        return modelMapper.map(user, UserResponseDto.class);
+        roleRepository.saveUserRole(user.getId(), roleUser.getRoleId());
+        log.info("Method: {}, userRole save as: {}", "addUser", roleUser);
+
+        UserResponseDto userResponseDto = modelMapper.map(user, UserResponseDto.class);
+
+        log.info("Method: {}, output value: {}", "addUser", userResponseDto);
+        return userResponseDto;
     }
+
 
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
+        log.info("Method: {}, input values: id = {}, {}", "updateUser", id, userRequestDto);
+
         User newUser = modelMapper.map(userRequestDto, User.class);
         User user = getUserById(id);
 
@@ -59,41 +78,68 @@ public class UserServiceImpl implements UserService {
         user.setCardNumber(newUser.getCardNumber());
         user = saveUser(user);
 
-        return modelMapper.map(user, UserResponseDto.class);
+        UserResponseDto userResponseDto = modelMapper.map(user, UserResponseDto.class);
+
+        log.info("Method: {}, output value: {}", "updateUser", userResponseDto);
+        return userResponseDto;
     }
+
 
     @Override
     public User saveUser(User user) {
+        log.info("Method: {}, input value: {}", "saveUser", user);
+
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        log.info("Method: {}, output value: {}", "saveUser", savedUser);
+        return savedUser;
     }
+
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        log.info("Method: {}, input value: id = {}", "getUserById", id);
+
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        log.info("Method: {}, output value: {}", "getUserById", user);
+        return user;
     }
+
 
     @Override
     public void deleteUserById(Long id) {
+        log.info("Method: {}, input value: id = {}", "deleteUserById", id);
+
         userRepository.deleteById(id);
+
+        log.info("Method: {}, output value: {}", "deleteUserById", "none");
     }
+
 
     @Override
     public UserResponseDto getUserResponseDto(Long id) {
+        log.info("Method: {}, input value: id = {}", "getUserResponseDto", id);
+
         User user = getUserById(id);
-        return modelMapper.map(user, UserResponseDto.class);
+        UserResponseDto userResponseDto = modelMapper.map(user, UserResponseDto.class);
+
+        log.info("Method: {}, output value: {}", "getUserResponseDto", userResponseDto);
+        return userResponseDto;
     }
+
 
     @Override
     public List<UserResponseDto> getAllUsersResponseDto() {
-        return userRepository.findAll().stream()
+        log.info("Method: {}, input value: {}", "getAllUsersResponseDto", "none");
+
+        List<UserResponseDto> userResponseDtoList = userRepository.findAll().stream()
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .collect(Collectors.toList());
+
+        log.info("Method: {}, output value: {}", "getAllUsersResponseDto", userResponseDtoList);
+        return userResponseDtoList;
     }
 
-    private void checkingExistingUsername(String username) {
-        if (userRepository.existsByUsername(username)) {
-            throw new UsernameExistException(username);
-        }
-    }
 }

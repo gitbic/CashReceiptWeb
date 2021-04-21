@@ -67,11 +67,11 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserResponseDto getUserDto(@PathVariable Long id) {
-        log.info("Method: {}, input value: id = {}", "getAllUsersDto", id);
+        log.info("Method: {}, input value: id = {}", "getUserDto", id);
 
         UserResponseDto userResponseDto = userService.getUserResponseDto(id);
 
-        log.info("Method: {}, output value: {}", "getAllUsersDto", userResponseDto);
+        log.info("Method: {}, output value: {}", "getUserDto", userResponseDto);
         return userResponseDto;
     }
 
