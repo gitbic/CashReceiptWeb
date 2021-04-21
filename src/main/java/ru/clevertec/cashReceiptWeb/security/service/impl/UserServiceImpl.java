@@ -66,9 +66,12 @@ public class UserServiceImpl implements UserService {
         User newUser = modelMapper.map(userRequestDto, User.class);
         User user = getUserById(id);
 
-        user.setUsername(newUser.getUsername());
-        user.setPassword(newUser.getPassword());
-        user.setCardNumber(newUser.getCardNumber());
+        user.toBuilder()
+                .username(newUser.getUsername())
+                .password(newUser.getPassword())
+                .cardNumber(newUser.getCardNumber())
+                .build();
+
         user = saveUser(user);
 
         UserResponseDto userResponseDto = modelMapper.map(user, UserResponseDto.class);

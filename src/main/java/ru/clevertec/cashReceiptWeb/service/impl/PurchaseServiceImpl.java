@@ -111,7 +111,10 @@ public class PurchaseServiceImpl implements PurchaseService {
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
         Purchase purchase = findPurchaseByPurchaseId(purchaseId);
 
-        purchase.setProductNumber(newPurchase.getProductNumber());
+        purchase.toBuilder()
+                .productNumber(newPurchase.getProductNumber())
+                .build();
+
         purchase = purchaseRepository.save(purchase);
 
         PurchaseSimpleResponseDto purchaseSimpleResponseDto =
@@ -140,22 +143,23 @@ public class PurchaseServiceImpl implements PurchaseService {
     public PurchaseFullResponseDto getPurchaseFullResponseDto(PurchaseId purchaseId) {
         log.info("Method: {}, input value: {}", "getPurchaseFullResponseDto", purchaseId);
 
-        PurchaseFullResponseDto purchaseFullResponseDto = new PurchaseFullResponseDto();
         Purchase purchase = findPurchaseByPurchaseId(purchaseId);
         Product product = productService.getProductById(purchase.getProductId());
-
-        purchaseFullResponseDto.setUserId(purchase.getUserId());
-        purchaseFullResponseDto.setProductId(product.getId());
-        purchaseFullResponseDto.setProductName(product.getName());
-        purchaseFullResponseDto.setProductPrice(product.getPrice());
-        purchaseFullResponseDto.setProductNumber(purchase.getProductNumber());
-        purchaseFullResponseDto.setPurchaseCost(getPurchaseCost(purchase));
 
         double discountPercent = product.isDiscount()
                 ? GlobalConst.DISCOUNT_PERCENT_FOR_PURCHASE
                 : GlobalConst.DISCOUNT_PERCENT_ZERO;
 
-        purchaseFullResponseDto.setDiscountPercent(discountPercent);
+        PurchaseFullResponseDto purchaseFullResponseDto = PurchaseFullResponseDto
+                .builder()
+                .userId(purchase.getUserId())
+                .productId(product.getId())
+                .productName(product.getName())
+                .productPrice(product.getPrice())
+                .productNumber(purchase.getProductNumber())
+                .purchaseCost(getPurchaseCost(purchase))
+                .discountPercent(discountPercent)
+                .build();
 
         log.info("Method: {}, output value: {}", "getPurchaseFullResponseDto", purchaseFullResponseDto);
         return purchaseFullResponseDto;

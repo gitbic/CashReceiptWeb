@@ -1,12 +1,15 @@
 package ru.clevertec.cashReceiptWeb.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
 @Table(name = "product")
 public class Product {
 

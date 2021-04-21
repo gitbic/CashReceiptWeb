@@ -76,9 +76,12 @@ public class ProductServiceImpl implements ProductService {
         Product newProduct = modelMapper.map(productRequestDto, Product.class);
         Product product = getProductById(id);
 
-        product.setName(newProduct.getName());
-        product.setPrice(newProduct.getPrice());
-        product.setDiscount(newProduct.isDiscount());
+        product.toBuilder()
+                .name(newProduct.getName())
+                .price(newProduct.getPrice())
+                .isDiscount(newProduct.isDiscount())
+                .build();
+
         product = productsRepository.save(product);
 
         ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
