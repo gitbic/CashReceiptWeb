@@ -39,7 +39,6 @@ VALUES ('ROLE_ADMIN'),
 
 INSERT INTO user_role
 VALUES (1, 1),
-       (2, 1),
        (2, 2),
        (3, 2);
 
