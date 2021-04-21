@@ -1,5 +1,6 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.clevertec.cashReceiptWeb.dto.OrderDto;
 import ru.clevertec.cashReceiptWeb.service.OrderService;
 
+@Slf4j
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -23,13 +25,22 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+
     @GetMapping("/{userId}")
     public OrderDto getOrderDto(@PathVariable Long userId) {
-        return orderService.getOrderDto(userId);
+        log.info("Method: {}, input value: userId = {}", "getOrderDto", userId);
+
+        OrderDto orderDto = orderService.getOrderDto(userId);
+
+        log.info("Method: {}, output value: {}", "getOrderDto", orderDto);
+        return orderDto;
     }
 
+
     @GetMapping("/cashReceipt")
-    public String printOrderCheck(@RequestParam Long userId) {
+    public String printCashReceipt(@RequestParam Long userId) {
+        log.info("Method: {}, input value: userId = {}", "printCashReceipt", userId);
+
         OrderDto orderDto = orderService.getOrderDto(userId);
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<OrderDto> requestBody = new HttpEntity<>(orderDto);
@@ -38,8 +49,14 @@ public class OrderController {
                 restTemplate.postForEntity(cashReceiptPrinterUrl, requestBody, String.class);
 
         if (resultResponseEntity.getStatusCode() == HttpStatus.OK) {
-            return resultResponseEntity.getBody();
+            String printedCashReceiptUrl = resultResponseEntity.getBody();
+
+            log.info("Method: {}, output value: {}", "printCashReceipt", printedCashReceiptUrl);
+            return printedCashReceiptUrl;
+
         } else {
+
+            log.warn("Method: {}, output value: {}", "printCashReceipt", "Cash receipt printing error");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 

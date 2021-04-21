@@ -13,6 +13,6 @@ public class EntityNotFoundException extends RuntimeException{
 
     public EntityNotFoundException(String message) {
         super(message);
-        log.info("RuntimeException: " + message);
+        log.info("NotFoundException: " + message);
     }
 }

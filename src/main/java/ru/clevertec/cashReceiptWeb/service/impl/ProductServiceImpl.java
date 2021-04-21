@@ -27,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
         this.modelMapper = modelMapper;
     }
 
+
     @Override
     public List<ProductResponseDto> getAllProductsResponseDto() {
         log.info("Method: {}, input value: {}", "getAllProductsResponseDto()", "none");
@@ -66,7 +67,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(Long id) {
         log.info("Method: {}, input value: id = {}", "deleteProductById", id);
+
         productsRepository.deleteById(id);
+
         log.info("Method: {}, output value: {}", "deleteProductById", "none");
     }
 

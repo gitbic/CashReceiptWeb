@@ -34,14 +34,18 @@ public class DiscountCardServiceImpl implements DiscountCardService {
 
     public void saveDiscountCard(DiscountCard discountCard) {
         log.info("Method: {}, input value: {}", "saveDiscountCard", discountCard);
+
         discountCardRepository.save(discountCard);
+
         log.info("Method: {}, output value: {}", "saveDiscountCard", "none");
     }
 
 
     public void deleteDiscountCardByCardNumber(String cardNumber) {
         log.info("Method: {}, input value: cardNumber = {}", "deleteDiscountCardByCardNumber", cardNumber);
+
         discountCardRepository.deleteById(cardNumber);
+
         log.info("Method: {}, output value: {}", "deleteDiscountCardByCardNumber", "none");
     }
 

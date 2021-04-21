@@ -35,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
         this.userService = userService;
     }
 
+
     @Override
     public OrderDto getOrderDto(Long userId) {
         log.info("Method: {}, input value: userId = {}", "getOrderDto", userId);
@@ -51,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("Method: {}, output value: {}", "getOrderDto", orderDto);
         return orderDto;
     }
+
 
     @Override
     public BigDecimal getPurchaseCost(Purchase purchase) {
@@ -70,6 +72,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("Method: {}, output value: cost = {}", "getPurchaseCost", purchaseCost);
         return purchaseCost;
     }
+
 
     private OrderCostDto getOrderCostDto(Long userId) {
         log.info("Method: {}, input value: userId = {}", "getOrderCostDto", userId);
