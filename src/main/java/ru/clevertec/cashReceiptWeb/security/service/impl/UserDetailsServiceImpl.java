@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.clevertec.cashReceiptWeb.constants.ErrMsg;
+import ru.clevertec.cashReceiptWeb.exception.UserNotFoundException;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.model.User;
 import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
@@ -16,7 +16,6 @@ import ru.clevertec.cashReceiptWeb.security.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,14 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Method: {}, input value: username = {}", "loadUserByUsername", username);
 
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-
-        if (optionalUser.isEmpty()) {
-            log.warn("Method: {}, username {} not found", "loadUserByUsername", username);
-            throw new UsernameNotFoundException(username + ErrMsg.USERNAME_NOT_FOUND);
-        }
-
-        User user = optionalUser.get();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
 
         List<Role> roles = roleRepository.findAllByUserId(user.getId());
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

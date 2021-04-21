@@ -47,8 +47,8 @@ public class UserServiceImpl implements UserService {
         }
 
         user = saveUser(user);
-        UserRole roleUser = UserRole.ROLE_USER;
 
+        UserRole roleUser = UserRole.ROLE_USER;
         roleRepository.saveUserRole(user.getId(), roleUser.getRoleId());
         log.info("Method: {}, userRole save as: {}", "addUser", roleUser);
 
