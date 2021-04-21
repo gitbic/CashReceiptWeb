@@ -1,7 +1,7 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseFullResponseDto;
 import ru.clevertec.cashReceiptWeb.dto.PurchaseRequestDto;
@@ -14,14 +14,10 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/purchases")
+@RequiredArgsConstructor
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
-
-    @Autowired
-    public PurchaseController(PurchaseService purchaseService) {
-        this.purchaseService = purchaseService;
-    }
 
     @PostMapping
     public PurchaseSimpleResponseDto addPurchase(@RequestBody PurchaseRequestDto purchaseRequestDto) {

@@ -1,7 +1,7 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.entity.DiscountCard;
 import ru.clevertec.cashReceiptWeb.exception.DiscountCardNotFoundException;
@@ -12,15 +12,10 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DiscountCardServiceImpl implements DiscountCardService {
 
     private final DiscountCardRepository discountCardRepository;
-
-    @Autowired
-    public DiscountCardServiceImpl(DiscountCardRepository discountCardRepository) {
-        this.discountCardRepository = discountCardRepository;
-    }
-
 
     public List<DiscountCard> getAllDiscountCards() {
         log.info("Method: {}, input value: {}", "getAllDiscountCards", "none");

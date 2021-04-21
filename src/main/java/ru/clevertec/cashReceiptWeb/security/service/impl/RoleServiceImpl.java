@@ -1,7 +1,7 @@
 package ru.clevertec.cashReceiptWeb.security.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.security.model.Role;
 import ru.clevertec.cashReceiptWeb.security.repository.RoleRepository;
@@ -11,14 +11,10 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
-
-    @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
 
     @Override
     public List<Role> getAllRolesByUserId(Long userId) {

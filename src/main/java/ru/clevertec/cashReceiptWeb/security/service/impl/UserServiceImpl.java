@@ -1,5 +1,6 @@
 package ru.clevertec.cashReceiptWeb.security.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,21 +21,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ModelMapper modelMapper;
-
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.modelMapper = modelMapper;
-    }
-
 
     @Override
     public UserResponseDto addUser(UserRequestDto userRequestDto) {

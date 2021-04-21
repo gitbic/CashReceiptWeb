@@ -1,7 +1,7 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.cashReceiptWeb.dto.ProductRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.ProductResponseDto;
@@ -12,15 +12,10 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
-
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
 
     @GetMapping()
     public List<ProductResponseDto> getAllProductsDto() {

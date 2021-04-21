@@ -1,5 +1,6 @@
 package ru.clevertec.cashReceiptWeb.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -14,16 +15,13 @@ import ru.clevertec.cashReceiptWeb.service.OrderService;
 @Slf4j
 @RestController
 @RequestMapping("/order")
+@RequiredArgsConstructor
 public class OrderController {
 
     @Value("${cash-receipt-printer.url}")
     private String cashReceiptPrinterUrl;
 
     private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
 
     @GetMapping("/{userId}")

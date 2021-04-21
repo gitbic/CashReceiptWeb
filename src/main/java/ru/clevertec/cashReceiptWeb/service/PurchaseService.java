@@ -6,6 +6,7 @@ import ru.clevertec.cashReceiptWeb.dto.PurchaseSimpleResponseDto;
 import ru.clevertec.cashReceiptWeb.entity.Purchase;
 import ru.clevertec.cashReceiptWeb.entity.id.PurchaseId;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface PurchaseService {
@@ -27,4 +28,6 @@ public interface PurchaseService {
     PurchaseSimpleResponseDto getPurchaseSimpleResponseDto(PurchaseId purchaseId);
 
     PurchaseSimpleResponseDto updatePurchase(PurchaseId purchaseId, PurchaseRequestDto purchaseRequestDto);
+
+    BigDecimal getPurchaseCost(Purchase purchase);
 }

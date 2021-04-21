@@ -1,8 +1,8 @@
 package ru.clevertec.cashReceiptWeb.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.clevertec.cashReceiptWeb.dto.ProductRequestDto;
 import ru.clevertec.cashReceiptWeb.dto.ProductResponseDto;
@@ -16,16 +16,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductsRepository productsRepository;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository, ModelMapper modelMapper) {
-        this.productsRepository = productsRepository;
-        this.modelMapper = modelMapper;
-    }
 
 
     @Override
