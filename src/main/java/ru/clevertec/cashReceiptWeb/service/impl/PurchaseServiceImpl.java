@@ -65,13 +65,18 @@ public class PurchaseServiceImpl implements PurchaseService {
         Purchase newPurchase = modelMapper.map(purchaseRequestDto, Purchase.class);
         Optional<Purchase> optionalPurchase = purchaseRepository.findById(newPurchase.getPurchaseId());
 
+        Purchase purchase;
+
         if (optionalPurchase.isPresent()) {
-            newPurchase.setProductNumber(optionalPurchase.get().getProductNumber() + newPurchase.getProductNumber());
+            purchase = optionalPurchase.get();
+            purchase.setProductNumber(purchase.getProductNumber() + newPurchase.getProductNumber());
+        } else {
+            purchase = newPurchase;
         }
 
-        newPurchase = purchaseRepository.save(newPurchase);
+        purchase = purchaseRepository.save(purchase);
         PurchaseSimpleResponseDto purchaseSimpleResponseDto =
-                modelMapper.map(newPurchase, PurchaseSimpleResponseDto.class);
+                modelMapper.map(purchase, PurchaseSimpleResponseDto.class);
 
         log.info("Method: {}, output value: {}", "addPurchase", purchaseSimpleResponseDto);
         return purchaseSimpleResponseDto;
