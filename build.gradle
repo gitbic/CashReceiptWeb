@@ -20,12 +20,12 @@ test {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.modelmapper:modelmapper:2.4.0'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+//    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
     implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.postgresql:postgresql'
