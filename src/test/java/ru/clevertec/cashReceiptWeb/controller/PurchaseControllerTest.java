@@ -3,7 +3,6 @@ package ru.clevertec.cashReceiptWeb.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -19,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 public class PurchaseControllerTest {
 
-    ModelMapper modelMapper;
     PurchaseRequestDto testPurchaseRequestDto;
 
 
