@@ -130,7 +130,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 
     @Override
-    public List<PurchaseFullResponseDto> getUserPurchaseFullResponseDtoList(Long userId) {
+    public List<PurchaseFullResponseDto> getUserPurchasesFullResponseDtoList(Long userId) {
         log.info("Method: {}, input value: userId = {}", "getUserPurchaseFullResponseDtoList", userId);
 
         List<Purchase> purchases = getAllPurchasesByUserId(userId);

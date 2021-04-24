@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         DiscountCard discountCard = discountCardService.getDiscountCardByCardNumber(user.getCardNumber());
         OrderDto orderDto = new OrderDto();
 
-        orderDto.setPurchaseFullResponseDtoList(purchaseService.getUserPurchaseFullResponseDtoList(userId));
+        orderDto.setPurchaseFullResponseDtoList(purchaseService.getUserPurchasesFullResponseDtoList(userId));
         orderDto.setOrderCostDto(getOrderCostDto(userId));
         orderDto.setUsername(user.getUsername());
         orderDto.setDiscountPercentByCard(discountCard.getDiscount());

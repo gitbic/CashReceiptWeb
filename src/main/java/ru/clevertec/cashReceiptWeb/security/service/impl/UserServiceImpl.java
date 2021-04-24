@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
         String username = user.getUsername();
 
         if (userRepository.existsByUsername(username)) {
-            log.warn("Method: {}, username {} is already exist", "addUser", username);
             throw new UsernameExistException(username);
         }
 

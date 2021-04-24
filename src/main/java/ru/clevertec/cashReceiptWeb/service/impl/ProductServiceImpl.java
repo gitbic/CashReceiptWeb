@@ -82,7 +82,6 @@ public class ProductServiceImpl implements ProductService {
                 .build();
 
         product = productsRepository.save(product);
-
         ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
 
         log.info("Method: {}, output value: {}", "updateProduct", productResponseDto);

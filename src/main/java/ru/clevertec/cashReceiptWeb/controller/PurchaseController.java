@@ -44,7 +44,7 @@ public class PurchaseController {
     }
 
 
-    @GetMapping("/{userId}")
+    @GetMapping("short-view/{userId}")
     public List<PurchaseSimpleResponseDto> getUserAllPurchasesSimpleDto(@PathVariable Long userId) {
         log.info("Method: {}, input value: userId = {}", "getUserAllPurchasesSimpleDto", userId);
 
@@ -56,7 +56,7 @@ public class PurchaseController {
     }
 
 
-    @GetMapping()
+    @GetMapping("/short-view")
     public PurchaseSimpleResponseDto getPurchaseSimpleDto(@RequestParam Long userId, @RequestParam Long productId) {
         log.info("Method: {}, input values: userId = {}, productId = {}", "getPurchaseSimpleDto", userId, productId);
 
@@ -68,7 +68,7 @@ public class PurchaseController {
     }
 
 
-    @GetMapping("/full")
+    @GetMapping("/full-view")
     public PurchaseFullResponseDto getPurchaseFullDto(@RequestParam Long userId, @RequestParam Long productId) {
         log.info("Method: {}, input values: userId = {}, productId = {}", "getPurchaseFullDto", userId, productId);
 
@@ -80,12 +80,12 @@ public class PurchaseController {
     }
 
 
-    @GetMapping("/full/{userId}")
+    @GetMapping("/full-view/{userId}")
     public List<PurchaseFullResponseDto> getUserAllPurchaseFullDto(@PathVariable Long userId) {
         log.info("Method: {}, input value: userId = {}", "getUserAllPurchaseFullDto", userId);
 
         List<PurchaseFullResponseDto> userPurchaseFullResponseDtoList =
-                purchaseService.getUserPurchaseFullResponseDtoList(userId);
+                purchaseService.getUserPurchasesFullResponseDtoList(userId);
 
         log.info("Method: {}, output value: {}", "getUserAllPurchaseFullDto", userPurchaseFullResponseDtoList);
         return userPurchaseFullResponseDtoList;
