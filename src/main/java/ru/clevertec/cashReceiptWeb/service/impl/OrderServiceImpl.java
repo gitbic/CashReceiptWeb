@@ -3,6 +3,7 @@ package ru.clevertec.cashReceiptWeb.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.clevertec.cashReceiptWeb.client.OrderClient;
 import ru.clevertec.cashReceiptWeb.constants.GlobalConst;
 import ru.clevertec.cashReceiptWeb.dto.OrderCostDto;
 import ru.clevertec.cashReceiptWeb.dto.OrderDto;
@@ -25,6 +26,7 @@ public class OrderServiceImpl implements OrderService {
     private final PurchaseService purchaseService;
     private final DiscountCardService discountCardService;
     private final UserService userService;
+    private final OrderClient orderClient;
 
 
     @Override
@@ -42,6 +44,18 @@ public class OrderServiceImpl implements OrderService {
 
         log.info("Method: {}, output value: {}", "getOrderDto", orderDto);
         return orderDto;
+    }
+
+
+    @Override
+    public String printCashReceipt(Long userId) {
+        log.info("Method: {}, input value: userId = {}", "printCashReceipt", userId);
+
+        OrderDto orderDto = getOrderDto(userId);
+        String printedCashReceiptUrl = orderClient.printCashReceipt(orderDto);
+
+        log.info("Method: {}, output value: cashReceiptUrl = {}", "printCashReceipt", printedCashReceiptUrl);
+        return printedCashReceiptUrl;
     }
 
     private OrderCostDto getOrderCostDto(Long userId) {

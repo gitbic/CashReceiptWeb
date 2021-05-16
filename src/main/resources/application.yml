@@ -1,0 +1,23 @@
+spring.datasource.url: jdbc:postgresql://localhost:5432/cash_receipt_web
+spring.datasource.username: postgres
+spring.datasource.password: admin
+server.error.include-message: always
+
+#cash-receipt-printer.url: http://localhost:8194/cashReceipt
+
+logging:
+  file.name: log/app.log
+  logback.rollingpolicy.max-file-size: 5MB
+
+#debug=true
+
+spring:
+  application:
+    name: cash-receipt-web
+server:
+  port: 8192
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

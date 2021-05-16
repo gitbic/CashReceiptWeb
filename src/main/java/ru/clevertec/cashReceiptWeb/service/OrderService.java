@@ -5,4 +5,6 @@ import ru.clevertec.cashReceiptWeb.dto.OrderDto;
 public interface OrderService {
 
     OrderDto getOrderDto(Long userId);
+
+    String printCashReceipt(Long userId);
 }
